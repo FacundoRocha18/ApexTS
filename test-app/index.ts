@@ -10,8 +10,13 @@ app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 	const queryParams = req.url as unknown as URLSearchParams
 	const query = queryParams['query'] || 'none'
 
+	if (query === 'ping') {
+		res.end(`Query: ${query} - pong`)
+		return
+	}
+
 	res.statusCode = 200
-	res.end(`Query: ${query} - pong`)
+	res.end('Get working')
 })
 
 app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {

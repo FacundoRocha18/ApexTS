@@ -1,38 +1,65 @@
+import { IncomingMessage, ServerResponse } from 'http'
+import { parse } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
-import { HttpNotFoundException } from '../Http/HttpNotFoundException'
-import { Action, IRoute } from '../types'
-import { Route } from './Route'
+import { RouteHandler } from '../types'
 
 export class Router {
-	protected routes: { [method: string]: IRoute[] } = {}
+	private routes: { [key: string]: { [method: string]: RouteHandler } } = {}
 
-	constructor() {
-		const methods = Object.keys(HttpMethods)
-
-		methods.forEach(method => {
-			this.routes[method.valueOf()] = []
-		})
+	public get(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.GET, path, handler)
 	}
 
-	public resolveRoute(request): IRoute {
-		const method = request.method
-		const routesForMethod = this.routes[method]
+	public post(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.POST, path, handler)
+	}
 
-		for (const route of routesForMethod) {
-			if (route.matches(request.uri())) {
-				return route
-			}
+	public delete(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.DELETE, path, handler)
+	}
+
+	public put(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.PUT, path, handler)
+	}
+
+	public patch(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.PATCH, path, handler)
+	}
+
+	private addRoute(method: string, path: string, handler: RouteHandler): void {
+		if (!this.routes[path]) {
+			this.routes[path] = {}
 		}
 
-		throw new HttpNotFoundException()
+		this.routes[path][method] = handler
 	}
 
-	protected registerRoute(uri: string, method: HttpMethods, action: Action): IRoute {
-		
-		return new Route(uri, action);
-	}
+	public handleRequest(req: IncomingMessage, res: ServerResponse): void {
+		const parsedUrl = parse(req.url || '/', true)
+		const pathname = parsedUrl.pathname || '/'
+		const method = req.method || 'GET'
+		const handler = this.routes[pathname]?.[method]
 
-	public get(uri: string, action: Action): IRoute {
-		return this.registerRoute(uri, HttpMethods.GET, action);
+		if (handler) {
+			if (method === 'POST' || method === 'PUT') {
+				let body = '';
+				req.on('data', (chunk) => {
+					body += chunk.toString();
+				});
+				req.on('end', () => {
+					try {
+						req.body = JSON.parse(body);
+					} catch (e) {
+						req.body = body;
+					}
+					handler(req, res);
+				});
+			} else {
+				handler(req, res);
+			}
+		} else {
+			res.statusCode = 404;
+			res.end('404 Not Found');
+		}
 	}
 }
