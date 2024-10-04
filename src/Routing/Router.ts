@@ -40,26 +40,38 @@ export class Router {
 		const method = req.method || 'GET'
 		const handler = this.routes[pathname]?.[method]
 
-		if (handler) {
-			if (method === 'POST' || method === 'PUT') {
-				let body = '';
-				req.on('data', (chunk) => {
-					body += chunk.toString();
-				});
-				req.on('end', () => {
-					try {
-						req.body = JSON.parse(body);
-					} catch (e) {
-						req.body = body;
-					}
-					handler(req, res);
-				});
-			} else {
-				handler(req, res);
-			}
-		} else {
-			res.statusCode = 404;
-			res.end('404 Not Found');
+		if (!handler) {
+			res.statusCode = 404
+			res.end('404 Not Found')
+			return
 		}
+
+		if (method !== 'POST' && method !== 'PUT') {
+			handler(req, res)
+			return
+		}
+
+		this.parseBody(req, res, handler)
+	}
+
+	private parseBody(
+		req: IncomingMessage,
+		res: ServerResponse,
+		handler: RouteHandler
+	): void {
+		let body = ''
+
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+
+		req.on('end', () => {
+			try {
+				req.body = JSON.parse(body);
+			} catch (e) {
+				req.body = body;
+			}
+			handler(req, res);
+		});
 	}
 }
