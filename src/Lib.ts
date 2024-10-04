@@ -1,5 +1,6 @@
 import { IncomingMessage, METHODS, ServerResponse } from 'http'
 import { HttpMethods } from './Http/HttpMethods'
+import { parse } from 'url'
 
 const http = require('node:http')
 
@@ -37,17 +38,18 @@ export class FastFramework {
 	}
 
 	public handleRequest(req: IncomingMessage, res: ServerResponse): void {
-		const url = req.url || '/'
+		const parsedUrl = parse(req.url || '/', true)
+		const pathname = parsedUrl.pathname || '/'
 		const method = req.method || 'GET'
-		const handler = this.routes[url]?.[method]
+		const handler = this.routes[pathname]?.[method]
 
 		if (handler) {
+			req.url = parsedUrl.query as any
 			handler(req, res)
 		} else {
 			res.statusCode = 404
 			res.end('404 Not found')
 		}
-
 	}
 
 	public listen(port: number, callback: () => void) {

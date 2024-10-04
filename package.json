@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"dev": "node -r sucrase/register ./test-app/index.ts",
+		"dev": "nodemon ./test-app/index.ts",
 		"test": ""
 	},
 	"dependencies": {

@@ -1,3 +1,5 @@
+import { IncomingMessage, ServerResponse } from 'http'
+
 const { FastFramework } = require('../src/Lib')
 const { Router } = require('../src/Routing/Router')
 const bodyParser = require('body-parser')
@@ -6,12 +8,15 @@ const port = 8000
 
 const app = new FastFramework()
 
-app.get('/get-test', (req, res) => {
+app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
+	const queryParams = req.url as unknown as URLSearchParams
+	const query = queryParams['query'] || 'none'
+
 	res.statusCode = 200
-	res.end('Hello world')
+	res.end(`Query: ${query} - pong`)
 })
 
-app.post('/post-test', (req, res) => {
+app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.statusCode = 201
 	res.end('Data received')
 })
@@ -27,7 +32,9 @@ app.delete('/delete-test', (req, res) => {
 })
 
 app.patch('/patch-test', (req, res) => {
-	res.statusCode = 201
+	req.
+
+		res.statusCode = 201
 	res.end('Data received')
 })
 
