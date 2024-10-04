@@ -4,45 +4,33 @@ const bodyParser = require('body-parser')
 
 const port = 8000
 
-const app = FastFramework()
+const app = new FastFramework()
 
-app.use('/user', 'POST', (req, res, next) => {
-	console.log('body before:', req.body)
-	next()
+app.get('/get-test', (req, res) => {
+	res.statusCode = 200
+	res.end('Hello world')
 })
 
-app.use(null, null, bodyParser.json())
-
-app.use('/user', 'POST', (req, res) => {
-	console.log('body after:', req.body)
-	res.json({})
+app.post('/post-test', (req, res) => {
+	res.statusCode = 201
+	res.end('Data received')
 })
 
-app.use('/users', 'GET', (req, res, next) => {
-	console.log('authorized the user...')
-	next()
+app.put('/put-test', (req, res) => {
+	res.statusCode = 201
+	res.end('Data received')
 })
 
-app.use('/users', 'GET', (req, res, next) => {
-	console.log('logged the user...')
-	next()
+app.delete('/delete-test', (req, res) => {
+	res.statusCode = 201
+	res.end('Data received')
 })
 
-app.use('/users', 'GET', (req, res, next) => {
-	console.log('preparing the list of users...')
-	res.json({ list: ['user1', 'user2', 'user3'], count: 3 })
+app.patch('/patch-test', (req, res) => {
+	res.statusCode = 201
+	res.end('Data received')
 })
 
-app.use('/otherRoute', 'GET', (req, res, next) => {
-	console.log('other route')
-	res.end('other info')
+app.listen(port, () => {
+	console.log(`Server running on port: ${port}`)
 })
-
-app.use(null, null, (req, res) => {
-	console.log('not_found')
-	res.end('NOT_FOUND')
-})
-
-app.listen(port)
-
-console.log(`Server running on port: ${port}`)

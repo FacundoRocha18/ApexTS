@@ -1,46 +1,57 @@
+import { IncomingMessage, METHODS, ServerResponse } from 'http'
+import { HttpMethods } from './Http/HttpMethods'
+
 const http = require('node:http')
 
-export const FastFramework = () => {
-	const routes = []
+type RouteHandler = (req: IncomingMessage, res: ServerResponse) => void
 
-	const server = http.createServer((req, res) => {
-		res.json = function(data) {
-			res.setHeader('Content-Type', 'application/json')
-			res.end(JSON.stringify(data))
-		}
+export class FastFramework {
+	private routes: { [key: string]: { [method: string]: RouteHandler } } = {}
 
-		let routeCounter: number = 0
-
-		const next = () => {
-			while (routeCounter < routes.length) {
-				console.log('Next function while loop - Current counter: ', routeCounter)
-
-				if (match(req, routes[routeCounter])) {
-					return routes[routeCounter++].handler(req, res, next)
-				} else {
-					routeCounter++
-				}
-			}
-		}
-
-		next()
-	})
-
-	server.use = function use(url, method, handler) {
-		routes.push({
-			url,
-			method,
-			handler
-		})
+	public get(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.GET, path, handler)
 	}
 
-	return server
-}
+	public post(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.POST, path, handler)
+	}
 
-const match = (req, { url, method }) => {
-	if (!url && !method) return true
-	if (req.method !== method) return false
-	if (req.url !== url) return false
+	public delete(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.DELETE, path, handler)
+	}
 
-	return true
+	public put(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.PUT, path, handler)
+	}
+
+	public patch(path: string, handler: RouteHandler): void {
+		this.addRoute(HttpMethods.PATCH, path, handler)
+	}
+
+	private addRoute(method: string, path: string, handler: RouteHandler): void {
+		if (!this.routes[path]) {
+			this.routes[path] = {}
+		}
+
+		this.routes[path][method] = handler
+	}
+
+	public handleRequest(req: IncomingMessage, res: ServerResponse): void {
+		const url = req.url || '/'
+		const method = req.method || 'GET'
+		const handler = this.routes[url]?.[method]
+
+		if (handler) {
+			handler(req, res)
+		} else {
+			res.statusCode = 404
+			res.end('404 Not found')
+		}
+
+	}
+
+	public listen(port: number, callback: () => void) {
+		const server = http.createServer((req, res) => this.handleRequest(req, res))
+		server.listen(port, callback)
+	}
 }
