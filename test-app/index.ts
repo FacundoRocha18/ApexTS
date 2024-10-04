@@ -1,8 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
 
 const { FastFramework } = require('../src/Lib')
-const { Router } = require('../src/Routing/Router')
-const bodyParser = require('body-parser')
 
 const port = 8000
 
@@ -17,8 +15,15 @@ app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 })
 
 app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
+	const body = req.body
+
+	if (body.data === 'ping') {
+		res.end('Pong')
+		return
+	}
+
 	res.statusCode = 201
-	res.end('Data received')
+	res.end(`Data received ${body.data}`)
 })
 
 app.put('/put-test', (req, res) => {

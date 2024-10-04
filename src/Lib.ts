@@ -1,10 +1,9 @@
 import { IncomingMessage, METHODS, ServerResponse } from 'http'
 import { HttpMethods } from './Http/HttpMethods'
 import { parse } from 'url'
+import { RouteHandler } from './types'
 
 const http = require('node:http')
-
-type RouteHandler = (req: IncomingMessage, res: ServerResponse) => void
 
 export class FastFramework {
 	private routes: { [key: string]: { [method: string]: RouteHandler } } = {}
@@ -44,11 +43,25 @@ export class FastFramework {
 		const handler = this.routes[pathname]?.[method]
 
 		if (handler) {
-			req.url = parsedUrl.query as any
-			handler(req, res)
+			if (method === 'POST' || method === 'PUT') {
+				let body = '';
+				req.on('data', (chunk) => {
+					body += chunk.toString();
+				});
+				req.on('end', () => {
+					try {
+						req.body = JSON.parse(body);
+					} catch (e) {
+						req.body = body;
+					}
+					handler(req, res);
+				});
+			} else {
+				handler(req, res);
+			}
 		} else {
-			res.statusCode = 404
-			res.end('404 Not found')
+			res.statusCode = 404;
+			res.end('404 Not Found');
 		}
 	}
 
