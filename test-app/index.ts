@@ -6,12 +6,29 @@ const port = 8000
 
 const app = new FastFramework()
 
+app.get('/products/:category/:id', (req, res) => {
+  const params = (req as any).params;
+  const category = params?.category;
+  const productId = params?.id;
+  res.statusCode = 200;
+  res.end(`Producto ID: ${productId} en categoría: ${category}`);
+});
+
+app.get('/users/:id', (req, res) => {
+  const params = (req as any).params;
+  const { name } = (req as any).query;
+  const userId = params?.id;
+
+  res.statusCode = 200;
+  res.end(`Usuario con ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
+});
+
 app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 	const queryParams = req.url as unknown as URLSearchParams
-	const query = queryParams['query'] || 'none'
+	const { query } = (req as any).query
 
 	if (query === 'ping') {
-		res.end(`Query: ${query} - pong`)
+		res.end(`Query: ${query} Response: pong`)
 		return
 	}
 

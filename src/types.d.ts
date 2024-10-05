@@ -9,6 +9,8 @@ export interface IRoute {
 declare module 'http' {
   interface IncomingMessage {
     body?: any;
+		params?: { [key: string]: string }
+		query?: { [key: string]: string | string[] };
   }
 }
 

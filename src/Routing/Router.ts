@@ -35,23 +35,50 @@ export class Router {
 	}
 
 	public handleRequest(req: IncomingMessage, res: ServerResponse): void {
-		const parsedUrl = parse(req.url || '/', true)
-		const pathname = parsedUrl.pathname || '/'
-		const method = req.method || 'GET'
-		const handler = this.routes[pathname]?.[method]
+		const parsedUrl = parse(req.url || '/', true);
+		const pathname = parsedUrl.pathname || '/';
+		const method = req.method || 'GET';
 
-		if (!handler) {
-			res.statusCode = 404
-			res.end('404 Not Found')
-			return
+		req.query = parsedUrl.query;
+
+		if (method === 'POST' || method === 'PUT') {
+			let body = '';
+			req.on('data', chunk => {
+				body += chunk.toString();
+			});
+
+			req.on('end', () => {
+				if (body) {
+					try {
+						req.body = JSON.parse(body);
+					} catch (error) {
+						req.body = body;
+					}
+				}
+
+				this.processRoute(req, res, pathname, method);
+			});
+		} else {
+			this.processRoute(req, res, pathname, method);
+		}
+	}
+
+	private processRoute(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
+		for (const registeredPath in this.routes) {
+			const handler = this.routes[registeredPath]?.[method];
+
+			if (handler) {
+				const params = this.matchRoute(pathname, registeredPath);
+				if (params) {
+					req.params = params;
+					handler(req, res);
+					return;
+				}
+			}
 		}
 
-		if (method !== 'POST' && method !== 'PUT') {
-			handler(req, res)
-			return
-		}
-
-		this.parseBody(req, res, handler)
+		res.statusCode = 404;
+		res.end('404 Not Found');
 	}
 
 	private parseBody(
@@ -73,5 +100,34 @@ export class Router {
 			}
 			handler(req, res);
 		});
+	}
+
+	private matchRoute(
+		pathname: string,
+		registeredPath: string
+	): { [key: string]: string } | null {
+		const registeredParts = registeredPath.split('/')
+		const requestParts = pathname.split('/')
+
+		if (registeredParts.length !== requestParts.length) {
+			return null
+		}
+
+		const params: { [key: string]: string } = {}
+
+		for (let i = 0; i < registeredParts.length; i++) {
+			const registeredPart = registeredParts[i]
+			const requestPart = requestParts[i]
+
+			if (registeredPart.startsWith(':')) {
+				const paramName = registeredPart.slice(1)
+				params[paramName] = requestPart
+
+			} else if (registeredPart !== requestPart) {
+				return null
+			}
+		}
+
+		return params
 	}
 }
