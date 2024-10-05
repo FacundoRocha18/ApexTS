@@ -1,32 +1,32 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import { parse } from 'url'
+import { parse, UrlWithParsedQuery } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
-import { IParams, RouteHandler } from '../types'
+import { TParams, TRoutes, TRouteHandler } from '../types'
 
 export class Router {
-	private routes: { [key: string]: { [method: string]: RouteHandler } } = {}
+	private routes: TRoutes = {}
 
-	public get(path: string, handler: RouteHandler): void {
+	public get(path: string, handler: TRouteHandler): void {
 		this.addRoute(HttpMethods.GET, path, handler)
 	}
 
-	public post(path: string, handler: RouteHandler): void {
+	public post(path: string, handler: TRouteHandler): void {
 		this.addRoute(HttpMethods.POST, path, handler)
 	}
 
-	public delete(path: string, handler: RouteHandler): void {
+	public delete(path: string, handler: TRouteHandler): void {
 		this.addRoute(HttpMethods.DELETE, path, handler)
 	}
 
-	public put(path: string, handler: RouteHandler): void {
+	public put(path: string, handler: TRouteHandler): void {
 		this.addRoute(HttpMethods.PUT, path, handler)
 	}
 
-	public patch(path: string, handler: RouteHandler): void {
+	public patch(path: string, handler: TRouteHandler): void {
 		this.addRoute(HttpMethods.PATCH, path, handler)
 	}
 
-	private addRoute(method: string, path: string, handler: RouteHandler): void {
+	private addRoute(method: string, path: string, handler: TRouteHandler): void {
 		if (!this.routes[path]) {
 			this.routes[path] = {}
 		}
@@ -35,9 +35,9 @@ export class Router {
 	}
 
 	public handleRequest(req: IncomingMessage, res: ServerResponse): void {
-		const parsedUrl = parse(req.url || '/', true);
-		const pathname = parsedUrl.pathname || '/';
-		const method = req.method || 'GET';
+		const parsedUrl: UrlWithParsedQuery = parse(req.url || '/', true);
+		const pathname: string = parsedUrl.pathname || '/';
+		const method: string = req.method || 'GET';
 
 		req.query = parsedUrl.query;
 
@@ -84,7 +84,7 @@ export class Router {
 		});
 	}
 
-	private matchRoute(pathname: string, registeredPath: string): { [key: string]: string } | null {
+	private matchRoute(pathname: string, registeredPath: string): TParams | null {
 		const registeredParts: string[] = registeredPath.split('/')
 		const requestParts: string[] = pathname.split('/')
 
@@ -92,7 +92,7 @@ export class Router {
 			return null
 		}
 
-		const params: IParams = {}
+		const params: TParams = {}
 
 		for (let i = 0; i < registeredParts.length; i++) {
 			const registeredPart = registeredParts[i]

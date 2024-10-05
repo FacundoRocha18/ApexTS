@@ -2,20 +2,23 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 
 export interface IRoute {
 	uri: string
-	action: Action
+	action: TAction
 	matches(uri: string): boolean 
 }
 
-export interface IParams { [key: string]: string }
 
 declare module 'http' {
-  interface IncomingMessage {
-    body?: any;
+	interface IncomingMessage {
+		body?: any;
 		params?: { [key: string]: string }
 		query?: { [key: string]: string | string[] };
   }
 }
 
-export type Action = ((request: Request) => void) | [object, string];
+export type TAction = ((request: Request) => void) | [object, string];
 
-export type RouteHandler = (req: IncomingMessage, res: ServerResponse) => void
+export type TRouteHandler = (req: IncomingMessage, res: ServerResponse) => void
+
+export type TParams = { [key: string]: string }
+
+export type TRoutes = { [key: string]: { [method: string]: TRouteHandler } }
