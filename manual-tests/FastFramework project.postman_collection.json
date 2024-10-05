@@ -33,8 +33,17 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"Facundo Rocha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8000/post-test",
+							"raw": "http://localhost:8000/post-test?data=Facundo Rocha",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -42,6 +51,12 @@
 							"port": "8000",
 							"path": [
 								"post-test"
+							],
+							"query": [
+								{
+									"key": "data",
+									"value": "Facundo Rocha"
+								}
 							]
 						}
 					},
@@ -163,7 +178,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/products/:category/:id",
+							"raw": "http://localhost:8000/products/:category/:id?data=Facundo Rocha",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -173,6 +188,12 @@
 								"products",
 								":category",
 								":id"
+							],
+							"query": [
+								{
+									"key": "data",
+									"value": "Facundo Rocha"
+								}
 							],
 							"variable": [
 								{

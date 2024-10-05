@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { parse } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
-import { RouteHandler } from '../types'
+import { IParams, RouteHandler } from '../types'
 
 export class Router {
 	private routes: { [key: string]: { [method: string]: RouteHandler } } = {}
@@ -41,26 +41,12 @@ export class Router {
 
 		req.query = parsedUrl.query;
 
-		if (method === 'POST' || method === 'PUT') {
-			let body = '';
-			req.on('data', chunk => {
-				body += chunk.toString();
-			});
-
-			req.on('end', () => {
-				if (body) {
-					try {
-						req.body = JSON.parse(body);
-					} catch (error) {
-						req.body = body;
-					}
-				}
-
-				this.processRoute(req, res, pathname, method);
-			});
-		} else {
+		if (method !== 'POST' && method !== 'PUT') {
 			this.processRoute(req, res, pathname, method);
+			return
 		}
+
+		this.parseBody(req, res, pathname, method)
 	}
 
 	private processRoute(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
@@ -81,12 +67,8 @@ export class Router {
 		res.end('404 Not Found');
 	}
 
-	private parseBody(
-		req: IncomingMessage,
-		res: ServerResponse,
-		handler: RouteHandler
-	): void {
-		let body = ''
+	private parseBody(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
+		let body: string = ''
 
 		req.on('data', (chunk) => {
 			body += chunk.toString();
@@ -98,22 +80,19 @@ export class Router {
 			} catch (e) {
 				req.body = body;
 			}
-			handler(req, res);
+			this.processRoute(req, res, pathname, method);
 		});
 	}
 
-	private matchRoute(
-		pathname: string,
-		registeredPath: string
-	): { [key: string]: string } | null {
-		const registeredParts = registeredPath.split('/')
-		const requestParts = pathname.split('/')
+	private matchRoute(pathname: string, registeredPath: string): { [key: string]: string } | null {
+		const registeredParts: string[] = registeredPath.split('/')
+		const requestParts: string[] = pathname.split('/')
 
 		if (registeredParts.length !== requestParts.length) {
 			return null
 		}
 
-		const params: { [key: string]: string } = {}
+		const params: IParams = {}
 
 		for (let i = 0; i < registeredParts.length; i++) {
 			const registeredPart = registeredParts[i]

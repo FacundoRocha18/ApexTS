@@ -6,26 +6,26 @@ const port = 8000
 
 const app = new FastFramework()
 
-app.get('/products/:category/:id', (req, res) => {
-  const params = (req as any).params;
-  const category = params?.category;
-  const productId = params?.id;
-  res.statusCode = 200;
-  res.end(`Producto ID: ${productId} en categoría: ${category}`);
+app.get('/products/:category/:id', (req: IncomingMessage, res: ServerResponse) => {
+	const params = (req as any).params;
+	const query = (req as any).query
+	const { id, category } = params
+
+	res.statusCode = 200;
+	res.end(`Product ID: ${id} in category: ${category} Query data: ${query.data}`);
 });
 
-app.get('/users/:id', (req, res) => {
-  const params = (req as any).params;
-  const { name } = (req as any).query;
-  const userId = params?.id;
+app.get('/users/:id', (req: IncomingMessage, res: ServerResponse) => {
+	const params = req.params;
+	const { name } = req.query;
+	const userId = params?.id;
 
-  res.statusCode = 200;
-  res.end(`Usuario con ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
+	res.statusCode = 200;
+	res.end(`User ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
 });
 
 app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
-	const queryParams = req.url as unknown as URLSearchParams
-	const { query } = (req as any).query
+	const { query } = req.query
 
 	if (query === 'ping') {
 		res.end(`Query: ${query} Response: pong`)
@@ -33,36 +33,34 @@ app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 	}
 
 	res.statusCode = 200
-	res.end('Get working')
+	res.end('GET endpoint working')
 })
 
 app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
-	const body = req.body
+	const { data } = req.body
 
-	if (body.data === 'ping') {
+	if (data === 'ping') {
 		res.end('Pong')
 		return
 	}
 
 	res.statusCode = 201
-	res.end(`Data received ${body.data}`)
+	res.end(`Data received ${data}`)
 })
 
-app.put('/put-test', (req, res) => {
+app.put('/put-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.statusCode = 201
-	res.end('Data received')
+	res.end('PUT endpoint working')
 })
 
-app.delete('/delete-test', (req, res) => {
+app.delete('/delete-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.statusCode = 201
-	res.end('Data received')
+	res.end('DELETE endpoint working')
 })
 
-app.patch('/patch-test', (req, res) => {
-	req.
-
-		res.statusCode = 201
-	res.end('Data received')
+app.patch('/patch-test', (req: IncomingMessage, res: ServerResponse) => {
+	res.statusCode = 201
+	res.end('PATCH endpoint working')
 })
 
 app.listen(port, () => {

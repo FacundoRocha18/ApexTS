@@ -6,6 +6,8 @@ export interface IRoute {
 	matches(uri: string): boolean 
 }
 
+export interface IParams { [key: string]: string }
+
 declare module 'http' {
   interface IncomingMessage {
     body?: any;
