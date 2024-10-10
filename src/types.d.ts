@@ -1,8 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
+import { Router } from './Routing/Router';
 
 export interface IRoute {
 	uri: string
-	action: TAction
+	action: Action
 	matches(uri: string): boolean 
 }
 
@@ -15,10 +16,10 @@ declare module 'http' {
   }
 }
 
-export type TAction = ((request: Request) => void) | [object, string];
+export type Action = ((request: Request) => void) | [object, string];
 
-export type TRouteHandler = (req: IncomingMessage, res: ServerResponse) => void
+export type RouteHandler = (req: IncomingMessage, res: ServerResponse) => void
 
-export type TParams = { [key: string]: string }
+export type Params = { [key: string]: string }
 
-export type TRoutes = { [key: string]: { [method: string]: TRouteHandler } }
+export type Routes = { [key: string]: { [method: string]: RouteHandler } }

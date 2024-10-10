@@ -1,32 +1,32 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { parse, UrlWithParsedQuery } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
-import { TParams, TRoutes, TRouteHandler } from '../types'
+import { Params, Routes, RouteHandler } from '../types'
 
 export class Router {
-	private routes: TRoutes = {}
+	private routes: Routes = {}
 
-	public get(path: string, handler: TRouteHandler): void {
+	public get(path: string, handler: RouteHandler): void {
 		this.addRoute(HttpMethods.GET, path, handler)
 	}
 
-	public post(path: string, handler: TRouteHandler): void {
+	public post(path: string, handler: RouteHandler): void {
 		this.addRoute(HttpMethods.POST, path, handler)
 	}
 
-	public delete(path: string, handler: TRouteHandler): void {
+	public delete(path: string, handler: RouteHandler): void {
 		this.addRoute(HttpMethods.DELETE, path, handler)
 	}
 
-	public put(path: string, handler: TRouteHandler): void {
+	public put(path: string, handler: RouteHandler): void {
 		this.addRoute(HttpMethods.PUT, path, handler)
 	}
 
-	public patch(path: string, handler: TRouteHandler): void {
+	public patch(path: string, handler: RouteHandler): void {
 		this.addRoute(HttpMethods.PATCH, path, handler)
 	}
 
-	private addRoute(method: string, path: string, handler: TRouteHandler): void {
+	private addRoute(method: string, path: string, handler: RouteHandler): void {
 		if (!this.routes[path]) {
 			this.routes[path] = {}
 		}
@@ -42,14 +42,14 @@ export class Router {
 		req.query = parsedUrl.query;
 
 		if (method !== 'POST' && method !== 'PUT') {
-			this.processRoute(req, res, pathname, method);
+			this.resolveRoute(req, res, pathname, method);
 			return
 		}
 
 		this.parseBody(req, res, pathname, method)
 	}
 
-	private processRoute(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
+	private resolveRoute(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
 		for (const registeredPath in this.routes) {
 			const handler = this.routes[registeredPath]?.[method];
 
@@ -63,8 +63,9 @@ export class Router {
 			}
 		}
 
-		res.statusCode = 404;
-		res.end('404 Not Found');
+		res.statusCode = 404
+		res.statusMessage = 'HttpNotFoundException'
+		res.end('Route not found')
 	}
 
 	private parseBody(req: IncomingMessage, res: ServerResponse, pathname: string, method: string): void {
@@ -80,11 +81,11 @@ export class Router {
 			} catch (e) {
 				req.body = body;
 			}
-			this.processRoute(req, res, pathname, method);
+			this.resolveRoute(req, res, pathname, method);
 		});
 	}
 
-	private matchRoute(pathname: string, registeredPath: string): TParams | null {
+	private matchRoute(pathname: string, registeredPath: string): Params | null {
 		const registeredParts: string[] = registeredPath.split('/')
 		const requestParts: string[] = pathname.split('/')
 
@@ -92,7 +93,7 @@ export class Router {
 			return null
 		}
 
-		const params: TParams = {}
+		const params: Params = {}
 
 		for (let i = 0; i < registeredParts.length; i++) {
 			const registeredPart = registeredParts[i]

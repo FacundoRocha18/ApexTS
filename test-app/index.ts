@@ -1,10 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http'
-
-const { FastFramework } = require('../src/Lib')
+import { IFastFramework } from '../src/FastFramework.interface';
+import { FastFramework } from '../src/FastFramework';
 
 const port = 8000
-
-const app = new FastFramework()
+const app: IFastFramework = new FastFramework()
 
 app.get('/products/:category/:id', (req: IncomingMessage, res: ServerResponse) => {
 	const params = (req as any).params;
@@ -63,6 +62,4 @@ app.patch('/patch-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.end('PATCH endpoint working')
 })
 
-app.listen(port, () => {
-	console.log(`Server running on port: ${port}`)
-})
+app.listen(port)
