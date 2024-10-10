@@ -1,9 +1,7 @@
 import * as http from 'http';
 import { FastFramework } from '../../src/FastFramework';
-import { RouteHandler } from '../../src/types';
+import { Handler } from '../../src/types';
 import { Router } from '../../src/Routing/Router';
-import { IncomingMessage } from 'http';
-import { ServerResponse } from 'http';
 
 jest.mock('../../src/Routing/Router.ts')
 
@@ -11,9 +9,7 @@ describe('Tests for FastFramework', () => {
 	let fastFrameworkInstance: FastFramework;
 	let routerMock: jest.Mocked<Router>
 	let serverMock: { listen: jest.Mock }
-	let handler: RouteHandler
-	let req: IncomingMessage
-	let res: ServerResponse
+	let handler: Handler
 	const path = '/users'
 
 	beforeEach(() => {
@@ -28,10 +24,6 @@ describe('Tests for FastFramework', () => {
 		jest.spyOn(http, 'createServer').mockReturnValue(serverMock as unknown as http.Server)
 	})
 
-	afterEach(() => {
-    jest.restoreAllMocks(); // Restauramos mocks después de cada test
-  });
-
 	it('Should be an instance of FastFramework', () => {
 		expect(fastFrameworkInstance).toBeInstanceOf(FastFramework)
 	})
@@ -41,7 +33,9 @@ describe('Tests for FastFramework', () => {
 	})
 
 	it('should initialize with a new router if none is provided', () => {
-		expect(fastFrameworkInstance['router']).toBeInstanceOf(Router)
+		const fastFramework = new FastFramework()
+		
+		expect(fastFramework['router']).toBeInstanceOf(Router)
 	})
 
 	it('Should have a get method', () => {
@@ -121,9 +115,7 @@ describe('Tests for FastFramework', () => {
 		expect(routerMock.handleRequest).toHaveBeenCalledWith(reqMock, resMock)
 	})
 
-	it('should return  exception if the route does not exist', () => {
-		let emptyPath;
-
-		fastFrameworkInstance.get(emptyPath, handler)
-	})
+	afterEach(() => {
+    jest.restoreAllMocks();
+  });
 })

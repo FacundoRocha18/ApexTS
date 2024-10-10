@@ -1,6 +1,6 @@
 import http = require('node:http')
 import { Router } from './Routing/Router'
-import { RouteHandler } from './types'
+import { Handler } from './types'
 import { IFastFramework } from './FastFramework.interface'
 
 export class FastFramework implements IFastFramework {
@@ -10,23 +10,23 @@ export class FastFramework implements IFastFramework {
 		this.router = router || new Router()
 	}
 
-	public get(path: string, handler: RouteHandler): void {
+	public get(path: string, handler: Handler): void {
 		this.router.get(path, handler);
 	}
 
-	public post(path: string, handler: RouteHandler): void {
+	public post(path: string, handler: Handler): void {
 		this.router.post(path, handler);
 	}
 
-	public put(path: string, handler: RouteHandler): void {
+	public put(path: string, handler: Handler): void {
 		this.router.put(path, handler);
 	}
 
-	public delete(path: string, handler: RouteHandler): void{
+	public delete(path: string, handler: Handler): void{
 		this.router.delete(path, handler);
 	}
 
-	public patch(path: string, handler: RouteHandler): void {
+	public patch(path: string, handler: Handler): void {
 		this.router.patch(path, handler);
 	}
 
