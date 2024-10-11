@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"dev": "nodemon ./test-app/index.ts",
+		"dev": "nodemon ./examples/index.ts",
 		"test": "jest --coverage",
 		"test:watch": "jest --watch",
 		"build": "tsc"

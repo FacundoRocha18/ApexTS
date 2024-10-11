@@ -1,6 +1,4 @@
-import { HttpMethods } from '../../../src/Http/HttpMethods'
 import { Router } from '../../../src/Routing/Router'
-import { Handler } from '../../../src/types'
 
 describe('Tests for Router class', () => {
 	let routerInstance: Router

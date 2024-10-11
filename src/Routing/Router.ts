@@ -2,9 +2,16 @@ import { parse, UrlWithParsedQuery } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
 import { Params, Routes, Handler, Request, Response } from '../types'
 import { IRouter } from './Router.interface'
+import { Parser } from '../Parsing/Parser'
+import { ParserParams } from '../Parsing/Parser.interface'
 
 export class Router implements IRouter {
 	private routes: Routes = {}
+	private parser: Parser
+
+	constructor() {
+		this.parser = new Parser()
+	}
 
 	public get(path: string, handler: Handler): void {
 		this.addRoute(HttpMethods.GET, path, handler)
@@ -38,7 +45,7 @@ export class Router implements IRouter {
 
 	public handleRequest(req: Request, res: Response): void {
 		const parsedUrl: UrlWithParsedQuery = parse(req.url || '/', true);
-		const pathname: string = parsedUrl.pathname || '/';
+		const path: string = parsedUrl.pathname || '/';
 		const method: string = req.method || 'GET';
 
 		req.query = parsedUrl.query;
@@ -49,11 +56,17 @@ export class Router implements IRouter {
 		to skip the parseBody call 
 		*/
 		if (method !== 'POST' && method !== 'PUT') {
-			this.resolveRoute(req, res, pathname, method);
+			this.resolveRoute(req, res, path, method);
 			return null
 		}
-
-		this.parseBody(req, res, pathname, method)
+		
+		this.parser.parseBody({
+			req, 
+			res,
+			path,
+			method,
+			callback: () => this.resolveRoute(req, res, path, method)
+		})
 	}
 
 	private resolveRoute(req: Request, res: Response, path: string, method: string): void {
@@ -79,26 +92,6 @@ export class Router implements IRouter {
 		res.statusMessage = 'HttpNotFoundException'
 		console.log('Error:', res.statusCode, res.statusMessage)
 		res.end('Route not found')
-	}
-
-	/* 
-	check possible refactor of this method
-	*/
-	private parseBody(req: Request, res: Response, path: string, method: string): void {
-		let body: string = ''
-
-		req.on('data', (chunk) => {
-			body += chunk.toString();
-		});
-
-		req.on('end', () => {
-			try {
-				req.body = JSON.parse(body);
-			} catch (e) {
-				req.body = body;
-			}
-			this.resolveRoute(req, res, path, method);
-		});
 	}
 
 	private matchRoute(path: string, registeredPath: string): Params | null {

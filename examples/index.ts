@@ -36,7 +36,7 @@ app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 })
 
 app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
-	const { data } = req.body
+	const { data } = req.body || 'data'
 
 	if (data === 'ping') {
 		res.end('Pong')
