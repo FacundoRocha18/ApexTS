@@ -45,7 +45,7 @@ describe('Tests for FastFramework', () => {
 	})
 
 	it('Should have a delete method', () => {
-		expect(fastFrameworkInstance.delete).toBeDefined()
+		expect(fastFrameworkInstance.del).toBeDefined()
 	})
 
 	it('Should have a put method', () => {
@@ -75,10 +75,10 @@ describe('Tests for FastFramework', () => {
 	})
 
 	it('Should call router.delete method with correct arguments', () => {
-		fastFrameworkInstance.delete(path, handler)
+		fastFrameworkInstance.del(path, handler)
 
-		expect(routerMock.delete).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.delete).toHaveBeenCalledTimes(1)
+		expect(routerMock.del).toHaveBeenCalledWith(path, handler)
+		expect(routerMock.del).toHaveBeenCalledTimes(1)
 	})
 
 	it('Should call router.put method with correct arguments', () => {

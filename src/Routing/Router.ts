@@ -1,15 +1,20 @@
 import { parse, UrlWithParsedQuery } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
-import { Params, Routes, Handler, Request, Response } from '../types'
+import { Params, Routes, Handler, Request, Response, Middleware } from '../types'
 import { IRouter } from './Router.interface'
 import { IParser } from '../Parsing/Parser.interface'
 
 export class Router implements IRouter {
 	private routes: Routes = {}
 	private parser: IParser
+	private middlewares: Middleware[] = []
 
 	constructor(parser: IParser) {
 		this.parser = parser
+	}
+
+	public use(middleware: Middleware): void {
+		this.middlewares.push(middleware)
 	}
 
 	public get(path: string, handler: Handler): void {
@@ -20,7 +25,7 @@ export class Router implements IRouter {
 		this.addRoute(HttpMethods.POST, path, handler)
 	}
 
-	public delete(path: string, handler: Handler): void {
+	public del(path: string, handler: Handler): void {
 		this.addRoute(HttpMethods.DELETE, path, handler)
 	}
 
@@ -30,24 +35,6 @@ export class Router implements IRouter {
 
 	public patch(path: string, handler: Handler): void {
 		this.addRoute(HttpMethods.PATCH, path, handler)
-	}
-
-	private addRoute(
-		method: string,
-		path: string,
-		handler: Handler
-	): void {
-		if (!path || path === '') {
-			throw new Error('Path must be a non-empty string')
-		}
-
-		// If the path does not exist 
-		if (!this.routes[path]) {
-			// we set path to an empty object
-			this.routes[path] = {}
-		}
-		// We assign the handler function to the method tuple
-		this.routes[path][method] = handler
 	}
 
 	public handleRequest(req: Request, res: Response): void {
@@ -74,6 +61,24 @@ export class Router implements IRouter {
 			method,
 			callback: () => this.resolveRoute(req, res, path, method)
 		})
+	}
+
+	private addRoute(
+		method: string,
+		path: string,
+		handler: Handler
+	): void {
+		if (!path || path === '') {
+			throw new Error('Path must be a non-empty string')
+		}
+
+		// If the path does not exist 
+		if (!this.routes[path]) {
+			// we set path to an empty object
+			this.routes[path] = {}
+		}
+		// We assign the handler function to the method tuple
+		this.routes[path][method] = handler
 	}
 
 	private resolveRoute(req: Request, res: Response, path: string, method: string): string {

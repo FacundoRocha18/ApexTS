@@ -47,7 +47,7 @@ describe('Tests for Router class', () => {
 	})
 
 	it('should have a delete method', () => {
-		expect(routerInstance.delete).toBeDefined()
+		expect(routerInstance.del).toBeDefined()
 	})
 
 	it('should have a put method', () => {
@@ -81,9 +81,9 @@ describe('Tests for Router class', () => {
 	})
 
 	it('router.delete should be called once with a path and handler to register a new DELETE route', () => {
-		const spyOnDelete = jest.spyOn(routerInstance as Router, 'delete')
+		const spyOnDelete = jest.spyOn(routerInstance as Router, 'del')
 
-		routerInstance.delete(path, handler)
+		routerInstance.del(path, handler)
 
 		expect(spyOnDelete).toHaveBeenCalled()
 		expect(spyOnDelete).toHaveBeenCalledWith(path, handler)

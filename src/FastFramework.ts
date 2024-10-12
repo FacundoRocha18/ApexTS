@@ -1,8 +1,6 @@
 import http = require('node:http')
-import { Router } from './Routing/Router'
 import { Handler } from './types'
 import { IFastFramework } from './FastFramework.interface'
-import { IParser } from './Parsing/Parser.interface'
 import { IRouter } from './Routing/Router.interface'
 
 export class FastFramework implements IFastFramework {
@@ -24,8 +22,8 @@ export class FastFramework implements IFastFramework {
 		this.router.put(path, handler);
 	}
 
-	public delete(path: string, handler: Handler): void{
-		this.router.delete(path, handler);
+	public del(path: string, handler: Handler): void{
+		this.router.del(path, handler);
 	}
 
 	public patch(path: string, handler: Handler): void {

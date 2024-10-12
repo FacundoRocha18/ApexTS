@@ -1,15 +1,11 @@
-import { IncomingMessage, ServerResponse } from 'http'
-
+import { Handler, Middleware, Request, Response } from '../types'
 export interface IRouter {
-	get(path: string, handler: (req: IncomingMessage, res: ServerResponse) => void): void
-	
-	post(path: string, handler: (req: IncomingMessage, res: ServerResponse) => void): void
-	
-	put(path: string, handler: (req: IncomingMessage, res: ServerResponse) => void): void
-	
-	delete(path: string, handler: (req: IncomingMessage, res: ServerResponse) => void): void
-	
-	patch(path: string, handler: (req: IncomingMessage, res: ServerResponse) => void): void
+	use(middleware: Middleware): void
+	get(path: string, handler: Handler): void
+	post(path: string, handler: Handler): void
+	put(path: string, handler: Handler): void
+	del(path: string, handler: Handler): void
+	patch(path: string, handler: Handler): void
 
-	handleRequest(req: IncomingMessage, res: ServerResponse): void
+	handleRequest(req: Request, res: Response): void
 }

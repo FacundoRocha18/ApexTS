@@ -1,15 +1,13 @@
-import { IncomingMessage, ServerResponse } from 'http'
 import { IFastFramework } from '../src/FastFramework.interface'
 import { FastFramework } from '../src/FastFramework'
-import { IRouter } from '../src/Routing/Router.interface'
 import { Router } from '../src/Routing/Router'
-import { IParser } from '../src/Parsing/Parser.interface'
 import { Parser } from '../src/Parsing/Parser'
+import { Request, Response } from '../src/types'
 
 const port = 8000 
 const app: IFastFramework = new FastFramework(new Router(new Parser()))
 
-app.get('/products/:category/:id', (req: IncomingMessage, res: ServerResponse) => {
+app.get('/products/:category/:id', (req: Request, res: Response) => {
 	const params = (req as any).params
 	const query = (req as any).query
 	const { id, category } = params
@@ -18,7 +16,7 @@ app.get('/products/:category/:id', (req: IncomingMessage, res: ServerResponse) =
 	res.end(`Product ID: ${id} in category: ${category} Query data: ${query.data}`);
 });
 
-app.get('/users/:id', (req: IncomingMessage, res: ServerResponse) => {
+app.get('/users/:id', (req: Request, res: Response) => {
 	const params = req.params;
 	const { name } = req.query;
 	const userId = params?.id;
@@ -27,7 +25,7 @@ app.get('/users/:id', (req: IncomingMessage, res: ServerResponse) => {
 	res.end(`User ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
 });
 
-app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
+app.get('/get-test', (req: Request, res: Response) => {
 	const { query } = req.query
 
 	if (query === 'ping') {
@@ -39,7 +37,7 @@ app.get('/get-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.end('GET endpoint working')
 })
 
-app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
+app.post('/post-test', (req: Request, res: Response) => {
 	const { data } = req.body || 'data'
 
 	if (data === 'ping') {
@@ -51,17 +49,17 @@ app.post('/post-test', (req: IncomingMessage, res: ServerResponse) => {
 	res.end(`Data received ${data}`)
 })
 
-app.put('/put-test', (req: IncomingMessage, res: ServerResponse) => {
+app.put('/put-test', (req: Request, res: Response) => {
 	res.statusCode = 201
 	res.end('PUT endpoint working')
 })
 
-app.delete('/delete-test', (req: IncomingMessage, res: ServerResponse) => {
+app.del('/delete-test', (req: Request, res: Response) => {
 	res.statusCode = 201
 	res.end('DELETE endpoint working')
 })
 
-app.patch('/patch-test', (req: IncomingMessage, res: ServerResponse) => {
+app.patch('/patch-test', (req: Request, res: Response) => {
 	res.statusCode = 201
 	res.end('PATCH endpoint working')
 })
