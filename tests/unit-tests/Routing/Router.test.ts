@@ -1,16 +1,16 @@
-import { IncomingMessage } from 'http'
 import { Router } from '../../../src/Routing/Router'
 import { ServerResponse } from 'http'
 import { HttpMethods } from '../../../src/Http/HttpMethods'
 import { IParser } from '../../../src/Parsing/Parser.interface'
 import { Parser } from '../../../src/Parsing/Parser'
+import { Middleware, Request, Response } from '../../../src/types'
 
 jest.mock('../../../src/Parsing/Parser.ts')
 
 describe('Tests for Router class', () => {
 	let routerInstance: Router
 	let parserMock: jest.Mocked<IParser>
-	let req: Partial<IncomingMessage>
+	let req: Partial<Request>
 	let res: ServerResponse
 
 	const handler = jest.fn()
@@ -25,9 +25,9 @@ describe('Tests for Router class', () => {
 			method: HttpMethods.GET ,
 			on: jest.fn(),
 			body: undefined
-		} as Partial<IncomingMessage>
+		} as Partial<Request>
 
-		res = new ServerResponse({} as IncomingMessage)
+		res = new ServerResponse({} as Request)
 	})
 
 	afterEach(() => {
@@ -110,29 +110,102 @@ describe('Tests for Router class', () => {
 	it('router.handleRequest should be called once with a request and a response to handle an incoming request', () => {
 		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
 		
-		routerInstance.handleRequest(req as IncomingMessage, res)
+		routerInstance.handleRequest(req as Request, res)
 
 		expect(spyOnHandleRequest).toHaveBeenCalled()
 		expect(spyOnHandleRequest).toHaveBeenCalledWith(req, res)
 	})
 
-	it('handleRequest should call router.resolveRoute and return null if the request method is neither POST or PUT', () => {
-		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
-		const spyOnResolveRoute = jest.spyOn(routerInstance as any, 'resolveRoute')
+	it('should execute middlewares in order before handling the route', (done) => {
+		const executionOrder: string[] = [];
 
-		routerInstance.handleRequest(req as IncomingMessage, res)
+		const middleware1: Middleware = (req, res, next) => {
+				executionOrder.push('middleware1');
+				next();
+		};
 
-		expect(spyOnHandleRequest).toHaveBeenCalled()
-		expect(spyOnResolveRoute).toHaveBeenCalled()
-		expect(spyOnHandleRequest).toHaveReturnedWith(null)
-	})
+		const middleware2: Middleware = (req, res, next) => {
+				executionOrder.push('middleware2');
+				next();
+		};
 
-	it('handleRequest should call parser.parseBody if the request method is either POST or PUT', () => {
-		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
-		
-		routerInstance.handleRequest(req as IncomingMessage, res)
+		const handler = (req: Request, res: Response) => {
+				executionOrder.push('handler');
+				res.end('OK');
+		};
 
-		expect(spyOnHandleRequest).toHaveBeenCalled()
-		expect(spyOnHandleRequest).toHaveReturnedWith(null)
-	})
+		routerInstance.use(middleware1);
+		routerInstance.use(middleware2);
+		routerInstance.get('/test', handler);
+
+		const req = {
+				method: 'GET',
+				url: '/test',
+				on: jest.fn((event, callback) => {
+						if (event === 'data') {
+								// No body data for GET
+						}
+						if (event === 'end') {
+								process.nextTick(callback);
+						}
+				})
+		} as unknown as Request;
+
+		const res = {
+				end: (msg: string) => {
+						expect(msg).toBe('OK');
+						expect(executionOrder).toEqual(['middleware1', 'middleware2', 'handler']);
+						done();
+				}
+		} as unknown as ServerResponse;
+
+		routerInstance.handleRequest(req, res);
+});
+
+it('should stop middleware chain if a middleware does not call next()', (done) => {
+		const executionOrder: string[] = [];
+
+		const middleware1: Middleware = (req, res, next) => {
+				executionOrder.push('middleware1');
+				// Not calling next()
+				res.end('Stopped by middleware1');
+		};
+
+		const middleware2: Middleware = (req, res, next) => {
+				executionOrder.push('middleware2');
+				next();
+		};
+
+		const handler = (req: Request, res: ServerResponse) => {
+				executionOrder.push('handler');
+				res.end('OK');
+		};
+
+		routerInstance.use(middleware1);
+		routerInstance.use(middleware2);
+		routerInstance.get('/test', handler);
+
+		const req = {
+				method: 'GET',
+				url: '/test',
+				on: jest.fn((event, callback) => {
+						if (event === 'data') {
+								// No body data for GET
+						}
+						if (event === 'end') {
+								process.nextTick(callback);
+						}
+				})
+		} as unknown as Request;
+
+		const res = {
+				end: (msg: string) => {
+						expect(msg).toBe('Stopped by middleware1');
+						expect(executionOrder).toEqual(['middleware1']);
+						done();
+				}
+		} as unknown as ServerResponse;
+
+		routerInstance.handleRequest(req, res);
+});
 })

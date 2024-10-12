@@ -3,17 +3,32 @@ import { FastFramework } from '../src/FastFramework'
 import { Router } from '../src/Routing/Router'
 import { Parser } from '../src/Parsing/Parser'
 import { Request, Response } from '../src/types'
+import { Middlewares } from '../src/Middlewares/Middlewares'
 
-const port = 8000 
-const app: IFastFramework = new FastFramework(new Router(new Parser()))
+const port = 8000
+
+const parser = new Parser()
+const middlewares = new Middlewares()
+const router = new Router(parser)
+const app: IFastFramework = new FastFramework(router)
+
+router.use(middlewares.logger)
+router.use(middlewares.auth)
 
 app.get('/products/:category/:id', (req: Request, res: Response) => {
 	const params = (req as any).params
 	const query = (req as any).query
 	const { id, category } = params
 
+	const response = {
+		productId: id,
+		productCategory: category,
+		query
+	}
+
+	res.setHeader('Content-type', 'application/json')
 	res.statusCode = 200;
-	res.end(`Product ID: ${id} in category: ${category} Query data: ${query.data}`);
+	res.end(JSON.stringify(response));
 });
 
 app.get('/users/:id', (req: Request, res: Response) => {

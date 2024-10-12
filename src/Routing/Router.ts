@@ -5,8 +5,8 @@ import { IRouter } from './Router.interface'
 import { IParser } from '../Parsing/Parser.interface'
 
 export class Router implements IRouter {
-	private routes: Routes = {}
 	private parser: IParser
+	private routes: Routes = {}
 	private middlewares: Middleware[] = []
 
 	constructor(parser: IParser) {
@@ -38,19 +38,37 @@ export class Router implements IRouter {
 	}
 
 	public handleRequest(req: Request, res: Response): void {
-		const parsedUrl: UrlWithParsedQuery = parse(req.url || '/', true);
-		const path: string = parsedUrl.pathname || '/';
-		const method: string = req.method || 'GET';
+		const parsedUrl: UrlWithParsedQuery = parse(req.url || '/', true)
+		const path: string = parsedUrl.pathname || '/'
+		const method: string = req.method || 'GET'
 
-		req.query = parsedUrl.query;
+		req.query = parsedUrl.query
 
-		/* 
-		If the HTTP method is different from POST and PUT
-		we call the resolveRoute method and then we do an early return
-		to skip the parseBody call 
-		*/
+		this.executeMiddlewares(0, req, res, path, method)
+	}
+
+	private executeMiddlewares(
+		index: number,
+		req: Request,
+		res: Response,
+		path: string,
+		method: string
+	): void {
+		if (index < this.middlewares.length) {
+			const middleware = this.middlewares[index];
+			try {
+				middleware(req, res, () => this.executeMiddlewares(index + 1, req, res, path, method));
+			} catch (error) {
+				this.handleMiddlewareError(error, req, res);
+			}
+		} else {
+			this.processRoute(req, res, path, method);
+		}
+	}
+
+	private processRoute(req: Request, res: Response, path: string, method: string): void {
 		if (method !== 'POST' && method !== 'PUT') {
-			this.resolveRoute(req, res, path, method);
+			this.resolveRoute(req, res, path, method)
 			return null
 		}
 
@@ -68,6 +86,7 @@ export class Router implements IRouter {
 		path: string,
 		handler: Handler
 	): void {
+		// If the path is empty, throw an error
 		if (!path || path === '') {
 			throw new Error('Path must be a non-empty string')
 		}
@@ -77,6 +96,7 @@ export class Router implements IRouter {
 			// we set path to an empty object
 			this.routes[path] = {}
 		}
+
 		// We assign the handler function to the method tuple
 		this.routes[path][method] = handler
 	}
@@ -95,10 +115,7 @@ export class Router implements IRouter {
 			handler(req, res);
 			return 'Handler called'
 		}
-	
-		res.statusCode = 404
-		res.statusMessage = 'HttpNotFoundException'
-		res.end('Route not found')
+
 		return res.statusCode + res.statusMessage
 	}
 
@@ -128,5 +145,11 @@ export class Router implements IRouter {
 		}
 
 		return params
+	}
+
+	private handleMiddlewareError(error: any, req: Request, res: Response): void {
+		console.error('Middleware error:', error);
+		res.statusCode = 500;
+		res.end('Internal Server Error');
 	}
 }

@@ -8,13 +8,15 @@ declare module 'http' {
   }
 }
 
-export type Params = { [key: string]: string }
-
-export type Routes = { [path: string]: { [method: string]: Handler } }
-
 export type Request = IncomingMessage
 
 export type Response = ServerResponse
+
+export type Route = string | RegExp
+
+export type Params = { [key: string]: string }
+
+export type Routes = { [path: string]: { [method: string]: Handler } }
 
 export type Handler = (req: Request, res: Response) => void | Promise<void>
 

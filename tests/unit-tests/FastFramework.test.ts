@@ -13,6 +13,7 @@ describe('Tests for FastFramework', () => {
 	let parserMock: jest.Mocked<Parser>
 	let serverMock: { listen: jest.Mock }
 	let handler: Handler
+
 	const path = '/users'
 
 	beforeEach(() => {
