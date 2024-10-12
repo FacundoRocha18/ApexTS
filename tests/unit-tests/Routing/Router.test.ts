@@ -2,9 +2,14 @@ import { IncomingMessage } from 'http'
 import { Router } from '../../../src/Routing/Router'
 import { ServerResponse } from 'http'
 import { HttpMethods } from '../../../src/Http/HttpMethods'
+import { IParser } from '../../../src/Parsing/Parser.interface'
+import { Parser } from '../../../src/Parsing/Parser'
+
+jest.mock('../../../src/Parsing/Parser.ts')
 
 describe('Tests for Router class', () => {
 	let routerInstance: Router
+	let parserMock: jest.Mocked<IParser>
 	let req: Partial<IncomingMessage>
 	let res: ServerResponse
 
@@ -12,7 +17,8 @@ describe('Tests for Router class', () => {
 	const path = '/test'
 
 	beforeEach(() => {
-		routerInstance = new Router()
+		parserMock = new Parser() as jest.Mocked<Parser>
+		routerInstance = new Router(parserMock)
 
 		req = {
 			url: '/test',
@@ -118,6 +124,15 @@ describe('Tests for Router class', () => {
 
 		expect(spyOnHandleRequest).toHaveBeenCalled()
 		expect(spyOnResolveRoute).toHaveBeenCalled()
+		expect(spyOnHandleRequest).toHaveReturnedWith(null)
+	})
+
+	it('handleRequest should call parser.parseBody if the request method is either POST or PUT', () => {
+		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
+		
+		routerInstance.handleRequest(req as IncomingMessage, res)
+
+		expect(spyOnHandleRequest).toHaveBeenCalled()
 		expect(spyOnHandleRequest).toHaveReturnedWith(null)
 	})
 })

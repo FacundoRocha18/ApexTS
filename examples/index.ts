@@ -1,12 +1,16 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import { IFastFramework } from '../src/FastFramework.interface';
-import { FastFramework } from '../src/FastFramework';
+import { IFastFramework } from '../src/FastFramework.interface'
+import { FastFramework } from '../src/FastFramework'
+import { IRouter } from '../src/Routing/Router.interface'
+import { Router } from '../src/Routing/Router'
+import { IParser } from '../src/Parsing/Parser.interface'
+import { Parser } from '../src/Parsing/Parser'
 
-const port = 8000
-const app: IFastFramework = new FastFramework()
+const port = 8000 
+const app: IFastFramework = new FastFramework(new Router(new Parser()))
 
 app.get('/products/:category/:id', (req: IncomingMessage, res: ServerResponse) => {
-	const params = (req as any).params;
+	const params = (req as any).params
 	const query = (req as any).query
 	const { id, category } = params
 

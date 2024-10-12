@@ -2,18 +2,22 @@ import * as http from 'http';
 import { FastFramework } from '../../src/FastFramework';
 import { Handler } from '../../src/types';
 import { Router } from '../../src/Routing/Router';
+import { Parser } from '../../src/Parsing/Parser';
 
 jest.mock('../../src/Routing/Router.ts')
+jest.mock('../../src/Parsing/Parser.ts')
 
 describe('Tests for FastFramework', () => {
 	let fastFrameworkInstance: FastFramework;
 	let routerMock: jest.Mocked<Router>
+	let parserMock: jest.Mocked<Parser>
 	let serverMock: { listen: jest.Mock }
 	let handler: Handler
 	const path = '/users'
 
 	beforeEach(() => {
-		routerMock = new Router() as jest.Mocked<Router>
+		parserMock = new Parser() as jest.Mocked<Parser>
+		routerMock = new Router(parserMock) as jest.Mocked<Router>
 
 		fastFrameworkInstance = new FastFramework(routerMock)
 		
@@ -30,12 +34,6 @@ describe('Tests for FastFramework', () => {
 
 	it('Should initialize with the provided Router', () => {
 		expect(fastFrameworkInstance['router']).toBe(routerMock)
-	})
-
-	it('should initialize with a new router if none is provided', () => {
-		const fastFramework = new FastFramework()
-		
-		expect(fastFramework['router']).toBeInstanceOf(Router)
 	})
 
 	it('Should have a get method', () => {

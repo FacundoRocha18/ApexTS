@@ -2,14 +2,14 @@ import { parse, UrlWithParsedQuery } from 'url'
 import { HttpMethods } from '../Http/HttpMethods'
 import { Params, Routes, Handler, Request, Response } from '../types'
 import { IRouter } from './Router.interface'
-import { Parser } from '../Parsing/Parser'
+import { IParser } from '../Parsing/Parser.interface'
 
 export class Router implements IRouter {
 	private routes: Routes = {}
-	private parser: Parser
+	private parser: IParser
 
-	constructor() {
-		this.parser = new Parser()
+	constructor(parser: IParser) {
+		this.parser = parser
 	}
 
 	public get(path: string, handler: Handler): void {
@@ -80,10 +80,6 @@ export class Router implements IRouter {
 		for (const registeredPath in this.routes) {
 			const handler: Handler = this.routes[registeredPath]?.[method];
 
-			if (!handler) {
-				throw new Error('')
-			}
-
 			const params = this.matchRoute(path, registeredPath)
 
 			if (!params) {
@@ -94,7 +90,7 @@ export class Router implements IRouter {
 			handler(req, res);
 			return 'Handler called'
 		}
-
+	
 		res.statusCode = 404
 		res.statusMessage = 'HttpNotFoundException'
 		res.end('Route not found')
@@ -121,7 +117,6 @@ export class Router implements IRouter {
 			if (registeredPart.startsWith(':')) {
 				const paramName = registeredPart.slice(1)
 				params[paramName] = requestPart
-
 			} else if (registeredPart !== requestPart) {
 				return null
 			}

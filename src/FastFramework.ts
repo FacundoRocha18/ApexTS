@@ -2,12 +2,14 @@ import http = require('node:http')
 import { Router } from './Routing/Router'
 import { Handler } from './types'
 import { IFastFramework } from './FastFramework.interface'
+import { IParser } from './Parsing/Parser.interface'
+import { IRouter } from './Routing/Router.interface'
 
 export class FastFramework implements IFastFramework {
-	private router: Router
+	private router: IRouter
 
-	constructor(router?: Router) {
-		this.router = router || new Router()
+	constructor(router: IRouter) {
+		this.router = router
 	}
 
 	public get(path: string, handler: Handler): void {
