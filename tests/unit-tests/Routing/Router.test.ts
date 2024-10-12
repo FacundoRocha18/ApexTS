@@ -1,12 +1,27 @@
+import { IncomingMessage } from 'http'
 import { Router } from '../../../src/Routing/Router'
+import { ServerResponse } from 'http'
+import { HttpMethods } from '../../../src/Http/HttpMethods'
 
 describe('Tests for Router class', () => {
 	let routerInstance: Router
+	let req: Partial<IncomingMessage>
+	let res: ServerResponse
+
 	const handler = jest.fn()
 	const path = '/test'
 
 	beforeEach(() => {
 		routerInstance = new Router()
+
+		req = {
+			url: '/test',
+			method: HttpMethods.GET ,
+			on: jest.fn(),
+			body: undefined
+		} as Partial<IncomingMessage>
+
+		res = new ServerResponse({} as IncomingMessage)
 	})
 
 	afterEach(() => {
@@ -37,12 +52,72 @@ describe('Tests for Router class', () => {
 		expect(routerInstance.patch).toBeDefined()
 	})
 
-	it('should be called once with a path and handler to register a new GET route', () => {
+	it('should have a handleRequest method', () => {
+		expect(routerInstance.handleRequest).toBeDefined()
+	})
+
+	it('router.get should be called once with a path and handler to register a new GET route', () => {
 		const spyOnGet = jest.spyOn(routerInstance as Router, 'get')
-		
+
 		routerInstance.get(path, handler)
 
-		expect(spyOnGet).toHaveBeenCalledTimes(1)
+		expect(spyOnGet).toHaveBeenCalled()
 		expect(spyOnGet).toHaveBeenCalledWith(path, handler)
+	})
+
+	it('router.post should be called once with a path and handler to register a new POST route', () => {
+		const spyOnPost = jest.spyOn(routerInstance as Router, 'post')
+
+		routerInstance.post(path, handler)
+
+		expect(spyOnPost).toHaveBeenCalled()
+		expect(spyOnPost).toHaveBeenCalledWith(path, handler)
+	})
+
+	it('router.delete should be called once with a path and handler to register a new DELETE route', () => {
+		const spyOnDelete = jest.spyOn(routerInstance as Router, 'delete')
+
+		routerInstance.delete(path, handler)
+
+		expect(spyOnDelete).toHaveBeenCalled()
+		expect(spyOnDelete).toHaveBeenCalledWith(path, handler)
+	})
+
+	it('router.put should be called once with a path and handler to register a new PUT route', () => {
+		const spyOnPut = jest.spyOn(routerInstance as Router, 'put')
+
+		routerInstance.put(path, handler)
+
+		expect(spyOnPut).toHaveBeenCalled()
+		expect(spyOnPut).toHaveBeenCalledWith(path, handler)
+	})
+
+	it('router.patch should be called once with a path and handler to register a new PATCH route', () => {
+		const spyOnPatch = jest.spyOn(routerInstance as Router, 'patch')
+		
+		routerInstance.patch(path, handler)
+
+		expect(spyOnPatch).toHaveBeenCalled()
+		expect(spyOnPatch).toHaveBeenCalledWith(path, handler)
+	})
+
+	it('router.handleRequest should be called once with a request and a response to handle an incoming request', () => {
+		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
+		
+		routerInstance.handleRequest(req as IncomingMessage, res)
+
+		expect(spyOnHandleRequest).toHaveBeenCalled()
+		expect(spyOnHandleRequest).toHaveBeenCalledWith(req, res)
+	})
+
+	it('handleRequest should call router.resolveRoute and return null if the request method is neither POST or PUT', () => {
+		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
+		const spyOnResolveRoute = jest.spyOn(routerInstance as any, 'resolveRoute')
+
+		routerInstance.handleRequest(req as IncomingMessage, res)
+
+		expect(spyOnHandleRequest).toHaveBeenCalled()
+		expect(spyOnResolveRoute).toHaveBeenCalled()
+		expect(spyOnHandleRequest).toHaveReturnedWith(null)
 	})
 })

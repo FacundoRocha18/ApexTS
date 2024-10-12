@@ -3,7 +3,6 @@ import { HttpMethods } from '../Http/HttpMethods'
 import { Params, Routes, Handler, Request, Response } from '../types'
 import { IRouter } from './Router.interface'
 import { Parser } from '../Parsing/Parser'
-import { ParserParams } from '../Parsing/Parser.interface'
 
 export class Router implements IRouter {
 	private routes: Routes = {}
@@ -33,7 +32,15 @@ export class Router implements IRouter {
 		this.addRoute(HttpMethods.PATCH, path, handler)
 	}
 
-	private addRoute(method: string, path: string, handler: Handler): void {
+	private addRoute(
+		method: string,
+		path: string,
+		handler: Handler
+	): void {
+		if (!path || path === '') {
+			throw new Error('Path must be a non-empty string')
+		}
+
 		// If the path does not exist 
 		if (!this.routes[path]) {
 			// we set path to an empty object
@@ -59,9 +66,9 @@ export class Router implements IRouter {
 			this.resolveRoute(req, res, path, method);
 			return null
 		}
-		
+
 		this.parser.parseBody({
-			req, 
+			req,
 			res,
 			path,
 			method,
@@ -69,29 +76,29 @@ export class Router implements IRouter {
 		})
 	}
 
-	private resolveRoute(req: Request, res: Response, path: string, method: string): void {
+	private resolveRoute(req: Request, res: Response, path: string, method: string): string {
 		for (const registeredPath in this.routes) {
-			const handler = this.routes[registeredPath]?.[method];
-			
+			const handler: Handler = this.routes[registeredPath]?.[method];
+
 			if (!handler) {
-				continue
+				throw new Error('')
 			}
 
 			const params = this.matchRoute(path, registeredPath)
-			
+
 			if (!params) {
 				continue
 			}
 
 			req.params = params
 			handler(req, res);
-			return null
+			return 'Handler called'
 		}
 
 		res.statusCode = 404
 		res.statusMessage = 'HttpNotFoundException'
-		console.log('Error:', res.statusCode, res.statusMessage)
 		res.end('Route not found')
+		return res.statusCode + res.statusMessage
 	}
 
 	private matchRoute(path: string, registeredPath: string): Params | null {
