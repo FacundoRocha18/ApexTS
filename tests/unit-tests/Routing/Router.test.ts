@@ -1,211 +1,218 @@
-import { Router } from '../../../src/Routing/Router'
-import { ServerResponse } from 'http'
-import { HttpMethods } from '../../../src/Http/HttpMethods'
-import { IParser } from '../../../src/Parsing/Parser.interface'
-import { Parser } from '../../../src/Parsing/Parser'
-import { Middleware, Request, Response } from '../../../src/types'
+import { Router } from "../../../src/Routing/Router";
+import { ServerResponse } from "http";
+import { HttpMethods } from "../../../src/Http/HttpMethods";
+import { IParser } from "../../../src/Parsing/Parser.interface";
+import { Parser } from "../../../src/Parsing/Parser";
+import { Middleware, Request, Response } from "../../../src/types";
 
-jest.mock('../../../src/Parsing/Parser.ts')
+jest.mock("../../../src/Parsing/Parser.ts");
 
-describe('Tests for Router class', () => {
-	let routerInstance: Router
-	let parserMock: jest.Mocked<IParser>
-	let req: Partial<Request>
-	let res: ServerResponse
+describe("Tests for Router class", () => {
+  let routerInstance: Router;
+  let parserMock: jest.Mocked<IParser>;
+  let req: Partial<Request>;
+  let res: ServerResponse;
 
-	const handler = jest.fn()
-	const path = '/test'
+  const handler = jest.fn();
+  const path = "/test";
 
-	beforeEach(() => {
-		parserMock = new Parser() as jest.Mocked<Parser>
-		routerInstance = new Router(parserMock)
+  beforeEach(() => {
+    parserMock = new Parser() as jest.Mocked<Parser>;
+    routerInstance = new Router(parserMock);
 
-		req = {
-			url: '/test',
-			method: HttpMethods.GET ,
-			on: jest.fn(),
-			body: undefined
-		} as Partial<Request>
+    req = {
+      url: "/test",
+      method: HttpMethods.GET,
+      on: jest.fn(),
+      body: undefined,
+    } as Partial<Request>;
 
-		res = new ServerResponse({} as Request)
-	})
+    res = new ServerResponse({} as Request);
+  });
 
-	afterEach(() => {
-		jest.restoreAllMocks();
-	});
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-	it('should be an instance of Router', () => {
-		expect(routerInstance).toBeInstanceOf(Router)
-	})
+  it("should be an instance of Router", () => {
+    expect(routerInstance).toBeInstanceOf(Router);
+  });
 
-	it('should have a get method', () => {
-		expect(routerInstance.get).toBeDefined()
-	})
+  it("should have a get method", () => {
+    expect(routerInstance.get).toBeDefined();
+  });
 
-	it('should have a post method', () => {
-		expect(routerInstance.post).toBeDefined()
-	})
+  it("should have a post method", () => {
+    expect(routerInstance.post).toBeDefined();
+  });
 
-	it('should have a delete method', () => {
-		expect(routerInstance.del).toBeDefined()
-	})
+  it("should have a delete method", () => {
+    expect(routerInstance.del).toBeDefined();
+  });
 
-	it('should have a put method', () => {
-		expect(routerInstance.put).toBeDefined()
-	})
+  it("should have a put method", () => {
+    expect(routerInstance.put).toBeDefined();
+  });
 
-	it('should have a patch method', () => {
-		expect(routerInstance.patch).toBeDefined()
-	})
+  it("should have a patch method", () => {
+    expect(routerInstance.patch).toBeDefined();
+  });
 
-	it('should have a handleRequest method', () => {
-		expect(routerInstance.handleRequest).toBeDefined()
-	})
+  it("should have a handleRequest method", () => {
+    expect(routerInstance.handleRequest).toBeDefined();
+  });
 
-	it('router.get should be called once with a path and handler to register a new GET route', () => {
-		const spyOnGet = jest.spyOn(routerInstance as Router, 'get')
+  it("router.get should be called once with a path and handler to register a new GET route", () => {
+    const spyOnGet = jest.spyOn(routerInstance as Router, "get");
 
-		routerInstance.get(path, handler)
+    routerInstance.get(path, handler);
 
-		expect(spyOnGet).toHaveBeenCalled()
-		expect(spyOnGet).toHaveBeenCalledWith(path, handler)
-	})
+    expect(spyOnGet).toHaveBeenCalled();
+    expect(spyOnGet).toHaveBeenCalledWith(path, handler);
+  });
 
-	it('router.post should be called once with a path and handler to register a new POST route', () => {
-		const spyOnPost = jest.spyOn(routerInstance as Router, 'post')
+  it("router.post should be called once with a path and handler to register a new POST route", () => {
+    const spyOnPost = jest.spyOn(routerInstance as Router, "post");
 
-		routerInstance.post(path, handler)
+    routerInstance.post(path, handler);
 
-		expect(spyOnPost).toHaveBeenCalled()
-		expect(spyOnPost).toHaveBeenCalledWith(path, handler)
-	})
+    expect(spyOnPost).toHaveBeenCalled();
+    expect(spyOnPost).toHaveBeenCalledWith(path, handler);
+  });
 
-	it('router.delete should be called once with a path and handler to register a new DELETE route', () => {
-		const spyOnDelete = jest.spyOn(routerInstance as Router, 'del')
+  it("router.delete should be called once with a path and handler to register a new DELETE route", () => {
+    const spyOnDelete = jest.spyOn(routerInstance as Router, "del");
 
-		routerInstance.del(path, handler)
+    routerInstance.del(path, handler);
 
-		expect(spyOnDelete).toHaveBeenCalled()
-		expect(spyOnDelete).toHaveBeenCalledWith(path, handler)
-	})
+    expect(spyOnDelete).toHaveBeenCalled();
+    expect(spyOnDelete).toHaveBeenCalledWith(path, handler);
+  });
 
-	it('router.put should be called once with a path and handler to register a new PUT route', () => {
-		const spyOnPut = jest.spyOn(routerInstance as Router, 'put')
+  it("router.put should be called once with a path and handler to register a new PUT route", () => {
+    const spyOnPut = jest.spyOn(routerInstance as Router, "put");
 
-		routerInstance.put(path, handler)
+    routerInstance.put(path, handler);
 
-		expect(spyOnPut).toHaveBeenCalled()
-		expect(spyOnPut).toHaveBeenCalledWith(path, handler)
-	})
+    expect(spyOnPut).toHaveBeenCalled();
+    expect(spyOnPut).toHaveBeenCalledWith(path, handler);
+  });
 
-	it('router.patch should be called once with a path and handler to register a new PATCH route', () => {
-		const spyOnPatch = jest.spyOn(routerInstance as Router, 'patch')
-		
-		routerInstance.patch(path, handler)
+  it("router.patch should be called once with a path and handler to register a new PATCH route", () => {
+    const spyOnPatch = jest.spyOn(routerInstance as Router, "patch");
 
-		expect(spyOnPatch).toHaveBeenCalled()
-		expect(spyOnPatch).toHaveBeenCalledWith(path, handler)
-	})
+    routerInstance.patch(path, handler);
 
-	it('router.handleRequest should be called once with a request and a response to handle an incoming request', () => {
-		const spyOnHandleRequest = jest.spyOn(routerInstance as Router, 'handleRequest')
-		
-		routerInstance.handleRequest(req as Request, res)
+    expect(spyOnPatch).toHaveBeenCalled();
+    expect(spyOnPatch).toHaveBeenCalledWith(path, handler);
+  });
 
-		expect(spyOnHandleRequest).toHaveBeenCalled()
-		expect(spyOnHandleRequest).toHaveBeenCalledWith(req, res)
-	})
+  it("router.handleRequest should be called once with a request and a response to handle an incoming request", () => {
+    const spyOnHandleRequest = jest.spyOn(
+      routerInstance as Router,
+      "handleRequest",
+    );
 
-	it('should execute middlewares in order before handling the route', (done) => {
-		const executionOrder: string[] = [];
+    routerInstance.handleRequest(req as Request, res);
 
-		const middleware1: Middleware = (req, res, next) => {
-				executionOrder.push('middleware1');
-				next();
-		};
+    expect(spyOnHandleRequest).toHaveBeenCalled();
+    expect(spyOnHandleRequest).toHaveBeenCalledWith(req, res);
+  });
 
-		const middleware2: Middleware = (req, res, next) => {
-				executionOrder.push('middleware2');
-				next();
-		};
+  it("should execute middlewares in order before handling the route", (done) => {
+    const executionOrder: string[] = [];
 
-		const handler = (req: Request, res: Response) => {
-				executionOrder.push('handler');
-				res.end('OK');
-		};
+    const middleware1: Middleware = (req, res, next) => {
+      executionOrder.push("middleware1");
+      next();
+    };
 
-		routerInstance.use(middleware1);
-		routerInstance.use(middleware2);
-		routerInstance.get('/test', handler);
+    const middleware2: Middleware = (req, res, next) => {
+      executionOrder.push("middleware2");
+      next();
+    };
 
-		const req = {
-				method: 'GET',
-				url: '/test',
-				on: jest.fn((event, callback) => {
-						if (event === 'data') {
-								// No body data for GET
-						}
-						if (event === 'end') {
-								process.nextTick(callback);
-						}
-				})
-		} as unknown as Request;
+    const handler = (req: Request, res: Response) => {
+      executionOrder.push("handler");
+      res.end("OK");
+    };
 
-		const res = {
-				end: (msg: string) => {
-						expect(msg).toBe('OK');
-						expect(executionOrder).toEqual(['middleware1', 'middleware2', 'handler']);
-						done();
-				}
-		} as unknown as ServerResponse;
+    routerInstance.use(middleware1);
+    routerInstance.use(middleware2);
+    routerInstance.get("/test", handler);
 
-		routerInstance.handleRequest(req, res);
+    const req = {
+      method: "GET",
+      url: "/test",
+      on: jest.fn((event, callback) => {
+        if (event === "data") {
+          // No body data for GET
+        }
+        if (event === "end") {
+          process.nextTick(callback);
+        }
+      }),
+    } as unknown as Request;
+
+    const res = {
+      end: (msg: string) => {
+        expect(msg).toBe("OK");
+        expect(executionOrder).toEqual([
+          "middleware1",
+          "middleware2",
+          "handler",
+        ]);
+        done();
+      },
+    } as unknown as ServerResponse;
+
+    routerInstance.handleRequest(req, res);
+  });
+
+  it("should stop middleware chain if a middleware does not call next()", (done) => {
+    const executionOrder: string[] = [];
+
+    const middleware1: Middleware = (req, res, next) => {
+      executionOrder.push("middleware1");
+      // Not calling next()
+      res.end("Stopped by middleware1");
+    };
+
+    const middleware2: Middleware = (req, res, next) => {
+      executionOrder.push("middleware2");
+      next();
+    };
+
+    const handler = (req: Request, res: ServerResponse) => {
+      executionOrder.push("handler");
+      res.end("OK");
+    };
+
+    routerInstance.use(middleware1);
+    routerInstance.use(middleware2);
+    routerInstance.get("/test", handler);
+
+    const req = {
+      method: "GET",
+      url: "/test",
+      on: jest.fn((event, callback) => {
+        if (event === "data") {
+          // No body data for GET
+        }
+        if (event === "end") {
+          process.nextTick(callback);
+        }
+      }),
+    } as unknown as Request;
+
+    const res = {
+      end: (msg: string) => {
+        expect(msg).toBe("Stopped by middleware1");
+        expect(executionOrder).toEqual(["middleware1"]);
+        done();
+      },
+    } as unknown as ServerResponse;
+
+    routerInstance.handleRequest(req, res);
+  });
 });
-
-it('should stop middleware chain if a middleware does not call next()', (done) => {
-		const executionOrder: string[] = [];
-
-		const middleware1: Middleware = (req, res, next) => {
-				executionOrder.push('middleware1');
-				// Not calling next()
-				res.end('Stopped by middleware1');
-		};
-
-		const middleware2: Middleware = (req, res, next) => {
-				executionOrder.push('middleware2');
-				next();
-		};
-
-		const handler = (req: Request, res: ServerResponse) => {
-				executionOrder.push('handler');
-				res.end('OK');
-		};
-
-		routerInstance.use(middleware1);
-		routerInstance.use(middleware2);
-		routerInstance.get('/test', handler);
-
-		const req = {
-				method: 'GET',
-				url: '/test',
-				on: jest.fn((event, callback) => {
-						if (event === 'data') {
-								// No body data for GET
-						}
-						if (event === 'end') {
-								process.nextTick(callback);
-						}
-				})
-		} as unknown as Request;
-
-		const res = {
-				end: (msg: string) => {
-						expect(msg).toBe('Stopped by middleware1');
-						expect(executionOrder).toEqual(['middleware1']);
-						done();
-				}
-		} as unknown as ServerResponse;
-
-		routerInstance.handleRequest(req, res);
-});
-})

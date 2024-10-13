@@ -1,105 +1,105 @@
 // middlewares.test.ts
-import { IncomingMessage, ServerResponse } from 'http';
-import { Middleware, Request, Response } from '../../../src/types';
-import { IMiddlewares } from '../../../src/Middlewares/Middlewares.interface';
-import { Middlewares } from '../../../src/Middlewares/Middlewares';
+import { IncomingMessage, ServerResponse } from "http";
+import { Middleware, Request, Response } from "../../../src/types";
+import { IMiddlewares } from "../../../src/Middlewares/Middlewares.interface";
+import { Middlewares } from "../../../src/Middlewares/Middlewares";
 
-describe('Middlewares', () => {
-	describe('Logger Middleware', () => {
-		let middlewares: IMiddlewares
-		let req: Partial<Request>
-		let res: Response
+describe("Middlewares", () => {
+  describe("Logger Middleware", () => {
+    let middlewares: IMiddlewares;
+    let req: Partial<Request>;
+    let res: Response;
 
-		const next = jest.fn()
+    const next = jest.fn();
 
-		beforeEach(() => {
-			middlewares = new Middlewares()
+    beforeEach(() => {
+      middlewares = new Middlewares();
 
-			req = {
-				method: 'GET',
-				url: '/test'
-			}
-		})
+      req = {
+        method: "GET",
+        url: "/test",
+      };
+    });
 
-		afterEach(() => {
-			jest.restoreAllMocks()
-		})
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
 
-		it('should log the request method and URL', () => {
-			const spyOnConsole = jest.spyOn(console, 'log').mockImplementation();
-			
-			middlewares.logger(req as Request, res, next);
+    it("should log the request method and URL", () => {
+      const spyOnConsole = jest.spyOn(console, "log").mockImplementation();
 
-			expect(spyOnConsole).toHaveBeenCalledWith('GET /test');
-			expect(next).toHaveBeenCalled();
-			spyOnConsole.mockRestore();
-		});
-	});
+      middlewares.logger(req as Request, res, next);
 
-	describe('Auth Middleware', () => {
-		it('should call next() if authorization is valid', () => {
-			const authMiddleware: Middleware = (req, res, next) => {
-				const authHeader = req.headers['authorization'];
-				if (authHeader === 'Bearer valid-token') {
-					next();
-				} else {
-					res.statusCode = 401;
-					res.end('Unauthorized');
-				}
-			};
+      expect(spyOnConsole).toHaveBeenCalledWith("GET /test");
+      expect(next).toHaveBeenCalled();
+      spyOnConsole.mockRestore();
+    });
+  });
 
-			const req = {
-				method: 'GET',
-				url: '/protected',
-				headers: {
-					'authorization': 'Bearer valid-token'
-				}
-			} as IncomingMessage;
+  describe("Auth Middleware", () => {
+    it("should call next() if authorization is valid", () => {
+      const authMiddleware: Middleware = (req, res, next) => {
+        const authHeader = req.headers["authorization"];
+        if (authHeader === "Bearer valid-token") {
+          next();
+        } else {
+          res.statusCode = 401;
+          res.end("Unauthorized");
+        }
+      };
 
-			const res = {
-				statusCode: 200,
-				end: jest.fn()
-			} as unknown as ServerResponse;
+      const req = {
+        method: "GET",
+        url: "/protected",
+        headers: {
+          authorization: "Bearer valid-token",
+        },
+      } as IncomingMessage;
 
-			const next = jest.fn();
+      const res = {
+        statusCode: 200,
+        end: jest.fn(),
+      } as unknown as ServerResponse;
 
-			authMiddleware(req, res, next);
+      const next = jest.fn();
 
-			expect(next).toHaveBeenCalled();
-			expect(res.end).not.toHaveBeenCalled();
-		});
+      authMiddleware(req, res, next);
 
-		it('should respond with 401 if authorization is invalid', () => {
-			const authMiddleware: Middleware = (req, res, next) => {
-				const authHeader = req.headers['authorization'];
-				if (authHeader === 'Bearer valid-token') {
-					next();
-				} else {
-					res.statusCode = 401;
-					res.end('Unauthorized');
-				}
-			};
+      expect(next).toHaveBeenCalled();
+      expect(res.end).not.toHaveBeenCalled();
+    });
 
-			const req = {
-				method: 'GET',
-				url: '/protected',
-				headers: {
-					'authorization': 'Bearer invalid-token'
-				}
-			} as IncomingMessage;
+    it("should respond with 401 if authorization is invalid", () => {
+      const authMiddleware: Middleware = (req, res, next) => {
+        const authHeader = req.headers["authorization"];
+        if (authHeader === "Bearer valid-token") {
+          next();
+        } else {
+          res.statusCode = 401;
+          res.end("Unauthorized");
+        }
+      };
 
-			const res = {
-				statusCode: 200,
-				end: jest.fn()
-			} as unknown as ServerResponse;
+      const req = {
+        method: "GET",
+        url: "/protected",
+        headers: {
+          authorization: "Bearer invalid-token",
+        },
+      } as IncomingMessage;
 
-			const next = jest.fn();
+      const res = {
+        statusCode: 200,
+        end: jest.fn(),
+      } as unknown as ServerResponse;
 
-			authMiddleware(req, res, next);
+      const next = jest.fn();
 
-			expect(next).not.toHaveBeenCalled();
-			expect(res.statusCode).toBe(401);
-			expect(res.end).toHaveBeenCalledWith('Unauthorized');
-		});
-	});
+      authMiddleware(req, res, next);
+
+      expect(next).not.toHaveBeenCalled();
+      expect(res.statusCode).toBe(401);
+      expect(res.end).toHaveBeenCalledWith("Unauthorized");
+    });
+  });
 });

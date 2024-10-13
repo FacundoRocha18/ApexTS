@@ -1,120 +1,123 @@
-import * as http from 'http';
-import { FastFramework } from '../../src/FastFramework';
-import { Handler } from '../../src/types';
-import { Router } from '../../src/Routing/Router';
-import { Parser } from '../../src/Parsing/Parser';
+import * as http from "http";
+import { FastFramework } from "../../src/FastFramework";
+import { Handler } from "../../src/types";
+import { Router } from "../../src/Routing/Router";
+import { Parser } from "../../src/Parsing/Parser";
 
-jest.mock('../../src/Routing/Router.ts')
-jest.mock('../../src/Parsing/Parser.ts')
+jest.mock("../../src/Routing/Router.ts");
+jest.mock("../../src/Parsing/Parser.ts");
 
-describe('Tests for FastFramework', () => {
-	let fastFrameworkInstance: FastFramework;
-	let routerMock: jest.Mocked<Router>
-	let parserMock: jest.Mocked<Parser>
-	let serverMock: { listen: jest.Mock }
-	let handler: Handler
+describe("Tests for FastFramework", () => {
+  let fastFrameworkInstance: FastFramework;
+  let routerMock: jest.Mocked<Router>;
+  let parserMock: jest.Mocked<Parser>;
+  let serverMock: { listen: jest.Mock };
+  let handler: Handler;
 
-	const path = '/users'
+  const path = "/users";
 
-	beforeEach(() => {
-		parserMock = new Parser() as jest.Mocked<Parser>
-		routerMock = new Router(parserMock) as jest.Mocked<Router>
+  beforeEach(() => {
+    parserMock = new Parser() as jest.Mocked<Parser>;
+    routerMock = new Router(parserMock) as jest.Mocked<Router>;
 
-		fastFrameworkInstance = new FastFramework(routerMock)
-		
-		serverMock = {
-			listen: jest.fn()
-		};
+    fastFrameworkInstance = new FastFramework(routerMock);
 
-		jest.spyOn(http, 'createServer').mockReturnValue(serverMock as unknown as http.Server)
-	})
+    serverMock = {
+      listen: jest.fn(),
+    };
 
-	it('Should be an instance of FastFramework', () => {
-		expect(fastFrameworkInstance).toBeInstanceOf(FastFramework)
-	})
+    jest
+      .spyOn(http, "createServer")
+      .mockReturnValue(serverMock as unknown as http.Server);
+  });
 
-	it('Should initialize with the provided Router', () => {
-		expect(fastFrameworkInstance['router']).toBe(routerMock)
-	})
+  it("Should be an instance of FastFramework", () => {
+    expect(fastFrameworkInstance).toBeInstanceOf(FastFramework);
+  });
 
-	it('Should have a get method', () => {
-		expect(fastFrameworkInstance.get).toBeDefined()
-	})
+  it("Should initialize with the provided Router", () => {
+    expect(fastFrameworkInstance["router"]).toBe(routerMock);
+  });
 
-	it('Should have a post method', () => {
-		expect(fastFrameworkInstance.post).toBeDefined()
-	})
+  it("Should have a get method", () => {
+    expect(fastFrameworkInstance.get).toBeDefined();
+  });
 
-	it('Should have a delete method', () => {
-		expect(fastFrameworkInstance.del).toBeDefined()
-	})
+  it("Should have a post method", () => {
+    expect(fastFrameworkInstance.post).toBeDefined();
+  });
 
-	it('Should have a put method', () => {
-		expect(fastFrameworkInstance.put).toBeDefined()
-	})
+  it("Should have a delete method", () => {
+    expect(fastFrameworkInstance.del).toBeDefined();
+  });
 
-	it('Should have a patch method', () => {
-		expect(fastFrameworkInstance.patch).toBeDefined()
-	})
+  it("Should have a put method", () => {
+    expect(fastFrameworkInstance.put).toBeDefined();
+  });
 
-	it('Should have a listen method', () => {
-		expect(fastFrameworkInstance.listen).toBeDefined()
-	})
+  it("Should have a patch method", () => {
+    expect(fastFrameworkInstance.patch).toBeDefined();
+  });
 
-	it('Should call router.get method with correct arguments', () => {
-		fastFrameworkInstance.get(path, handler)
+  it("Should have a listen method", () => {
+    expect(fastFrameworkInstance.listen).toBeDefined();
+  });
 
-		expect(routerMock.get).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.get).toHaveBeenCalledTimes(1)
-	})
+  it("Should call router.get method with correct arguments", () => {
+    fastFrameworkInstance.get(path, handler);
 
-	it('Should call router.post method with correct arguments', () => {
-		fastFrameworkInstance.post(path, handler)
+    expect(routerMock.get).toHaveBeenCalledWith(path, handler);
+    expect(routerMock.get).toHaveBeenCalledTimes(1);
+  });
 
-		expect(routerMock.post).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.post).toHaveBeenCalledTimes(1)
-	})
+  it("Should call router.post method with correct arguments", () => {
+    fastFrameworkInstance.post(path, handler);
 
-	it('Should call router.delete method with correct arguments', () => {
-		fastFrameworkInstance.del(path, handler)
+    expect(routerMock.post).toHaveBeenCalledWith(path, handler);
+    expect(routerMock.post).toHaveBeenCalledTimes(1);
+  });
 
-		expect(routerMock.del).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.del).toHaveBeenCalledTimes(1)
-	})
+  it("Should call router.delete method with correct arguments", () => {
+    fastFrameworkInstance.del(path, handler);
 
-	it('Should call router.put method with correct arguments', () => {
-		fastFrameworkInstance.put(path, handler)
+    expect(routerMock.del).toHaveBeenCalledWith(path, handler);
+    expect(routerMock.del).toHaveBeenCalledTimes(1);
+  });
 
-		expect(routerMock.put).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.put).toHaveBeenCalledTimes(1)
-	})
+  it("Should call router.put method with correct arguments", () => {
+    fastFrameworkInstance.put(path, handler);
 
-	it('Should call router.patch method with correct arguments', () => {
-		fastFrameworkInstance.patch(path, handler)
+    expect(routerMock.put).toHaveBeenCalledWith(path, handler);
+    expect(routerMock.put).toHaveBeenCalledTimes(1);
+  });
 
-		expect(routerMock.patch).toHaveBeenCalledWith(path, handler)
-		expect(routerMock.patch).toHaveBeenCalledTimes(1)
-	})
+  it("Should call router.patch method with correct arguments", () => {
+    fastFrameworkInstance.patch(path, handler);
 
-	it('Should create an HTTP server and listen on the specified port', () => {
-		const port = 3000
-		const reqMock = {}
-		const resMock = {}
+    expect(routerMock.patch).toHaveBeenCalledWith(path, handler);
+    expect(routerMock.patch).toHaveBeenCalledTimes(1);
+  });
 
-		fastFrameworkInstance.listen(port)
+  it("Should create an HTTP server and listen on the specified port", () => {
+    const port = 3000;
+    const reqMock = {};
+    const resMock = {};
 
-		expect(http.createServer).toHaveBeenCalledTimes(1)
-		
-		expect(serverMock.listen).toHaveBeenCalledWith(port)
+    fastFrameworkInstance.listen(port);
 
-		const createServerCallback = (http.createServer as jest.Mock).mock.calls[0][0]
+    expect(http.createServer).toHaveBeenCalledTimes(1);
 
-		createServerCallback(reqMock, resMock)
+    expect(serverMock.listen).toHaveBeenCalledWith(port);
 
-		expect(routerMock.handleRequest).toHaveBeenCalledWith(reqMock, resMock)
-	})
+    const createServerCallback = (http.createServer as jest.Mock).mock
+      .calls[0][0];
 
-	afterEach(() => {
+    createServerCallback(reqMock, resMock);
+
+    expect(routerMock.handleRequest).toHaveBeenCalledWith(reqMock, resMock);
+  });
+
+  afterEach(() => {
     jest.restoreAllMocks();
   });
-})
+});

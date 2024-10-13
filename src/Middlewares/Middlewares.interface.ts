@@ -1,6 +1,6 @@
-import { Request, Response } from '../types'
+import { Request, Response } from "../types";
 
 export interface IMiddlewares {
-	logger(req: Request, res: Response, next: () => void): void
-	auth(req: Request, res: Response, next: () => void): void
+  logger(req: Request, res: Response, next: () => void): void;
+  auth(req: Request, res: Response, next: () => void): void;
 }
