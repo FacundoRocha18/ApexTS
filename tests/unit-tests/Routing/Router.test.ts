@@ -172,13 +172,13 @@ describe("Tests for Router class", () => {
   it("should stop middleware chain if a middleware does not call next()", (done) => {
     const executionOrder: string[] = [];
 
-    const middleware1: Middleware = (req, res, next) => {
+    const middleware1: Middleware = (_req, res) => {
       executionOrder.push("middleware1");
       // Not calling next()
       res.end("Stopped by middleware1");
     };
 
-    const middleware2: Middleware = (req, res, next) => {
+    const middleware2: Middleware = (_req, _res, next) => {
       executionOrder.push("middleware2");
       next();
     };

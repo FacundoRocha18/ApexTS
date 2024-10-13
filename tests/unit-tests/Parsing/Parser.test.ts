@@ -1,9 +1,10 @@
 import { Parser } from "../../../src/Parsing/Parser";
 import { IncomingMessage, ServerResponse } from "http";
+import { Request } from '../../../src/types';
 
 describe("Parser - parseBody", () => {
   let parser: Parser;
-  let req: Partial<IncomingMessage>; // IncomingMessage mock
+  let req: Partial<Request>; // IncomingMessage mock
   let res: ServerResponse;
   let callback: jest.Mock;
 
@@ -26,7 +27,7 @@ describe("Parser - parseBody", () => {
   it("should parse the JSON body and then call the callback", (done) => {
     // Simulate the events 'data' & 'end'
     (req.on as jest.Mock).mockImplementation(
-      (event: string, listener: Function) => {
+      (event: string, listener: (Buffer) => void) => {
         if (event === "data") {
           // Simulate the passing of a data chunk
           process.nextTick(() => listener(Buffer.from('{"key":"value"}')));
@@ -39,7 +40,7 @@ describe("Parser - parseBody", () => {
 
     // Call the parseBody method
     parser.parseBody({
-      req: req as IncomingMessage,
+      req: req as Request,
       res,
       path: "/test",
       method: "POST",
@@ -57,7 +58,7 @@ describe("Parser - parseBody", () => {
   it("should handle the request body as text if it is not a valid JSON", (done) => {
     // Simulate an unvalid body
     (req.on as jest.Mock).mockImplementation(
-      (event: string, listener: Function) => {
+      (event: string, listener: (Buffer) => void) => {
         if (event === "data") {
           process.nextTick(() => listener(Buffer.from("invalid JSON")));
         } else if (event === "end") {

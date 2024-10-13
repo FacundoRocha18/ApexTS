@@ -1,6 +1,11 @@
-import { ParserParams, IParser } from "./Parser.interface";
+import { ParserParams } from '../types';
+import { IParser } from "./Parser.interface";
+import { Injectable } from '../Decorators/Injectable';
 
+@Injectable()
 export class Parser implements IParser {
+	constructor() {}
+
   public parseBody(params: ParserParams): void {
     const { req, res, path, method, callback } = params;
     let parsedBody: string = "";
@@ -14,6 +19,7 @@ export class Parser implements IParser {
         req.body = JSON.parse(parsedBody);
       } catch (e) {
         req.body = parsedBody;
+				console.log(e);
       }
       callback(req, res, path, method);
     });

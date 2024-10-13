@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./built",
-    "allowJs": true,
-    "target": "ES5"
+    "rootDir": "./src",                      
+    "outDir": "./dist",
+    "target": "ES6",                          
+    "module": "commonjs",                     
+    "experimentalDecorators": true,           
+    "emitDecoratorMetadata": true,            
+    "esModuleInterop": true,                  
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/**/*", "examples"]
+  "include": ["src", "src/examples"]
 }

@@ -1,5 +1,5 @@
 {
-  "execMap": {
-    "ts": "node -r sucrase/register"
-  }
+  "watch": ["src"],
+  "ext": "ts",
+  "exec": "ts-node src/examples/index.ts"
 }

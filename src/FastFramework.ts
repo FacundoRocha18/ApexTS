@@ -1,16 +1,15 @@
-import http = require("node:http");
+import http from "http";
 import { Handler } from "./types";
 import { IFastFramework } from "./FastFramework.interface";
 import { IRouter } from "./Routing/Router.interface";
+import { Injectable } from './Decorators/Injectable';
 
+@Injectable()
 export class FastFramework implements IFastFramework {
-  private router: IRouter;
-
-  constructor(router: IRouter) {
-    this.router = router;
-  }
+  constructor(private router: IRouter) {}
 
   public get(path: string, handler: Handler): void {
+		console.log(this.router);
     this.router.get(path, handler);
   }
 
@@ -35,7 +34,8 @@ export class FastFramework implements IFastFramework {
       this.router.handleRequest(req, res),
     );
 
-    server.listen(port);
-    console.log(`Server running on port: ${port}`);
+    server.listen(port, () => {
+			console.log(`Server running on port: ${port}`);
+		});
   }
 }

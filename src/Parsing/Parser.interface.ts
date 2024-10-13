@@ -1,12 +1,4 @@
-import { Request, Response } from "../types";
-
-export interface ParserParams {
-  req: Request;
-  res: Response;
-  path: string;
-  method: string;
-  callback: (req: Request, res: Response, path: string, method: string) => void;
-}
+import { ParserParams } from '../types';
 
 export interface IParser {
   parseBody(params: ParserParams): void;

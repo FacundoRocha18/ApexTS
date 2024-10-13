@@ -10,15 +10,14 @@ import {
 } from "../types";
 import { IRouter } from "./Router.interface";
 import { IParser } from "../Parsing/Parser.interface";
+import { Injectable } from '../Decorators/Injectable';
 
+@Injectable()
 export class Router implements IRouter {
-  private parser: IParser;
   private routes: Routes = {};
   private middlewares: Middleware[] = [];
 
-  constructor(parser: IParser) {
-    this.parser = parser;
-  }
+  constructor(private parser: IParser) {}
 
   public use(middleware: Middleware): void {
     this.middlewares.push(middleware);
