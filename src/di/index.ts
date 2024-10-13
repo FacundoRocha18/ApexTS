@@ -29,6 +29,6 @@ container.register<IMiddlewares>(
   Lifecycle.Singleton,
 );
 
-// console.log('[Container]', container);
+console.log('[Container]', container);
 
 export { container };
