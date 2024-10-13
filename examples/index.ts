@@ -4,12 +4,15 @@ import { Router } from '../src/Routing/Router'
 import { Parser } from '../src/Parsing/Parser'
 import { Request, Response } from '../src/types'
 import { Middlewares } from '../src/Middlewares/Middlewares'
+import { IMiddlewares } from '../src/Middlewares/Middlewares.interface'
+import { IRouter } from '../src/Routing/Router.interface'
+import { IParser } from '../src/Parsing/Parser.interface'
 
 const port = 8000
 
-const parser = new Parser()
-const middlewares = new Middlewares()
-const router = new Router(parser)
+const parser: IParser = new Parser()
+const router: IRouter = new Router(parser)
+const middlewares: IMiddlewares = new Middlewares()
 const app: IFastFramework = new FastFramework(router)
 
 router.use(middlewares.logger)

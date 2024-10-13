@@ -1,14 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
-declare module 'http' {
-	interface IncomingMessage {
-		body?: any;
-		params?: Params
-		query?: { [key: string]: string | string[] };
-  }
+export interface Request extends IncomingMessage {
+	body?: any;
+	params?: Params
+	query?: { [key: string]: string | string[] };
 }
-
-export type Request = IncomingMessage
 
 export type Response = ServerResponse
 

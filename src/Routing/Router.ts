@@ -136,12 +136,13 @@ export class Router implements IRouter {
 			/* 
 			check possible refactor of this code
 			*/
-			if (registeredPart.startsWith(':')) {
-				const paramName = registeredPart.slice(1)
-				params[paramName] = requestPart
-			} else if (registeredPart !== requestPart) {
+			
+			if (!registeredPart.startsWith(':') && registeredPart !== requestPart) {
 				return null
 			}
+ 
+			const paramName = registeredPart.slice(1)
+			params[paramName] = requestPart
 		}
 
 		return params
