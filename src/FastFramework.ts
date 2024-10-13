@@ -2,14 +2,14 @@ import http from "http";
 import { Handler } from "./types";
 import { IFastFramework } from "./FastFramework.interface";
 import { IRouter } from "./Routing/Router.interface";
-import { Injectable } from './Decorators/Injectable';
+import { Injectable } from "./Decorators/Injectable";
 
 @Injectable()
 export class FastFramework implements IFastFramework {
   constructor(private router: IRouter) {}
 
   public get(path: string, handler: Handler): void {
-		console.log(this.router);
+    console.log(this.router);
     this.router.get(path, handler);
   }
 
@@ -35,7 +35,7 @@ export class FastFramework implements IFastFramework {
     );
 
     server.listen(port, () => {
-			console.log(`Server running on port: ${port}`);
-		});
+      console.log(`Server running on port: ${port}`);
+    });
   }
 }

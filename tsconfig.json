@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",                      
+    "rootDir": "./src",
     "outDir": "./dist",
-    "target": "ES6",                          
-    "module": "commonjs",                     
-    "experimentalDecorators": true,           
-    "emitDecoratorMetadata": true,            
-    "esModuleInterop": true,                  
+    "target": "ES6",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src", "src/examples"]

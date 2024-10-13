@@ -1,6 +1,6 @@
 import { Parser } from "../../../src/Parsing/Parser";
 import { IncomingMessage, ServerResponse } from "http";
-import { Request } from '../../../src/types';
+import { Request } from "../../../src/types";
 
 describe("Parser - parseBody", () => {
   let parser: Parser;

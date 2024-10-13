@@ -1,11 +1,11 @@
-import 'reflect-metadata'; // Import this to use the reflect-metadata package
+import "reflect-metadata"; // Import this to use the reflect-metadata package
 
 import { IFastFramework } from "../FastFramework.interface";
 import { Request, Response } from "../types";
 import { IMiddlewares } from "../Middlewares/Middlewares.interface";
 import { IRouter } from "../Routing/Router.interface";
-import { container } from '../di';
-import { IParser } from '../Parsing/Parser.interface';
+import { container } from "../di";
+import { IParser } from "../Parsing/Parser.interface";
 
 const PORT = 8000;
 
@@ -13,9 +13,8 @@ const parser: IParser = container.resolve<IParser>("Parser");
 
 const router: IRouter = container.resolve<IRouter>("Router");
 
-const fastFramework: IFastFramework = container.resolve<IFastFramework>("FastFramework");
-
-
+const fastFramework: IFastFramework =
+  container.resolve<IFastFramework>("FastFramework");
 
 fastFramework.get("/products/:category/:id", (req: Request, res: Response) => {
   const params = req.params;

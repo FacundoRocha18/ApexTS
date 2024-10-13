@@ -10,7 +10,7 @@ import {
 } from "../types";
 import { IRouter } from "./Router.interface";
 import { IParser } from "../Parsing/Parser.interface";
-import { Injectable } from '../Decorators/Injectable';
+import { Injectable } from "../Decorators/Injectable";
 
 @Injectable()
 export class Router implements IRouter {
