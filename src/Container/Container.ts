@@ -32,13 +32,16 @@ export class Container implements IContainer {
     // If target is null, throw an error
     console.log("[Target]", target);
     if (!target) {
-      throw new Error(`Service '${name}' not registered in the container.`);
+			console.log(name);
+			console.log("[Services]", this.services);
+      throw new Error(`Service ${name} not registered in the container.`);
     }
 
     const isInjectable = Reflect.getMetadata(
       "isInjectable",
       target.constructor,
     );
+
     if (!isInjectable) {
       throw new Error(`Service '${name}' is not injectable.`);
     }
