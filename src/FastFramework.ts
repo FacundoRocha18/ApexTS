@@ -1,7 +1,7 @@
 import http from "http";
 import { Handler } from "./types";
-import { IFastFramework } from "./FastFramework.interface";
-import { IRouter } from "./Routing/Router.interface";
+import { IFastFramework } from "./Interfaces/FastFramework.interface";
+import { IRouter } from "./Interfaces/Router.interface";
 import { Injectable } from "./Decorators/Injectable";
 
 @Injectable()

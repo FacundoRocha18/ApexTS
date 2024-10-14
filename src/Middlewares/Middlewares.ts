@@ -1,6 +1,6 @@
 import { Injectable } from "../Decorators/Injectable";
 import { Request, Response } from "../types";
-import { IMiddlewares } from "./Middlewares.interface";
+import { IMiddlewares } from "../Interfaces/Middlewares.interface";
 
 @Injectable()
 export class Middlewares implements IMiddlewares {

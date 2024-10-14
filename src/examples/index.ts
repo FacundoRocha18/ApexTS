@@ -1,15 +1,18 @@
 import "reflect-metadata"; // Import this to use the reflect-metadata package
 
-import { IFastFramework } from "../FastFramework.interface";
+import { IFastFramework } from "../Interfaces/FastFramework.interface";
 import { Request, Response } from "../types";
-import { IMiddlewares } from "../Middlewares/Middlewares.interface";
-import { IRouter } from "../Routing/Router.interface";
-import { container } from "../di";
-import { IParser } from "../Parsing/Parser.interface";
+import { IMiddlewares } from "../Interfaces/Middlewares.interface";
+import { IRouter } from "../Interfaces/Router.interface";
+import { container } from "../Container";
+import { IParser } from "../Interfaces/Parser.interface";
 
 const PORT = 8000;
 
 const parser: IParser = container.resolve<IParser>("Parser");
+
+const middlewares: IMiddlewares =
+  container.resolve<IMiddlewares>("Middlewares");
 
 const router: IRouter = container.resolve<IRouter>("Router");
 

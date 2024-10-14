@@ -1,5 +1,5 @@
 import { ParserParams } from "../types";
-import { IParser } from "./Parser.interface";
+import { IParser } from "../Interfaces/Parser.interface";
 import { Injectable } from "../Decorators/Injectable";
 
 @Injectable()

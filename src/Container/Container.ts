@@ -1,7 +1,7 @@
 import "reflect-metadata"; // Import this to use the reflect-metadata package
 
 import { Constructor, Lifecycle, ServiceOptions } from "../types";
-import { IContainer } from "../interfaces/Container.interface";
+import { IContainer } from "../Interfaces/Container.interface";
 
 export class Container implements IContainer {
   private services = new Map<string, ServiceOptions<any>>();
@@ -53,13 +53,13 @@ export class Container implements IContainer {
       Reflect.getMetadata("design:paramtypes", target.constructor) || [];
     const injections: any[] = [];
 
-    for (const token of tokens) {
+    for (let i = 0; i < tokens.length; i++) {
       // Check for invalid tokens and throw an error
-      if (typeof token !== "function") {
+      if (typeof tokens[i] !== "function") {
         throw new Error("Invalid token");
       }
 
-      injections.push(this.resolve(token.name));
+      injections.push(this.resolve(tokens[i].name));
     }
 
     const instance = new target.constructor(...injections);

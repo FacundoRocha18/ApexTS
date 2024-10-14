@@ -8,8 +8,8 @@ import {
   Response,
   Middleware,
 } from "../types";
-import { IRouter } from "./Router.interface";
-import { IParser } from "../Parsing/Parser.interface";
+import { IRouter } from "../Interfaces/Router.interface";
+import { IParser } from "../Interfaces/Parser.interface";
 import { Injectable } from "../Decorators/Injectable";
 
 @Injectable()
