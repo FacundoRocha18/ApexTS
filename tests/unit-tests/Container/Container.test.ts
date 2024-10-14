@@ -66,7 +66,7 @@ describe("Container", () => {
 
   it("should throw an error if service is not registered", () => {
     expect(() => container.resolve("NonExistentService")).toThrow(
-      "Service 'NonExistentService' not registered in the container.",
+      "Service NonExistentService not registered in the container.",
     );
   });
 
