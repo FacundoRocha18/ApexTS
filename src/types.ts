@@ -29,4 +29,3 @@ export type Middleware = (
   res: Response,
   next: () => void,
 ) => void | Promise<void>;
-
