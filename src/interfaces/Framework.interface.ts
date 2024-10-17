@@ -1,7 +1,6 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { Handler } from "./types";
+import { Handler } from "../types";
 
-export interface IFastFramework {
+export interface IFramework {
   get(path: string, handler: Handler): void;
   post(path: string, handler: Handler): void;
   put(path: string, handler: Handler): void;

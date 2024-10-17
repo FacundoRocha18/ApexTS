@@ -1,15 +1,19 @@
 import http from "http";
 import { Handler } from "./types";
-import { IFastFramework } from "./Interfaces/FastFramework.interface";
+import { IFramework } from "./Interfaces/Framework.interface";
 import { IRouter } from "./Interfaces/Router.interface";
 import { Injectable } from "./Decorators/Injectable";
 
 @Injectable()
-export class FastFramework implements IFastFramework {
-  constructor(private router: IRouter) {}
+export class Framework implements IFramework {
+  private router: IRouter
+
+	constructor(router: IRouter) {
+		this.router = router;
+    console.log("Router received:", router);
+  }
 
   public get(path: string, handler: Handler): void {
-    console.log(this.router);
     this.router.get(path, handler);
   }
 

@@ -8,3 +8,8 @@ export interface IContainer {
   ): void;
   resolve<T>(name: string): T;
 }
+
+export interface INewContainer {
+  init(deps: any[]): INewContainer;
+  get<T extends new (...args: any[]) => any>(serviceClass: T): InstanceType<T>;
+}

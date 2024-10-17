@@ -9,15 +9,19 @@ import {
   Middleware,
 } from "../types";
 import { IRouter } from "../Interfaces/Router.interface";
-import { IParser } from "../Interfaces/Parser.interface";
+import { IParserService } from "../Interfaces/ParserService.interface";
 import { Injectable } from "../Decorators/Injectable";
 
 @Injectable()
 export class Router implements IRouter {
   private routes: Routes = {};
   private middlewares: Middleware[] = [];
+	private parserService: IParserService;
 
-  constructor(private parser: IParser) {}
+  constructor(parserService: IParserService) {
+		this.parserService = parserService;
+    console.log("Parser received:", this.parserService);
+	}
 
   public use(middleware: Middleware): void {
     this.middlewares.push(middleware);
@@ -85,7 +89,7 @@ export class Router implements IRouter {
       return null;
     }
 
-    this.parser.parseBody({
+    this.parserService.parse({
       req,
       res,
       path,
@@ -106,7 +110,7 @@ export class Router implements IRouter {
       this.routes[path] = {};
     }
 
-    // We assign the handler function to the method tuple
+    // We assign the handler function to the method
     this.routes[path][method] = handler;
   }
 
@@ -146,10 +150,6 @@ export class Router implements IRouter {
     for (let i = 0; i < registeredParts.length; i++) {
       const registeredPart = registeredParts[i];
       const requestPart = requestParts[i];
-
-      /* 
-			check possible refactor of this code
-			*/
 
       if (!registeredPart.startsWith(":") && registeredPart !== requestPart) {
         return null;

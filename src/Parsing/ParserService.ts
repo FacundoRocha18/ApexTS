@@ -1,12 +1,14 @@
 import { ParserParams } from "../types";
-import { IParser } from "../Interfaces/Parser.interface";
+import { IParserService } from "../Interfaces/ParserService.interface";
 import { Injectable } from "../Decorators/Injectable";
 
 @Injectable()
-export class Parser implements IParser {
-  constructor() {}
+export class ParserService implements IParserService {
+	constructor() {
+		console.log('ParserService created: ', this);
+	}
 
-  public parseBody(params: ParserParams): void {
+  public parse(params: ParserParams): void {
     const { req, res, path, method, callback } = params;
     let parsedBody: string = "";
 

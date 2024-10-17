@@ -1,90 +1,96 @@
 import "reflect-metadata"; // Import this to use the reflect-metadata package
 
-import { IFastFramework } from "../Interfaces/FastFramework.interface";
+import { IFramework } from "../Interfaces/Framework.interface";
 import { Request, Response } from "../types";
 import { IMiddlewares } from "../Interfaces/Middlewares.interface";
 import { IRouter } from "../Interfaces/Router.interface";
-import { container } from "../Container";
-import { IParser } from "../Interfaces/Parser.interface";
+import { container } from "../IoC/Setup";
+import { IParserService } from "../Interfaces/ParserService.interface";
+import { Framework } from "../Framework";
+import { NewContainer } from '../IoC/Container';
+import { ParserService } from '../Parsing/ParserService';
+import { Router } from '../Routing/Router';
+import { Middlewares } from '../Middlewares/Middlewares';
 
 const PORT = 8000;
 
-const parser: IParser = container.resolve<IParser>("Parser");
+const app = new NewContainer().init([
+	ParserService,
+	Router,
+	Middlewares,
+	Framework
+]);
 
-const middlewares: IMiddlewares =
-  container.resolve<IMiddlewares>("Middlewares");
+const parser: IParserService = app.get(ParserService);
+const middlewares: IMiddlewares = app.get(Middlewares);
+const router: IRouter = app.get(Router);
+const framework: IFramework = app.get(Framework);
 
-const router: IRouter = container.resolve<IRouter>("Router");
+router.use(middlewares.logger);
+router.use(middlewares.auth);
 
-const fastFramework: IFastFramework =
-	container.resolve<IFastFramework>("FastFramework");
+framework.get("/products/:category/:id", (req: Request, res: Response) => {
+  const params = req.params;
+  const query = req.query;
+  const { id, category } = params;
 
-const middlewares: IMiddlewares = container.resolve<IMiddlewares>("Middlewares");
+  const response = {
+    productId: id,
+    productCategory: category,
+    query,
+  };
 
-
-
-fastFramework.get("/products/:category/:id", (req: Request, res: Response) => {
-	const params = req.params;
-	const query = req.query;
-	const { id, category } = params;
-
-	const response = {
-		productId: id,
-		productCategory: category,
-		query,
-	};
-
-	res.setHeader("Content-type", "application/json");
-	res.statusCode = 200;
-	res.end(JSON.stringify(response));
+  res.setHeader("Content-type", "application/json");
+  res.statusCode = 200;
+  res.end(JSON.stringify(response));
 });
 
-fastFramework.get("/users/:id", (req: Request, res: Response) => {
-	const params = req.params;
-	const { name } = req.query;
-	const userId = params?.id;
+framework.get("/users/:id", (req: Request, res: Response) => {
+  const params = req.params;
+  const { name } = req.query;
+  const userId = params?.id;
 
-	res.statusCode = 200;
-	res.end(`User ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
+  res.statusCode = 200;
+  res.end(`User ID: ${userId}, Query Params: ${JSON.stringify(name)}`);
 });
 
-fastFramework.get("/get-test", (req: Request, res: Response) => {
-	const { query } = req.query;
+framework.get("/get-test", (req: Request, res: Response) => {
+  const { query } = req.query;
 
-	if (query === "ping") {
-		res.end(`Query: ${query} Response: pong`);
-		return;
-	}
+  if (query === "ping") {
+    res.end(`Query: ${query} Response: pong`);
+    return;
+  }
 
-	res.statusCode = 200;
-	res.end("GET endpoint working");
+  res.statusCode = 200;
+  res.end("GET endpoint working");
 });
 
-fastFramework.post("/post-test", (req: Request, res: Response) => {
-	const { data } = req.body || "data";
+framework.post("/post-test", (req: Request, res: Response) => {
+  const { data } = req.body || "data";
 
-	if (data === "ping") {
-		res.end("Pong");
-		return;
-	}
+  if (data === "ping") {
+    res.end("Pong");
+    return;
+  }
 
-	res.statusCode = 201;
-	res.end(`Data received ${data}`);
+  res.statusCode = 201;
+  res.end(`Data received ${data}`);
 });
 
-fastFramework.put("/put-test", (req: Request, res: Response) => {
-	res.statusCode = 201;
-	res.end("PUT endpoint working");
+framework.put("/put-test", (req: Request, res: Response) => {
+  res.statusCode = 201;
+  res.end("PUT endpoint working");
 });
 
-fastFramework.del("/delete-test", (req: Request, res: Response) => {
-	res.statusCode = 201;
-	res.end("DELETE endpoint working");
+framework.del("/delete-test", (req: Request, res: Response) => {
+  res.statusCode = 201;
+  res.end("DELETE endpoint working");
 });
 
-fastFramework.patch("/patch-test", (req: Request, res: Response) => {
-	res.statusCode = 201;
-	res.end("PATCH endpoint working");
+framework.patch("/patch-test", (req: Request, res: Response) => {
+  res.statusCode = 201;
+  res.end("PATCH endpoint working");
 });
 
-fastFramework.listen(PORT);
+framework.listen(PORT);
