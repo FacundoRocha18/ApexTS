@@ -30,15 +30,3 @@ export type Middleware = (
   next: () => void,
 ) => void | Promise<void>;
 
-export type Constructor<T> = new (...args: any[]) => T;
-
-export enum Lifecycle {
-  Singleton,
-  Transient,
-}
-
-export interface ServiceOptions<T> {
-  constructor: Constructor<T>;
-  lifecycle: Lifecycle;
-  instance?: T;
-}

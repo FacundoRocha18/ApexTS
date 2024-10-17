@@ -1,15 +1,15 @@
 import { Router } from "../../../src/Routing/Router";
 import { ServerResponse } from "http";
 import { HttpMethods } from "../../../src/Http/HttpMethods";
-import { IParser } from "../../../src/Parsing/Parser.interface";
-import { Parser } from "../../../src/Parsing/Parser";
+import { ParserService } from "../../../src/Parsing/ParserService";
 import { Middleware, Request, Response } from "../../../src/types";
+import { IParserService } from '../../../src/interfaces/ParserService.interface';
 
-jest.mock("../../../src/Parsing/Parser.ts");
+jest.mock("../../../src/Parsing/ParserService.ts");
 
 describe("Tests for Router class", () => {
   let routerInstance: Router;
-  let parserMock: jest.Mocked<IParser>;
+  let parserMock: jest.Mocked<IParserService>;
   let req: Partial<Request>;
   let res: ServerResponse;
 
@@ -17,7 +17,7 @@ describe("Tests for Router class", () => {
   const path = "/test";
 
   beforeEach(() => {
-    parserMock = new Parser() as jest.Mocked<Parser>;
+    parserMock = new ParserService() as jest.Mocked<IParserService>;
     routerInstance = new Router(parserMock);
 
     req = {

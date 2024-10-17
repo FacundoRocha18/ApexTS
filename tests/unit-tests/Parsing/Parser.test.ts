@@ -1,15 +1,15 @@
-import { Parser } from "../../../src/Parsing/Parser";
+import { ParserService } from "../../../src/Parsing/ParserService";
 import { IncomingMessage, ServerResponse } from "http";
 import { Request } from "../../../src/types";
 
 describe("Parser - parseBody", () => {
-  let parser: Parser;
+  let parser: ParserService;
   let req: Partial<Request>; // IncomingMessage mock
   let res: ServerResponse;
   let callback: jest.Mock;
 
   beforeEach(() => {
-    parser = new Parser();
+    parser = new ParserService();
 
     // Define req object manual mock
     req = {
@@ -39,7 +39,7 @@ describe("Parser - parseBody", () => {
     );
 
     // Call the parseBody method
-    parser.parseBody({
+    parser.parse({
       req: req as Request,
       res,
       path: "/test",
@@ -68,7 +68,7 @@ describe("Parser - parseBody", () => {
     );
 
     // Call the parseBody method
-    parser.parseBody({
+    parser.parse({
       req: req as IncomingMessage,
       res,
       path: "/test",

@@ -1,96 +1,93 @@
 import * as http from "http";
 import { Framework } from "../../src/Framework";
-import { Handler, Lifecycle } from "../../src/types";
-import { IContainer } from "../../src/Interfaces/Container.interface";
-import { Container } from "../../src/Container/Container";
-import { IFramework } from "../../src/Interfaces/Framework.interface";
-import { IRouter } from "../../src/Interfaces/Router.interface";
-import { IParserService } from "../../src/Interfaces/ParserService.interface";
-import { Injectable } from "../../src/Decorators/Injectable";
+import { Handler } from "../../src/types";
+import { IFramework } from "../../src/interfaces/Framework.interface";
+import { IRouter } from "../../src/interfaces/Router.interface";
+import { IParserService } from "../../src/interfaces/ParserService.interface";
 
 jest.mock("../../src/Routing/Router.ts");
-jest.mock("../../src/Parsing/Parser.ts");
+jest.mock("../../src/Parsing/ParserService.ts");
+jest.mock("http");
 
 describe("Tests for FastFramework", () => {
-  let container: IContainer;
-  let fastFrameworkInstance: IFramework;
-  let serverMock: { listen: jest.Mock };
-  let handler: Handler;
+	let fastFrameworkInstance: IFramework;
+	let serverMock: { listen: jest.Mock };
+	let parserServiceMock: IParserService;
+	let routerMock: IRouter;
+	let handler: Handler;
 
-  const path = "/users";
+	const path = "/users";
 
-  @Injectable()
-  class parserMock implements IParserService {
-    parse = jest.fn();
-  }
+	class Parser implements IParserService {
+		parse = jest.fn();
+	}
 
-  @Injectable()
-  class routerMock implements IRouter {
-    public use = jest.fn();
-    public get = jest.fn();
-    public post = jest.fn();
-    public del = jest.fn();
-    public put = jest.fn();
-    public patch = jest.fn();
-    public handleRequest = jest.fn();
-  }
+	class Router implements IRouter {
+		private parserService: IParserService;
 
-  beforeEach(() => {
-    container = new Container();
+		constructor(parserService: IParserService) {
+			this.parserService = parserService;
+		}
 
-    container.register<IParserService>("Parser", parserMock, Lifecycle.Singleton);
-    container.register<IRouter>("Router", routerMock, Lifecycle.Singleton);
-    container.register<IFramework>("Framework", Framework, Lifecycle.Singleton);
+		public use = jest.fn();
+		public get = jest.fn();
+		public post = jest.fn();
+		public del = jest.fn();
+		public put = jest.fn();
+		public patch = jest.fn();
+		public handleRequest = jest.fn();
+	}
 
-    container.resolve<IParserService>("Parser");
-    container.resolve<IRouter>("Router");
-    fastFrameworkInstance = container.resolve<IFramework>("Framework");
+	beforeEach(() => {
+		parserServiceMock = new Parser();
+		routerMock = new Router(parserServiceMock);
+		fastFrameworkInstance = new Framework(routerMock);
 
-    serverMock = {
-      listen: jest.fn(),
-    };
+		serverMock = {
+			listen: jest.fn(),
+		};
 
-    jest
-      .spyOn(http, "createServer")
-      .mockReturnValue(serverMock as unknown as http.Server);
-  });
+		jest
+			.spyOn(http, "createServer")
+			.mockReturnValue(serverMock as unknown as http.Server);
+	});
 
-  it("Should be an instance of FastFramework", () => {
-    expect(fastFrameworkInstance).toBeInstanceOf(Framework);
-  });
+	it("Should be an instance of FastFramework", () => {
+		expect(fastFrameworkInstance).toBeInstanceOf(Framework);
+	});
 
-  it("Should initialize with the provided Router", () => {
-    expect(fastFrameworkInstance["router"]).toBe(routerMock);
-  });
+	it("Should initialize with the provided Router", () => {
+		expect(fastFrameworkInstance["router"]).toBe(routerMock);
+	});
 
-  it("Should have a get method", () => {
-    expect(fastFrameworkInstance.get).toBeDefined();
-  });
+	it("Should have a get method", () => {
+		expect(fastFrameworkInstance.get).toBeDefined();
+	});
 
-  it("Should have a post method", () => {
-    expect(fastFrameworkInstance.post).toBeDefined();
-  });
+	it("Should have a post method", () => {
+		expect(fastFrameworkInstance.post).toBeDefined();
+	});
 
-  it("Should have a delete method", () => {
-    expect(fastFrameworkInstance.del).toBeDefined();
-  });
+	it("Should have a delete method", () => {
+		expect(fastFrameworkInstance.del).toBeDefined();
+	});
 
-  it("Should have a put method", () => {
-    expect(fastFrameworkInstance.put).toBeDefined();
-  });
+	it("Should have a put method", () => {
+		expect(fastFrameworkInstance.put).toBeDefined();
+	});
 
-  it("Should have a patch method", () => {
-    expect(fastFrameworkInstance.patch).toBeDefined();
-  });
+	it("Should have a patch method", () => {
+		expect(fastFrameworkInstance.patch).toBeDefined();
+	});
 
-  it("Should have a listen method", () => {
-    expect(fastFrameworkInstance.listen).toBeDefined();
-  });
+	it("Should have a listen method", () => {
+		expect(fastFrameworkInstance.listen).toBeDefined();
+	});
 
-  /* it("Should call router.get method with correct arguments", () => {
+	it("Should call router.get method with correct arguments", () => {
 		fastFrameworkInstance.get(path, handler);
 
-		expect(routerMock.).toHaveBeenCalledWith(path, handler);
+		expect(routerMock.get).toHaveBeenCalledWith(path, handler);
 		expect(routerMock.get).toHaveBeenCalledTimes(1);
 	});
 
@@ -131,7 +128,7 @@ describe("Tests for FastFramework", () => {
 
 		expect(http.createServer).toHaveBeenCalledTimes(1);
 
-		expect(serverMock.listen).toHaveBeenCalledWith(port);
+		expect(serverMock.listen).toHaveBeenCalledWith(port, expect.any(Function));
 
 		const createServerCallback = (http.createServer as jest.Mock).mock
 			.calls[0][0];
@@ -143,5 +140,5 @@ describe("Tests for FastFramework", () => {
 
 	afterEach(() => {
 		jest.restoreAllMocks();
-	}); */
+	});
 });

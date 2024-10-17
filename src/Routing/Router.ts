@@ -1,170 +1,167 @@
 import { parse, UrlWithParsedQuery } from "url";
 import { HttpMethods } from "../Http/HttpMethods";
 import {
-  Params,
-  Routes,
-  Handler,
-  Request,
-  Response,
-  Middleware,
+	Params,
+	Routes,
+	Handler,
+	Request,
+	Response,
+	Middleware,
 } from "../types";
-import { IRouter } from "../Interfaces/Router.interface";
-import { IParserService } from "../Interfaces/ParserService.interface";
-import { Injectable } from "../Decorators/Injectable";
+import { IRouter } from "../interfaces/Router.interface";
+import { IParserService } from "../interfaces/ParserService.interface";
 
-@Injectable()
 export class Router implements IRouter {
-  private routes: Routes = {};
-  private middlewares: Middleware[] = [];
+	private routes: Routes = {};
+	private middlewares: Middleware[] = [];
 	private parserService: IParserService;
 
-  constructor(parserService: IParserService) {
+	constructor(parserService: IParserService) {
 		this.parserService = parserService;
-    console.log("Parser received:", this.parserService);
 	}
 
-  public use(middleware: Middleware): void {
-    this.middlewares.push(middleware);
-  }
+	public use(middleware: Middleware): void {
+		this.middlewares.push(middleware);
+	}
 
-  public get(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.GET, path, handler);
-  }
+	public get(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.GET, path, handler);
+	}
 
-  public post(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.POST, path, handler);
-  }
+	public post(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.POST, path, handler);
+	}
 
-  public del(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.DELETE, path, handler);
-  }
+	public del(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.DELETE, path, handler);
+	}
 
-  public put(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.PUT, path, handler);
-  }
+	public put(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.PUT, path, handler);
+	}
 
-  public patch(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.PATCH, path, handler);
-  }
+	public patch(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.PATCH, path, handler);
+	}
 
-  public handleRequest(req: Request, res: Response): void {
-    const parsedUrl: UrlWithParsedQuery = parse(req.url || "/", true);
-    const path: string = parsedUrl.pathname || "/";
-    const method: string = req.method || "GET";
+	public handleRequest(req: Request, res: Response): void {
+		const parsedUrl: UrlWithParsedQuery = parse(req.url || "/", true);
+		const path: string = parsedUrl.pathname || "/";
+		const method: string = req.method || "GET";
 
-    req.query = parsedUrl.query;
+		req.query = parsedUrl.query;
 
-    this.executeMiddlewares(0, req, res, path, method);
-  }
+		this.executeMiddlewares(0, req, res, path, method);
+	}
 
-  private executeMiddlewares(
-    index: number,
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): void {
-    if (index < this.middlewares.length) {
-      const middleware = this.middlewares[index];
-      try {
-        middleware(req, res, () =>
-          this.executeMiddlewares(index + 1, req, res, path, method),
-        );
-      } catch (error) {
-        this.handleMiddlewareError(error, req, res);
-      }
-    } else {
-      this.processRoute(req, res, path, method);
-    }
-  }
+	private executeMiddlewares(
+		index: number,
+		req: Request,
+		res: Response,
+		path: string,
+		method: string,
+	): void {
+		if (index < this.middlewares.length) {
+			const middleware = this.middlewares[index];
+			try {
+				middleware(req, res, () =>
+					this.executeMiddlewares(index + 1, req, res, path, method),
+				);
+			} catch (error) {
+				this.handleMiddlewareError(error, req, res);
+			}
+		} else {
+			this.processRoute(req, res, path, method);
+		}
+	}
 
-  private processRoute(
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): void {
-    if (method !== "POST" && method !== "PUT") {
-      this.resolveRoute(req, res, path, method);
-      return null;
-    }
+	private processRoute(
+		req: Request,
+		res: Response,
+		path: string,
+		method: string,
+	): void {
+		if (method !== "POST" && method !== "PUT") {
+			this.resolveRoute(req, res, path, method);
+			return null;
+		}
 
-    this.parserService.parse({
-      req,
-      res,
-      path,
-      method,
-      callback: () => this.resolveRoute(req, res, path, method),
-    });
-  }
+		this.parserService.parse({
+			req,
+			res,
+			path,
+			method,
+			callback: () => this.resolveRoute(req, res, path, method),
+		});
+	}
 
-  private addRoute(method: string, path: string, handler: Handler): void {
-    // If the path is empty, throw an error
-    if (!path || path === "") {
-      throw new Error("Path must be a non-empty string");
-    }
+	private addRoute(method: string, path: string, handler: Handler): void {
+		// If the path is empty, throw an error
+		if (!path || path === "") {
+			throw new Error("Path must be a non-empty string");
+		}
 
-    // If the path does not exist
-    if (!this.routes[path]) {
-      // we set path to an empty object
-      this.routes[path] = {};
-    }
+		// If the path does not exist
+		if (!this.routes[path]) {
+			// we set path to an empty object
+			this.routes[path] = {};
+		}
 
-    // We assign the handler function to the method
-    this.routes[path][method] = handler;
-  }
+		// We assign the handler function to the method
+		this.routes[path][method] = handler;
+	}
 
-  private resolveRoute(
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): string {
-    for (const registeredPath in this.routes) {
-      const handler: Handler = this.routes[registeredPath]?.[method];
+	private resolveRoute(
+		req: Request,
+		res: Response,
+		path: string,
+		method: string,
+	): string {
+		for (const registeredPath in this.routes) {
+			const handler: Handler = this.routes[registeredPath]?.[method];
 
-      const params = this.matchRoute(path, registeredPath);
+			const params = this.matchRoute(path, registeredPath);
 
-      if (!params) {
-        continue;
-      }
+			if (!params) {
+				continue;
+			}
 
-      req.params = params;
-      handler(req, res);
-      return "Handler called";
-    }
+			req.params = params;
+			handler(req, res);
+			return "Handler called";
+		}
 
-    return res.statusCode + res.statusMessage;
-  }
+		return res.statusCode + res.statusMessage;
+	}
 
-  private matchRoute(path: string, registeredPath: string): Params | null {
-    const registeredParts: string[] = registeredPath.split("/");
-    const requestParts: string[] = path.split("/");
+	private matchRoute(path: string, registeredPath: string): Params | null {
+		const registeredParts: string[] = registeredPath.split("/");
+		const requestParts: string[] = path.split("/");
 
-    if (registeredParts.length !== requestParts.length) {
-      return null;
-    }
+		if (registeredParts.length !== requestParts.length) {
+			return null;
+		}
 
-    const params: Params = {};
+		const params: Params = {};
 
-    for (let i = 0; i < registeredParts.length; i++) {
-      const registeredPart = registeredParts[i];
-      const requestPart = requestParts[i];
+		for (let i = 0; i < registeredParts.length; i++) {
+			const registeredPart = registeredParts[i];
+			const requestPart = requestParts[i];
 
-      if (!registeredPart.startsWith(":") && registeredPart !== requestPart) {
-        return null;
-      }
+			if (!registeredPart.startsWith(":") && registeredPart !== requestPart) {
+				return null;
+			}
 
-      const paramName = registeredPart.slice(1);
-      params[paramName] = requestPart;
-    }
+			const paramName = registeredPart.slice(1);
+			params[paramName] = requestPart;
+		}
 
-    return params;
-  }
+		return params;
+	}
 
-  private handleMiddlewareError(error: any, req: Request, res: Response): void {
-    console.error("Middleware error:", error);
-    res.statusCode = 500;
-    res.end("Internal Server Error");
-  }
+	private handleMiddlewareError(error: any, req: Request, res: Response): void {
+		console.error("Middleware error:", error);
+		res.statusCode = 500;
+		res.end("Internal Server Error");
+	}
 }

@@ -1,7 +1,6 @@
-// middlewares.test.ts
 import { IncomingMessage, ServerResponse } from "http";
 import { Middleware, Request, Response } from "../../../src/types";
-import { IMiddlewares } from "../../../src/Middlewares/Middlewares.interface";
+import { IMiddlewares } from "../../../src/interfaces/Middlewares.interface";
 import { Middlewares } from "../../../src/Middlewares/Middlewares";
 
 describe("Middlewares", () => {
