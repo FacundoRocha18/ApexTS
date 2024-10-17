@@ -5,7 +5,6 @@ export interface Request extends IncomingMessage {
   params?: Params;
   query?: { [key: string]: string | string[] };
 }
-
 export interface ParserParams {
   req: Request;
   res: Response;
@@ -15,15 +14,10 @@ export interface ParserParams {
 }
 
 export type Response = ServerResponse;
-
 export type Route = string | RegExp;
-
 export type Params = { [key: string]: string };
-
 export type Routes = { [path: string]: { [method: string]: Handler } };
-
 export type Handler = (req: Request, res: Response) => void | Promise<void>;
-
 export type Middleware = (
   req: Request,
   res: Response,

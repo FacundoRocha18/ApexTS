@@ -15,7 +15,6 @@ describe("Tests for FastFramework", () => {
   let parserServiceMock: IParserService;
   let routerMock: IRouter;
   let handler: Handler;
-
   const path = "/users";
 
   class Parser implements IParserService {
