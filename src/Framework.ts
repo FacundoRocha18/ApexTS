@@ -1,5 +1,5 @@
 import http from "http";
-import { Handler } from "./Models/types";
+import { Handler } from "./Types/main";
 import { IFramework } from "./Interfaces/Framework.interface";
 import { IRouter } from "./Interfaces/Router.interface";
 
@@ -10,9 +10,9 @@ export class Framework implements IFramework {
     this.router = router;
   }
 
-	public use(handler: Handler): void {
-		this.router.use(handler);
-	}
+  public use(handler: Handler): void {
+    this.router.use(handler);
+  }
 
   public get(path: string, handler: Handler): void {
     this.router.get(path, handler);

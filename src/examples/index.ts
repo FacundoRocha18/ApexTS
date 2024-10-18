@@ -1,12 +1,11 @@
 // Import the types
-import { Request, Response } from "../Models/types";
+import { Request, Response } from "../Types/main";
 // Import the interfaces
-import { IRouter } from '../Interfaces/Router.interface';
-import { IFramework } from '../Interfaces/Framework.interface';
+import { IRouter } from "../Interfaces/Router.interface";
+import { IFramework } from "../Interfaces/Framework.interface";
 // Import the setup
 import { framework, middlewares } from "../Config/framework.config";
-import envConfig from '../Config/environment.config';
-
+import envConfig from "../Config/environment.config";
 
 const app: IFramework = framework;
 const router: IRouter = app.router;

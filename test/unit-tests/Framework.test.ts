@@ -120,7 +120,7 @@ describe("Tests for FastFramework", () => {
 
   it("Should create an HTTP server and listen on the specified port", () => {
     const port = 3000;
-		const node_env = "development";
+    const node_env = "development";
     const reqMock = {};
     const resMock = {};
 

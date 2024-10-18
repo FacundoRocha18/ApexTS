@@ -7,7 +7,7 @@ import {
   Request,
   Response,
   Middleware,
-} from "../Models/types";
+} from "../Types/main";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IParserService } from "../Interfaces/ParserService.interface";
 
@@ -61,19 +61,19 @@ export class Router implements IRouter {
     path: string,
     method: string,
   ): void {
-		if (index >= this.middlewares.length) {
-			this.processRoute(req, res, path, method); 
-			return null;
+    if (index >= this.middlewares.length) {
+      this.processRoute(req, res, path, method);
+      return null;
     }
-		
-		const middleware = this.middlewares[index];
-		try {
-			middleware(req, res, () =>
-				this.executeMiddlewares(index + 1, req, res, path, method),
-			);
-		} catch (error) {
-			this.handleMiddlewareError(error, req, res);
-		}
+
+    const middleware = this.middlewares[index];
+    try {
+      middleware(req, res, () =>
+        this.executeMiddlewares(index + 1, req, res, path, method),
+      );
+    } catch (error) {
+      this.handleMiddlewareError(error, req, res);
+    }
   }
 
   private processRoute(

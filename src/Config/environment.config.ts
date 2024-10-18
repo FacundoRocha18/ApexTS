@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('dotenv').config()
+require("dotenv").config();
 
 // Interface to load env variables
 // Note these variables can possibly be undefined
@@ -24,10 +24,10 @@ const getConfig = (): ENV => {
   };
 };
 
-// Throwing an Error if any field was undefined we don't 
-// want our app to run if it can't connect to DB and ensure 
+// Throwing an Error if any field was undefined we don't
+// want our app to run if it can't connect to DB and ensure
 // that these fields are accessible. If all is good return
-// it as Config which just removes the undefined from our type 
+// it as Config which just removes the undefined from our type
 // definition.
 
 const getEnvConfig = (config: ENV): Config => {

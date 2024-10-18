@@ -1,10 +1,10 @@
-import { Handler } from "../Models/types";
-import { IRouter } from './Router.interface';
+import { Handler } from "../Types/main";
+import { IRouter } from "./Router.interface";
 
 export interface IFramework {
-	router: IRouter;
+  router: IRouter;
 
-	use(handler: Handler): void;
+  use(handler: Handler): void;
   get(path: string, handler: Handler): void;
   post(path: string, handler: Handler): void;
   put(path: string, handler: Handler): void;

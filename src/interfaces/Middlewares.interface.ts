@@ -1,4 +1,4 @@
-import { Request, Response } from "../Models/types";
+import { Request, Response } from "../Types/main";
 
 export interface IMiddlewares {
   logger(req: Request, res: Response, next: () => void): void;

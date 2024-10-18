@@ -1,5 +1,5 @@
 import { IMiddlewares } from "../Interfaces/Middlewares.interface";
-import { Request, Response } from "../Models/types";
+import { Request, Response } from "../Types/main";
 
 export class Middlewares implements IMiddlewares {
   constructor() {}

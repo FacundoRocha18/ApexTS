@@ -1,4 +1,4 @@
-import { ParserParams } from "../Models/types";
+import { ParserParams } from "../Types/main";
 import { IParserService } from "../Interfaces/ParserService.interface";
 
 export class ParserService implements IParserService {
