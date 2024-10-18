@@ -1,11 +1,14 @@
-import { IParserService } from "./interfaces/ParserService.interface";
+// Import all the interfaces
+import { IParserService } from "./Interfaces/ParserService.interface";
+import { IRouter } from "./Interfaces/Router.interface";
+import { IFramework } from "./Interfaces/Framework.interface";
+import { IMiddlewares } from "./Interfaces/Middlewares.interface";
+
+// Import all the classes
 import { ParserService } from "./Parsing/ParserService";
-import { IMiddlewares } from "./interfaces/Middlewares.interface";
-import { Middlewares } from "./Middlewares/Middlewares";
-import { IRouter } from "./interfaces/Router.interface";
 import { Router } from "./Routing/Router";
-import { IFramework } from "./interfaces/Framework.interface";
 import { Framework } from "./Framework";
+import { Middlewares } from "./Middlewares/Middlewares";
 
 const parserService: IParserService = new ParserService();
 const router: IRouter = new Router(parserService);

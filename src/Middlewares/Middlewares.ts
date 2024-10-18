@@ -1,4 +1,4 @@
-import { IMiddlewares } from "../interfaces/Middlewares.interface";
+import { IMiddlewares } from "../Interfaces/Middlewares.interface";
 import { Request, Response } from "../types";
 
 export class Middlewares implements IMiddlewares {

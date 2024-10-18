@@ -1,5 +1,5 @@
 import { ParserParams } from "../types";
-import { IParserService } from "../interfaces/ParserService.interface";
+import { IParserService } from "../Interfaces/ParserService.interface";
 
 export class ParserService implements IParserService {
   constructor() {}

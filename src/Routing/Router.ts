@@ -8,8 +8,8 @@ import {
   Response,
   Middleware,
 } from "../types";
-import { IRouter } from "../interfaces/Router.interface";
-import { IParserService } from "../interfaces/ParserService.interface";
+import { IRouter } from "../Interfaces/Router.interface";
+import { IParserService } from "../Interfaces/ParserService.interface";
 
 export class Router implements IRouter {
   private routes: Routes = {};
@@ -61,18 +61,19 @@ export class Router implements IRouter {
     path: string,
     method: string,
   ): void {
-    if (index < this.middlewares.length) {
-      const middleware = this.middlewares[index];
-      try {
-        middleware(req, res, () =>
-          this.executeMiddlewares(index + 1, req, res, path, method),
-        );
-      } catch (error) {
-        this.handleMiddlewareError(error, req, res);
-      }
-    } else {
-      this.processRoute(req, res, path, method);
+		if (index >= this.middlewares.length) {
+			this.processRoute(req, res, path, method); 
+			return null;
     }
+		
+		const middleware = this.middlewares[index];
+		try {
+			middleware(req, res, () =>
+				this.executeMiddlewares(index + 1, req, res, path, method),
+			);
+		} catch (error) {
+			this.handleMiddlewareError(error, req, res);
+		}
   }
 
   private processRoute(

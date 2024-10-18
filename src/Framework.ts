@@ -1,7 +1,7 @@
 import http from "http";
 import { Handler } from "./types";
-import { IFramework } from "./interfaces/Framework.interface";
-import { IRouter } from "./interfaces/Router.interface";
+import { IFramework } from "./Interfaces/Framework.interface";
+import { IRouter } from "./Interfaces/Router.interface";
 
 export class Framework implements IFramework {
   private router: IRouter;

@@ -1,13 +1,17 @@
 import "reflect-metadata"; // Import this to use the reflect-metadata package
 
+// Import the .env file
+import { env } from 'node:process';
+
 import { Request, Response } from "../types";
 import { framework, router, middlewares } from "../setup";
+import { IFramework } from '../interfaces/Framework.interface';
 
 const PORT = 8000;
-const app = framework;
+const app: IFramework = framework;
 
-router.use(middlewares.logger);
 router.use(middlewares.auth);
+router.use(middlewares.logger);
 
 app.get("/products/:category/:id", (req: Request, res: Response) => {
   const params = req.params;
@@ -73,4 +77,4 @@ app.patch("/patch-test", (req: Request, res: Response) => {
   res.end("PATCH endpoint working");
 });
 
-app.listen(PORT);
+app.listen(parseInt(env.PORT) || PORT);
