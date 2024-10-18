@@ -7,7 +7,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+		"typeRoots": ["./global.d.ts", "src/Models/types.d.ts", "./node_modules/@types"]
   },
-  "include": ["src", "src/examples"]
+  "include": ["src", "src/examples", "src/Config/environment.config.ts", "global.d.ts", "src/Models/types.d.ts"]
 }

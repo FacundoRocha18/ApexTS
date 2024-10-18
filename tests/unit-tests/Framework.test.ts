@@ -1,6 +1,6 @@
 import * as http from "http";
 import { Framework } from "../../src/Framework";
-import { Handler } from "../../src/types";
+import { Handler } from "../../src/Models/types";
 import { IFramework } from "../../src/Interfaces/Framework.interface";
 import { IRouter } from "../../src/Interfaces/Router.interface";
 import { IParserService } from "../../src/Interfaces/ParserService.interface";
@@ -120,10 +120,11 @@ describe("Tests for FastFramework", () => {
 
   it("Should create an HTTP server and listen on the specified port", () => {
     const port = 3000;
+		const node_env = "development";
     const reqMock = {};
     const resMock = {};
 
-    fastFrameworkInstance.listen(port);
+    fastFrameworkInstance.listen(port, node_env);
 
     expect(http.createServer).toHaveBeenCalledTimes(1);
 

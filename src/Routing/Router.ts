@@ -7,7 +7,7 @@ import {
   Request,
   Response,
   Middleware,
-} from "../types";
+} from "../Models/types";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IParserService } from "../Interfaces/ParserService.interface";
 

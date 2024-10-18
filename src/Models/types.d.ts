@@ -5,6 +5,7 @@ export interface Request extends IncomingMessage {
   params?: Params;
   query?: { [key: string]: string | string[] };
 }
+
 export interface ParserParams {
   req: Request;
   res: Response;

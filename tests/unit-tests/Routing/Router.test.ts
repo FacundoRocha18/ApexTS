@@ -2,7 +2,7 @@ import { Router } from "../../../src/Routing/Router";
 import { ServerResponse } from "http";
 import { HttpMethods } from "../../../src/Http/HttpMethods";
 import { ParserService } from "../../../src/Parsing/ParserService";
-import { Middleware, Request, Response } from "../../../src/types";
+import { Middleware, Request, Response } from "../../../src/Models/types";
 import { IParserService } from "../../../src/Interfaces/ParserService.interface";
 
 jest.mock("../../../src/Parsing/ParserService.ts");

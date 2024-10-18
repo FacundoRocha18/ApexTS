@@ -1,4 +1,4 @@
-import { Handler, Middleware, Request, Response } from "../types";
+import { Handler, Middleware, Request, Response } from "../Models/types";
 export interface IRouter {
   use(middleware: Middleware): void;
   get(path: string, handler: Handler): void;

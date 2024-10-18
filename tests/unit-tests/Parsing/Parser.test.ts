@@ -1,6 +1,6 @@
 import { ParserService } from "../../../src/Parsing/ParserService";
 import { IncomingMessage, ServerResponse } from "http";
-import { Request, Response } from "../../../src/types";
+import { Request, Response } from "../../../src/Models/types";
 import { IParserService } from '../../../src/Interfaces/ParserService.interface';
 
 describe("Parser - parseBody", () => {
