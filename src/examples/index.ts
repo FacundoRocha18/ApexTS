@@ -5,7 +5,7 @@ import { env } from 'node:process';
 
 import { Request, Response } from "../types";
 import { framework, router, middlewares } from "../setup";
-import { IFramework } from '../interfaces/Framework.interface';
+import { IFramework } from '../Interfaces/Framework.interface';
 
 const PORT = 8000;
 const app: IFramework = framework;

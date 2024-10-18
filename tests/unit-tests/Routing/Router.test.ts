@@ -3,7 +3,7 @@ import { ServerResponse } from "http";
 import { HttpMethods } from "../../../src/Http/HttpMethods";
 import { ParserService } from "../../../src/Parsing/ParserService";
 import { Middleware, Request, Response } from "../../../src/types";
-import { IParserService } from "../../../src/interfaces/ParserService.interface";
+import { IParserService } from "../../../src/Interfaces/ParserService.interface";
 
 jest.mock("../../../src/Parsing/ParserService.ts");
 

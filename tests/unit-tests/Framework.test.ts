@@ -1,9 +1,9 @@
 import * as http from "http";
 import { Framework } from "../../src/Framework";
 import { Handler } from "../../src/types";
-import { IFramework } from "../../src/interfaces/Framework.interface";
-import { IRouter } from "../../src/interfaces/Router.interface";
-import { IParserService } from "../../src/interfaces/ParserService.interface";
+import { IFramework } from "../../src/Interfaces/Framework.interface";
+import { IRouter } from "../../src/Interfaces/Router.interface";
+import { IParserService } from "../../src/Interfaces/ParserService.interface";
 
 jest.mock("../../src/Routing/Router.ts");
 jest.mock("../../src/Parsing/ParserService.ts");

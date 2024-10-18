@@ -1,11 +1,12 @@
 import { ParserService } from "../../../src/Parsing/ParserService";
 import { IncomingMessage, ServerResponse } from "http";
-import { Request } from "../../../src/types";
+import { Request, Response } from "../../../src/types";
+import { IParserService } from '../../../src/Interfaces/ParserService.interface';
 
 describe("Parser - parseBody", () => {
-  let parser: ParserService;
+  let parser: IParserService;
   let req: Partial<Request>; // IncomingMessage mock
-  let res: ServerResponse;
+  let res: Response;
   let callback: jest.Mock;
 
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe("Parser - parseBody", () => {
     req = {
       on: jest.fn(),
       body: undefined,
-    } as Partial<IncomingMessage>;
+    } as Partial<Request>;
 
     // Res mock using ServerResponse
     res = new ServerResponse({} as IncomingMessage);
