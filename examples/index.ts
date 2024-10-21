@@ -1,13 +1,13 @@
 // Import the types
-import { Request, Response } from "../Types/main";
+import { Request, Response } from "../src/Types/main";
 // Import the interfaces
-import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
-import { IFramework } from "../Interfaces/Framework.interface";
+import { IMiddlewareManager } from "../src/Interfaces/MiddlewareManager.interface";
+import { IFramework } from "../src/Interfaces/Framework.interface";
 // Import the setup
-import { framework } from "../Config/framework.config";
-import { envConfig } from "../Config/environment.config";
-import { logger } from "../Middlewares/MiddlewareFunctions/Logger";
-import { auth } from "../Middlewares/MiddlewareFunctions/Auth";
+import { framework } from "../src/Config/framework.config";
+import { envConfig } from "../src/Config/environment.config";
+import { logger } from "../src/Middlewares/Examples/Logger";
+import { auth } from "../src/Middlewares/Examples/Auth";
 
 const app: IFramework = framework;
 const middlewareManager: IMiddlewareManager = app.middlewareManager;
