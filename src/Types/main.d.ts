@@ -21,6 +21,6 @@ export type Routes = { [path: string]: { [method: string]: Handler } };
 export type Handler = (req: Request, res: Response) => void | Promise<void>;
 export type Middleware = (
   req: Request,
-  res: Response,
   next: () => void,
+  res?: Response,
 ) => void | Promise<void>;

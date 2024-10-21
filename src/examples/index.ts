@@ -1,19 +1,21 @@
 // Import the types
 import { Request, Response } from "../Types/main";
 // Import the interfaces
-import { IRouter } from "../Interfaces/Router.interface";
+import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
 import { IFramework } from "../Interfaces/Framework.interface";
 // Import the setup
-import { framework, middlewares } from "../Config/framework.config";
-import envConfig from "../Config/environment.config";
+import { framework } from "../Config/framework.config";
+import { envConfig } from "../Config/environment.config";
+import { logger } from "../Middlewares/MiddlewareFunctions/Logger";
+import { auth } from "../Middlewares/MiddlewareFunctions/Auth";
 
 const app: IFramework = framework;
-const router: IRouter = app.router;
+const middlewareManager: IMiddlewareManager = app.middlewareManager;
 const PORT: number = envConfig.PORT;
 const NODE_ENV: string = envConfig.NODE_ENV;
 
-router.use(middlewares.auth);
-router.use(middlewares.logger);
+middlewareManager.use(auth);
+middlewareManager.use(logger);
 
 app.get("/products/:category/:id", (req: Request, res: Response) => {
   const params = req.params;

@@ -1,10 +1,11 @@
 import { Handler } from "../Types/main";
+import { IMiddlewareManager } from "./MiddlewareManager.interface";
 import { IRouter } from "./Router.interface";
 
 export interface IFramework {
   router: IRouter;
+  middlewareManager: IMiddlewareManager;
 
-  use(handler: Handler): void;
   get(path: string, handler: Handler): void;
   post(path: string, handler: Handler): void;
   put(path: string, handler: Handler): void;

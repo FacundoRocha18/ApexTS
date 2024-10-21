@@ -43,4 +43,4 @@ const config = getConfig();
 
 const envConfig = getEnvConfig(config);
 
-export default envConfig;
+export { envConfig };

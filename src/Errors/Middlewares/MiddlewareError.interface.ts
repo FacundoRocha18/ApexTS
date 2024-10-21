@@ -1,5 +1,5 @@
-export interface MiddlewareError {
-	message: string;
-	status: number;
-	stack?: string;
+export interface IMiddlewareError {
+  message: string;
+  status: number;
+  stack?: string;
 }

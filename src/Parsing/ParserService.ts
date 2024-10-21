@@ -16,6 +16,7 @@ export class ParserService implements IParserService {
       try {
         req.body = JSON.parse(parsedBody);
       } catch (e) {
+        console.log(parsedBody);
         req.body = parsedBody;
         console.log(e);
       }

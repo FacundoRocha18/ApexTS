@@ -1,28 +1,14 @@
-import { parse, UrlWithParsedQuery } from "url";
 import { HttpMethods } from "../Http/HttpMethods";
-import {
-  Params,
-  Routes,
-  Handler,
-  Request,
-  Response,
-  Middleware,
-} from "../Types/main";
+import { Params, Routes, Handler, Request, Response } from "../Types/main";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IParserService } from "../Interfaces/ParserService.interface";
-import { MiddlewareError } from '../Errors/Middlewares/MiddlewareError.interface';
 
 export class Router implements IRouter {
   private routes: Routes = {};
-  private middlewares: Middleware[] = [];
   private parserService: IParserService;
 
   constructor(parserService: IParserService) {
     this.parserService = parserService;
-  }
-
-  public use(middleware: Middleware): void {
-    this.middlewares.push(middleware);
   }
 
   public get(path: string, handler: Handler): void {
@@ -45,75 +31,21 @@ export class Router implements IRouter {
     this.addRoute(HttpMethods.PATCH, path, handler);
   }
 
-  public handleRequest(req: Request, res: Response): void {
-    const parsedUrl: UrlWithParsedQuery = parse(req.url || "/", true);
-    const path: string = parsedUrl.pathname || "/";
-    const method: string = req.method || "GET";
-
-    req.query = parsedUrl.query;
-
-    this.executeMiddlewares(0, req, res, path, method);
-  }
-
-  private executeMiddlewares(
-    index: number,
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): void {
-    if (index >= this.middlewares.length) {
-      this.processRoute(req, res, path, method);
-      return null;
-    }
-
-    const middleware = this.middlewares[index];
-    try {
-      middleware(req, res, () =>
-        this.executeMiddlewares(index + 1, req, res, path, method),
-      );
-    } catch (error) {
-      this.handleMiddlewareError(error, res);
-    }
-  }
-
-  private processRoute(
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): void {
-    if (method !== "POST" && method !== "PUT") {
-      this.resolveRoute(req, res, path, method);
-      return null;
-    }
-
-    this.parserService.parse({
-      req,
-      res,
-      path,
-      method,
-      callback: () => this.resolveRoute(req, res, path, method),
-    });
-  }
-
   private addRoute(method: string, path: string, handler: Handler): void {
-    // If the path is empty, throw an error
     if (!path || path === "") {
       throw new Error("Path must be a non-empty string");
     }
 
-    // If the path does not exist
     if (!this.routes[path]) {
       // we set path to an empty object
       this.routes[path] = {};
     }
 
-    // We assign the handler function to the method
+    // We assign the handler function to the method key
     this.routes[path][method] = handler;
   }
 
-  private resolveRoute(
+  public resolveRoute(
     req: Request,
     res: Response,
     path: string,
@@ -159,11 +91,5 @@ export class Router implements IRouter {
     }
 
     return params;
-  }
-
-  private handleMiddlewareError(error: MiddlewareError, res: Response): void {
-    console.error("Middleware error:", error);
-    res.statusCode = 500;
-    res.end("Internal Server Error");
   }
 }
