@@ -10,6 +10,7 @@ import {
 } from "../Types/main";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IParserService } from "../Interfaces/ParserService.interface";
+import { MiddlewareError } from '../Errors/Middlewares/MiddlewareError.interface';
 
 export class Router implements IRouter {
   private routes: Routes = {};
@@ -72,7 +73,7 @@ export class Router implements IRouter {
         this.executeMiddlewares(index + 1, req, res, path, method),
       );
     } catch (error) {
-      this.handleMiddlewareError(error, req, res);
+      this.handleMiddlewareError(error, res);
     }
   }
 
@@ -160,7 +161,7 @@ export class Router implements IRouter {
     return params;
   }
 
-  private handleMiddlewareError(error: any, req: Request, res: Response): void {
+  private handleMiddlewareError(error: MiddlewareError, res: Response): void {
     console.error("Middleware error:", error);
     res.statusCode = 500;
     res.end("Internal Server Error");

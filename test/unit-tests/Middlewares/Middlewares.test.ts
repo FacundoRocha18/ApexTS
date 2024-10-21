@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { Middleware, Request, Response } from "../../../src/Models/types";
+import { Middleware, Request, Response } from "../../../src/Types/main";
 import { IMiddlewares } from "../../../src/Interfaces/Middlewares.interface";
 import { Middlewares } from "../../../src/Middlewares/Middlewares";
 

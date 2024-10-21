@@ -1,6 +1,6 @@
 import * as http from "http";
 import { Framework } from "../../src/Framework";
-import { Handler } from "../../src/Models/types";
+import { Handler } from "../../src/Types/main";
 import { IFramework } from "../../src/Interfaces/Framework.interface";
 import { IRouter } from "../../src/Interfaces/Router.interface";
 import { IParserService } from "../../src/Interfaces/ParserService.interface";
