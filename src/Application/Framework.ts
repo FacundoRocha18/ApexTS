@@ -1,18 +1,17 @@
 import http from "http";
-import { Handler, Middleware } from "./Types/main";
-import { IFramework } from "./Interfaces/Framework.interface";
-import { IRouter } from "./Interfaces/Router.interface";
-import { IMiddlewareManager } from "./Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "./Interfaces/RequestHandler.interface";
+import { Handler, Middleware } from "../Types/main";
+import { IFramework } from "../Interfaces/Framework.interface";
+import { IRouter } from "../Interfaces/Router.interface";
+import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
+import { IRequestHandlerService } from "../Interfaces/RequestHandler.interface";
 
 export class Framework implements IFramework {
   public router: IRouter;
-  public middlewareManager: IMiddlewareManager;
 
   constructor(
     router: IRouter,
-    middlewareManager: IMiddlewareManager,
-    private requestHandler: IRequestHandlerService,
+    private middlewareManager: IMiddlewareManager,
+    private requestHandlerService: IRequestHandlerService,
   ) {
     this.router = router;
     this.middlewareManager = middlewareManager;
@@ -44,7 +43,7 @@ export class Framework implements IFramework {
 
   public listen(port: number, node_env: string): void {
     const server = http.createServer((req, res) =>
-      this.requestHandler.handleRequest(req, res),
+      this.requestHandlerService.handleRequest(req, res),
     );
 
     server.listen(port, () => {

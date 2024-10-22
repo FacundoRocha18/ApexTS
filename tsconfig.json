@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDirs": ["./src", "./examples"],
+    "rootDir": "./",
     "outDir": "./dist",
     "target": "ES6",
     "module": "commonjs",
@@ -17,7 +17,7 @@
   "include": [
     "src",
     "./examples",
-    "src/Config/environment.config.ts",
+    "examples/Config/environment.config.ts",
     "global.d.ts",
     "src/Types/main.d.ts"
   ]

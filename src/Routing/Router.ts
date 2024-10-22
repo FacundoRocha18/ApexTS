@@ -1,14 +1,14 @@
 import { HttpMethods } from "../Http/HttpMethods";
 import { Params, Routes, Handler, Request, Response } from "../Types/main";
 import { IRouter } from "../Interfaces/Router.interface";
-import { IParserService } from "../Interfaces/ParserService.interface";
 
 export class Router implements IRouter {
   private routes: Routes = {};
-  private parserService: IParserService;
 
-  constructor(parserService: IParserService) {
-    this.parserService = parserService;
+  constructor() {}
+
+  public use(path: string): void {
+    throw new Error("Method not implemented.");
   }
 
   public get(path: string, handler: Handler): void {

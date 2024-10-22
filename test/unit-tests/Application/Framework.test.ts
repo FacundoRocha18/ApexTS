@@ -1,32 +1,35 @@
 import * as http from "http";
-import { Framework } from "../../src/Framework";
-import { Handler } from "../../src/Types/main";
-import { IFramework } from "../../src/Interfaces/Framework.interface";
-import { IRouter } from "../../src/Interfaces/Router.interface";
-import { IParserService } from "../../src/Interfaces/ParserService.interface";
+import { Framework } from "../../../src/Application/Framework";
+import { Handler } from "../../../src/Types/main";
+import { IFramework } from "../../../src/Interfaces/Framework.interface";
+import { IRouter } from "../../../src/Interfaces/Router.interface";
+import { IMiddlewareManager } from "../../../src/Interfaces/MiddlewareManager.interface";
+import { IRequestHandlerService } from "../../../src/Interfaces/RequestHandler.interface";
 
-jest.mock("../../src/Routing/Router.ts");
-jest.mock("../../src/Parsing/ParserService.ts");
+jest.mock("../../../src/Routing/Router.ts");
+jest.mock("../../../src/Parsing/ParserService.ts");
 jest.mock("http");
 
 describe("Tests for FastFramework", () => {
   let fastFrameworkInstance: IFramework;
   let serverMock: { listen: jest.Mock };
-  let parserServiceMock: IParserService;
   let routerMock: IRouter;
+  let requestHandlerServiceMock: IRequestHandlerService;
+  let middlewareManagerMock: IMiddlewareManager;
   let handler: Handler;
   const path = "/users";
 
-  class Parser implements IParserService {
-    parse = jest.fn();
+  class MiddlewareManager implements IMiddlewareManager {
+    use = jest.fn();
+    executeMiddlewares = jest.fn();
+  }
+
+  class RequestHandlerService implements IRequestHandlerService {
+    handleRequest = jest.fn();
   }
 
   class Router implements IRouter {
-    private parserService: IParserService;
-
-    constructor(parserService: IParserService) {
-      this.parserService = parserService;
-    }
+    constructor() {}
 
     public use = jest.fn();
     public get = jest.fn();
@@ -34,13 +37,19 @@ describe("Tests for FastFramework", () => {
     public del = jest.fn();
     public put = jest.fn();
     public patch = jest.fn();
+    public resolveRoute = jest.fn();
     public handleRequest = jest.fn();
   }
 
   beforeEach(() => {
-    parserServiceMock = new Parser();
-    routerMock = new Router(parserServiceMock);
-    fastFrameworkInstance = new Framework(routerMock);
+    routerMock = new Router();
+    requestHandlerServiceMock = new RequestHandlerService();
+    middlewareManagerMock = new MiddlewareManager();
+    fastFrameworkInstance = new Framework(
+      routerMock,
+      middlewareManagerMock,
+      requestHandlerServiceMock,
+    );
 
     serverMock = {
       listen: jest.fn(),
@@ -51,12 +60,28 @@ describe("Tests for FastFramework", () => {
       .mockReturnValue(serverMock as unknown as http.Server);
   });
 
+	afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it("Should be an instance of FastFramework", () => {
     expect(fastFrameworkInstance).toBeInstanceOf(Framework);
   });
 
   it("Should initialize with the provided Router", () => {
-    expect(fastFrameworkInstance["router"]).toBe(routerMock);
+    expect(fastFrameworkInstance.router).toBe(routerMock);
+  });
+
+  it("Should initialize with the provided MiddlewareManager", () => {
+    expect(fastFrameworkInstance["middlewareManager"]).toBe(
+      middlewareManagerMock,
+    );
+  });
+
+  it("Should initialize with the provided RequestHandlerService", () => {
+    expect(fastFrameworkInstance["requestHandlerService"]).toBe(
+      requestHandlerServiceMock,
+    );
   });
 
   it("Should have a get method", () => {
@@ -135,10 +160,9 @@ describe("Tests for FastFramework", () => {
 
     createServerCallback(reqMock, resMock);
 
-    expect(routerMock.handleRequest).toHaveBeenCalledWith(reqMock, resMock);
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
+    expect(requestHandlerServiceMock.handleRequest).toHaveBeenCalledWith(
+      reqMock,
+      resMock,
+    );
   });
 });

@@ -1,6 +1,6 @@
-import { Request, Response } from "../../Types/main";
+import { Request, Response } from "../types";
 
-const auth = (req: Request, next: () => void, res: Response): void => {
+const auth = (req: Request, res: Response, next: () => void): void => {
   const authHeader = req.headers["authorization"];
 
   if (authHeader !== "Bearer valid-token") {
