@@ -10,7 +10,7 @@ import { IRouteProcessorService } from "../Interfaces/RouteProcessorService.inte
 import { ParserService } from "../Parsing/ParserService";
 import { Router } from "../Routing/Router";
 import { Framework } from "../Application/Framework";
-import { MiddlewareManager } from "../Middleware/MiddlewareManager";
+import { MiddlewareManager } from "../Middlewares/MiddlewareManager";
 import { RequestHandlerService } from "../Request/RequestHandlerService";
 import { RouteProcessorService } from "../Routing/RouteProcessorService";
 
