@@ -78,4 +78,58 @@ describe("MiddlewareManager", () => {
       "GET",
     );
   });
+
+  it("should call processRoute after all middlewares are executed", () => {
+    const req = { url: "/", method: "GET" } as Request;
+    const res = {} as Response;
+    const mockMiddleware1 = jest.fn((req, res, next) => next());
+    const mockMiddleware2 = jest.fn((req, res, next) => next());
+
+    middlewareManager.use(mockMiddleware1);
+    middlewareManager.use(mockMiddleware2);
+
+    middlewareManager.executeMiddlewares(req, res);
+
+    expect(mockRouteProcessorService.processRoute).toHaveBeenCalledWith(
+      req,
+      res,
+      "/",
+      "GET",
+    );
+  });
+
+  it("should stop execution if a middleware does not call next", () => {
+    const req = { url: "/", method: "GET" } as Request;
+    const res = {} as Response;
+
+    const mockMiddleware1 = jest.fn((req, res, next) => {});
+    const mockMiddleware2 = jest.fn((req, res, next) => next());
+
+    middlewareManager.use(mockMiddleware1);
+    middlewareManager.use(mockMiddleware2);
+
+    middlewareManager.executeMiddlewares(req, res);
+
+    expect(mockMiddleware2).not.toHaveBeenCalled();
+    expect(mockRouteProcessorService.processRoute).not.toHaveBeenCalled();
+  });
+
+  it("should allow middlewares to be added dynamically and execute them", () => {
+    const req = {} as Request;
+    const res = {} as Response;
+
+    const dynamicMiddleware1 = jest.fn((req, res, next) => next());
+    const dynamicMiddleware2 = jest.fn((req, res, next) => next());
+
+    middlewareManager.use(dynamicMiddleware1);
+
+    middlewareManager.executeMiddlewares(req, res);
+
+    middlewareManager.use(dynamicMiddleware2);
+
+    middlewareManager.executeMiddlewares(req, res);
+
+    expect(dynamicMiddleware1).toHaveBeenCalledTimes(2); // Should be executed twice
+    expect(dynamicMiddleware2).toHaveBeenCalledTimes(1); // Should be executed once
+  });
 });
