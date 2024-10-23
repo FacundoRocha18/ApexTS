@@ -1,7 +1,7 @@
-import { ParserService } from "../../../src/Parsing/ParserService";
+import { ParserService } from "../../src/Parsing/ParserService";
 import { IncomingMessage, ServerResponse } from "http";
-import { Request, Response } from "../../../src/Types/main";
-import { IParserService } from "../../../src/Interfaces/ParserService.interface";
+import { Request, Response } from "../../src/Types/main";
+import { IParserService } from "../../src/Interfaces/ParserService.interface";
 
 describe("Parser - parseBody", () => {
   let parser: IParserService;

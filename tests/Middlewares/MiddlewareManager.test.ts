@@ -1,9 +1,9 @@
-import { Middleware, Request, Response } from "../../../src/Types/main";
-import { IMiddlewareManager } from "../../../src/Interfaces/MiddlewareManager.interface";
-import { MiddlewareManager } from "../../../src/Middlewares/MiddlewareManager";
-import { IRouteProcessorService } from "../../../src/Interfaces/RouteProcessorService.interface";
+import { Middleware, Request, Response } from "../../src/Types/main";
+import { IMiddlewareManager } from "../../src/Interfaces/MiddlewareManager.interface";
+import { MiddlewareManager } from "../../src/Middlewares/MiddlewareManager";
+import { IRouteProcessorService } from "../../src/Interfaces/RouteProcessorService.interface";
 
-jest.mock("../../../src/Interfaces/RouteProcessorService.interface");
+jest.mock("../../src/Interfaces/RouteProcessorService.interface");
 
 describe("MiddlewareManager", () => {
   let middlewareManager: IMiddlewareManager;
