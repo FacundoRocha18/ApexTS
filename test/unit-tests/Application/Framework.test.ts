@@ -60,7 +60,7 @@ describe("Tests for FastFramework", () => {
       .mockReturnValue(serverMock as unknown as http.Server);
   });
 
-	afterEach(() => {
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 

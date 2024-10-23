@@ -32,7 +32,6 @@ export class MiddlewareManager implements IMiddlewareManager {
   }
 
   private handleMiddlewareError(error: IMiddlewareError, res: Response): void {
-    console.error("Middleware error:", error);
     res.statusCode = 500;
     res.end("Internal Server Error");
   }
