@@ -18,7 +18,7 @@ describe("Tests for Router class", () => {
 
   beforeEach(() => {
     parserMock = new ParserService() as jest.Mocked<IParserService>;
-    routerInstance = new Router(parserMock);
+    routerInstance = new Router();
 
     req = {
       url: "/test",
@@ -32,34 +32,6 @@ describe("Tests for Router class", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-  });
-
-  it("should be an instance of Router", () => {
-    expect(routerInstance).toBeInstanceOf(Router);
-  });
-
-  it("should have a get method", () => {
-    expect(routerInstance.get).toBeDefined();
-  });
-
-  it("should have a post method", () => {
-    expect(routerInstance.post).toBeDefined();
-  });
-
-  it("should have a delete method", () => {
-    expect(routerInstance.del).toBeDefined();
-  });
-
-  it("should have a put method", () => {
-    expect(routerInstance.put).toBeDefined();
-  });
-
-  it("should have a patch method", () => {
-    expect(routerInstance.patch).toBeDefined();
-  });
-
-  it("should have a handleRequest method", () => {
-    expect(routerInstance.handleRequest).toBeDefined();
   });
 
   it("router.get should be called once with a path and handler to register a new GET route", () => {

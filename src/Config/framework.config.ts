@@ -3,7 +3,7 @@ import { IParserService } from "../Interfaces/ParserService.interface";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IFramework } from "../Interfaces/Framework.interface";
 import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "../Interfaces/RequestHandler.interface";
+import { IRequestHandlerService } from "../Interfaces/RequestHandlerService.interface";
 import { IRouteProcessorService } from "../Interfaces/RouteProcessorService.interface";
 
 // Import all the classes

@@ -3,7 +3,7 @@ import { Handler, Middleware } from "../Types/main";
 import { IFramework } from "../Interfaces/Framework.interface";
 import { IRouter } from "../Interfaces/Router.interface";
 import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "../Interfaces/RequestHandler.interface";
+import { IRequestHandlerService } from "../Interfaces/RequestHandlerService.interface";
 
 export class Framework implements IFramework {
   public router: IRouter;
