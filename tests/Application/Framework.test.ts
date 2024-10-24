@@ -4,7 +4,7 @@ import { Handler } from "../../src/Types/main";
 import { IFramework } from "../../src/Interfaces/Framework.interface";
 import { IRouter } from "../../src/Interfaces/Router.interface";
 import { IMiddlewareManager } from "../../src/Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "../../src/Interfaces/RequestHandler.interface";
+import { IRequestHandlerService } from "../../src/Interfaces/RequestHandlerService.interface";
 
 jest.mock("../../src/Routing/Router.ts");
 jest.mock("../../src/Parsing/ParserService.ts");
