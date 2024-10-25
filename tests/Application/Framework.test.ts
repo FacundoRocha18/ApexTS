@@ -10,7 +10,7 @@ jest.mock("../../src/Routing/Router.ts");
 jest.mock("../../src/Parsing/ParserService.ts");
 jest.mock("http");
 
-describe("Tests for FastFramework", () => {
+describe("Framework", () => {
   let fastFrameworkInstance: IFramework;
   let serverMock: { listen: jest.Mock };
   let routerMock: IRouter;
