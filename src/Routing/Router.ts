@@ -7,8 +7,8 @@ export class Router implements IRouter {
 
   constructor() {}
 
-  public use(path: string): void {
-    throw new Error("Method not implemented.");
+  public use(method: HttpMethods, path: string, handler: Handler): void {
+    this.addRoute(method, path, handler);
   }
 
   public get(path: string, handler: Handler): void {
@@ -31,13 +31,17 @@ export class Router implements IRouter {
     this.addRoute(HttpMethods.PATCH, path, handler);
   }
 
-  private addRoute(method: string, path: string, handler: Handler): void {
+  private addRoute(method: HttpMethods, path: string, handler: Handler): void {
+    if (!method) {
+      throw new Error("Method must be a non-empty string");
+    }
+
     if (!path || path === "") {
       throw new Error("Path must be a non-empty string");
     }
 
     if (!this.routes[path]) {
-      // we set path to an empty object
+      // we set the path key to an empty object
       this.routes[path] = {};
     }
 
@@ -50,10 +54,9 @@ export class Router implements IRouter {
     res: Response,
     path: string,
     method: string,
-  ): string {
+  ): void {
     for (const registeredPath in this.routes) {
       const handler: Handler = this.routes[registeredPath]?.[method];
-
       const params = this.matchRoute(path, registeredPath);
 
       if (!params) {
@@ -62,10 +65,7 @@ export class Router implements IRouter {
 
       req.params = params;
       handler(req, res);
-      return "Handler called";
     }
-
-    return res.statusCode + res.statusMessage;
   }
 
   private matchRoute(path: string, registeredPath: string): Params | null {
