@@ -7,7 +7,9 @@ describe("Router", () => {
 	let routerInstance: IRouter;
 	let method: HttpMethods;
 	const path: string = "/test";
-	const handler = jest.fn();
+	const mockHandler: Handler = jest.fn((req: Request, res: Response) => {
+		res.end();
+	});
 
 	beforeEach(() => {
 		routerInstance = new Router();
@@ -24,10 +26,10 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.use(method, path, handler);
+		routerInstance.use(method, path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
 	it("should register a new GET route", () => {
@@ -37,10 +39,10 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.get(path, handler);
+		routerInstance.get(path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
 	it("should register a new POST route", () => {
@@ -50,10 +52,10 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.post(path, handler);
+		routerInstance.post(path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
 	it("should register a new DELETE route", () => {
@@ -63,10 +65,10 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.del(path, handler);
+		routerInstance.del(path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
 	it("should register a new PUT route", () => {
@@ -76,10 +78,10 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.put(path, handler);
+		routerInstance.put(path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
 	it("should register a new PATCH route", () => {
@@ -89,13 +91,13 @@ describe("Router", () => {
 		const routes: Routes = Reflect.get(routerInstance, "routes");
 		expect(routes[path]).toBeUndefined();
 
-		routerInstance.patch(path, handler);
+		routerInstance.patch(path, mockHandler);
 
 		expect(routes[path]).toBeDefined();
-		expect(routes[path][method]).toEqual(handler);
+		expect(routes[path][method]).toEqual(mockHandler);
 	});
 
-	it("should resolve a route", () => {
+	it("should resolve a route and execute the handler", () => {
 		const req: Partial<Request> = {
 			url: "/test",
 			method: "GET",
@@ -103,9 +105,6 @@ describe("Router", () => {
 		const res: Partial<Response> = {
 			end: jest.fn(),
 		};
-		const mockHandler: Handler = jest.fn((req: Request, res: Response) => {
-			res.end();
-		});
 
 		routerInstance.get("/test", mockHandler);
 		routerInstance.resolveRoute(req as Request, res as Response, "/test", HttpMethods.GET);
@@ -114,11 +113,28 @@ describe("Router", () => {
 		expect(mockHandler).toHaveBeenCalledWith(req, res);
 	});
 
+	it("should assign the URL params to the req.params object", () => {
+		const req: Partial<Request> = {
+			url: "/test?data=Facundo Rocha",
+			method: "GET",
+			params: {}
+		}
+		const res: Partial<Response> = {
+			end: jest.fn(),
+		};
+
+		routerInstance.get("/test?data=Facundo Rocha", mockHandler);
+		routerInstance.resolveRoute(req as Request, res as Response, "/test?data=Facundo Rocha", HttpMethods.GET);
+
+		expect(mockHandler).toHaveBeenCalled();
+		expect(mockHandler).toHaveBeenCalledWith(req, res);
+	});
+
 	it("should throw an exception if the method parameter is an empty string or null value", () => {
 		const emptyMethod = "" as HttpMethods;
 
-		expect(() => routerInstance.use(emptyMethod, path, handler)).toThrow(Error);
-		expect(() => routerInstance.use(emptyMethod, path, handler)).toThrow(
+		expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(Error);
+		expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(
 			"Method must be a non-empty string",
 		);
 	});
@@ -126,8 +142,8 @@ describe("Router", () => {
 	it("should throw an exception if the path parameter is an invalid string or null value", () => {
 		const emptyPath = "";
 
-		expect(() => routerInstance.use(method, emptyPath, handler)).toThrow(Error);
-		expect(() => routerInstance.use(method, emptyPath, handler)).toThrow(
+		expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(Error);
+		expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(
 			"Path must be a non-empty string",
 		);
 	});

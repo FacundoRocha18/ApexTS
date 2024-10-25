@@ -24,6 +24,22 @@ app.get("/get-test", (req: Request, res: Response) => {
   res.end("GET endpoint working");
 });
 
+app.get("/products/:category/:id", (req: Request, res: Response) => {
+  const params = req.params;
+  const query = req.query;
+  const { id, category } = params;
+
+  const data = {
+    productId: id,
+    productCategory: category,
+    query,
+  };
+
+  res.setHeader("Content-type", "application/json");
+  res.statusCode = 200;
+  res.end(JSON.stringify(data));
+});
+
 app.post("/post-test", (req: Request, res: Response) => {
   const { data } = req.body || "data";
 
