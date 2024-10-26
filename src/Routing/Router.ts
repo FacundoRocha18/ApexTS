@@ -40,6 +40,10 @@ export class Router implements IRouter {
 			throw new Error("Path must be a non-empty string");
 		}
 
+		if (!handler) {
+			throw new Error("Handler must be a function");
+		}
+
 		if (!this.routes[path]) {
 			// we set the path key to an empty object
 			this.routes[path] = {};

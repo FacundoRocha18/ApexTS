@@ -20,9 +20,10 @@ export class MiddlewareManager implements IMiddlewareManager {
       }
 
       const middleware = this.middlewares[index];
+			const next = () => execute(index + 1);
 
       try {
-        middleware(req, res, () => execute(index + 1));
+        middleware(req, res, next);
       } catch (error) {
         this.handleMiddlewareError(error, res);
       }

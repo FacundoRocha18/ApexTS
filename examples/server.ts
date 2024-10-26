@@ -12,12 +12,12 @@ const NODE_ENV: string = envConfig.NODE_ENV;
 app.use(auth);
 app.use(logger);
 
-app.get("/get-test", (req: Request, res: Response) => {
-  const { queryParams } = req.queryParams;
+app.get("/get-test", (req: Request, res: Response): void => {
+  const { query } = req.queryParams;
 
-  if (queryParams === "ping") {
-    res.end(`Query: ${queryParams} Response: pong`);
-    return;
+  if (query === "ping") {
+    res.end(`Query: ${query} Response: pong`);
+    return null;
   }
 
   res.statusCode = 200;
