@@ -1,5 +1,5 @@
 import { envConfig } from "./Config/environment.config";
-import { Request, Response } from "./types";
+import { Request, Response } from "../src/Types/main";
 import { IFramework } from "../src/Interfaces/Framework.interface";
 import { auth } from "./Middlewares/Auth";
 import { logger } from "./Middlewares/Logger";
@@ -13,10 +13,10 @@ app.use(auth);
 app.use(logger);
 
 app.get("/get-test", (req: Request, res: Response) => {
-  const { query } = req.query;
+  const { queryParams } = req.queryParams;
 
-  if (query === "ping") {
-    res.end(`Query: ${query} Response: pong`);
+  if (queryParams === "ping") {
+    res.end(`Query: ${queryParams} Response: pong`);
     return;
   }
 
@@ -25,8 +25,8 @@ app.get("/get-test", (req: Request, res: Response) => {
 });
 
 app.get("/products/:category/:id", (req: Request, res: Response) => {
-  const params = req.params;
-  const query = req.query;
+  const params = req.pathVariables;
+  const query = req.queryParams;
   const { id, category } = params;
 
   const data = {

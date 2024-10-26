@@ -125,7 +125,7 @@ describe("Router", () => {
       end: jest.fn(),
     };
 
-    expect(req.params).toBeUndefined();
+    expect(req.pathVariables).toBeUndefined();
 
     routerInstance.get(path, mockHandler);
     routerInstance.resolveRoute(
@@ -135,8 +135,8 @@ describe("Router", () => {
       HttpMethods.GET,
     );
 
-    expect(req.params).toBeDefined();
-    expect(req.params).toEqual({ number: "1" });
+    expect(req.pathVariables).toBeDefined();
+    expect(req.pathVariables).toEqual({ number: "1" });
   });
 
   it("should assign the URL query params to the req.params object", () => {
@@ -146,7 +146,7 @@ describe("Router", () => {
       end: jest.fn(),
     };
 
-    expect(req.params).toBeUndefined();
+    expect(req.queryParams).toBeUndefined();
 
     routerInstance.get(path, mockHandler);
     routerInstance.resolveRoute(
@@ -156,8 +156,8 @@ describe("Router", () => {
       HttpMethods.GET,
     );
 
-    expect(req.params).toBeDefined();
-    expect(req.params).toEqual({ number: "1", name: "John" });
+    expect(req.queryParams).toBeDefined();
+    expect(req.queryParams).toEqual({ number: "1", name: "John" });
   });
 
   it("should throw an exception if the method parameter is an empty string or null value", () => {

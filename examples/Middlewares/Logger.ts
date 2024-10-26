@@ -1,4 +1,4 @@
-import { Request, Response } from "../types";
+import { Request, Response } from "../../src/Types/main";
 
 const logger = (
   req: Request,

@@ -1,120 +1,124 @@
 import { HttpMethods } from "../Http/HttpMethods";
-import { Params, Routes, Handler, Request, Response } from "../Types/main";
+import { PathVariables, Routes, Handler, Request, Response, QueryParams } from "../Types/main";
 import { IRouter } from "../Interfaces/Router.interface";
 
 export class Router implements IRouter {
-  private routes: Routes = {};
+	private routes: Routes = {};
 
-  constructor() {}
+	constructor() { }
 
-  public use(method: HttpMethods, path: string, handler: Handler): void {
-    this.addRoute(method, path, handler);
-  }
+	public use(method: HttpMethods, path: string, handler: Handler): void {
+		this.addRoute(method, path, handler);
+	}
 
-  public get(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.GET, path, handler);
-  }
+	public get(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.GET, path, handler);
+	}
 
-  public post(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.POST, path, handler);
-  }
+	public post(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.POST, path, handler);
+	}
 
-  public del(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.DELETE, path, handler);
-  }
+	public del(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.DELETE, path, handler);
+	}
 
-  public put(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.PUT, path, handler);
-  }
+	public put(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.PUT, path, handler);
+	}
 
-  public patch(path: string, handler: Handler): void {
-    this.addRoute(HttpMethods.PATCH, path, handler);
-  }
+	public patch(path: string, handler: Handler): void {
+		this.addRoute(HttpMethods.PATCH, path, handler);
+	}
 
-  private addRoute(method: HttpMethods, path: string, handler: Handler): void {
-    if (!method) {
-      throw new Error("Method must be a non-empty string");
-    }
+	private addRoute(method: HttpMethods, path: string, handler: Handler): void {
+		if (!method) {
+			throw new Error("Method must be a non-empty string");
+		}
 
-    if (!path || path === "") {
-      throw new Error("Path must be a non-empty string");
-    }
+		if (!path || path === "") {
+			throw new Error("Path must be a non-empty string");
+		}
 
-    if (!this.routes[path]) {
-      // we set the path key to an empty object
-      this.routes[path] = {};
-    }
+		if (!this.routes[path]) {
+			// we set the path key to an empty object
+			this.routes[path] = {};
+		}
 
-    // We assign the handler function to the method key
-    this.routes[path][method] = handler;
-  }
+		// We assign the handler function to the method key
+		this.routes[path][method] = handler;
+	}
 
-  public resolveRoute(
-    req: Request,
-    res: Response,
-    path: string,
-    method: string,
-  ): void {
-    for (const registeredPath in this.routes) {
-      const handler: Handler = this.routes[registeredPath]?.[method];
-      const params = this.matchRoute(path, registeredPath);
+	public resolveRoute(
+		req: Request,
+		res: Response,
+		path: string,
+		method: string,
+	): void {
+		for (const registeredPath in this.routes) {
+			const handler: Handler = this.routes[registeredPath]?.[method];
+			const { pathname, searchParams } = new URL(path, "http://localhost");
 
-      if (!params) {
-        continue;
-      }
+			if (!this.comparePaths(path, registeredPath)) {
+				continue;
+			}
 
-      req.params = params;
-      handler(req, res);
-    }
-  }
+			const queryParams = this.extractQueryParamsFromURL(searchParams);
+			const pathVariables = this.extractPathVariablesFromURL(pathname, registeredPath);
 
-  private matchRoute(path: string, registeredPath: string): Params | null {
-    let params: Params = {};
-    const { pathname, searchParams } = new URL(path, "http://localhost");
-    const registeredParts: string[] = registeredPath.split("/");
-    const requestParts: string[] = (pathname || "/").split("/");
+			if (!queryParams) {
+				continue;
+			}
 
-    if (registeredParts.length !== requestParts.length) {
-      return null;
-    }
+			if (!pathVariables) {
+				continue;
+			}
 
-    params = this.getRouteParams(requestParts, registeredParts);
+			req.queryParams = queryParams;
+			req.pathVariables = pathVariables;
 
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
+			handler(req, res);
+		}
+	}
 
-    return params;
-  }
+	private comparePaths(requestPath: string, registeredPath: string): boolean {
+		const registeredPathSegments: string[] = registeredPath.split("/");
+		const requestPathSegments: string[] = requestPath.split("/");
 
-  private getQueryParams(searchParams: URLSearchParams): Params {
-    const queryParams: Params = {};
+		if (registeredPathSegments.length !== requestPathSegments.length) {
+			return false;
+		}
 
-    searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
+		return true;
+	}
 
-    return queryParams;
-  }
+	private extractQueryParamsFromURL(searchParams: URLSearchParams): QueryParams {
+		const queryParams: QueryParams = {};
 
-  private getRouteParams(
-    requestParts: string[],
-    registeredParts: string[],
-  ): Params {
-    const params: Params = {};
+		searchParams.forEach((value, key) => {
+			queryParams[key] = value;
+		});
 
-    for (let i = 0; i < registeredParts.length; i++) {
-      const registeredPart = registeredParts[i];
-      const requestPart = requestParts[i];
+		return queryParams;
+	}
 
-      if (!registeredPart.startsWith(":")) {
-        continue;
-      }
+	private extractPathVariablesFromURL(requestPath: string, registeredPath: string): PathVariables {
+		const registeredPathSegments: string[] = registeredPath.split("/");
+		const requestPathSegments: string[] = requestPath.split("/");
+		const pathVariables: PathVariables = {};
 
-      const paramName = registeredPart.slice(1);
-      params[paramName] = requestPart;
-    }
+		for (let i = 0; i < registeredPathSegments.length; i++) {
+			const registeredPart = registeredPathSegments[i];
+			const requestPart = requestPathSegments[i];
 
-    return params;
-  }
+			if (!registeredPart.startsWith(":")) {
+				continue;
+			}
+
+			const paramName = registeredPart.slice(1);
+			pathVariables[paramName] = requestPart;
+		}
+
+		return pathVariables;
+	}
 }

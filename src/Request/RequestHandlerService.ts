@@ -15,7 +15,7 @@ export class RequestHandlerService implements IRequestHandlerService {
     const path: string = pathname || "/";
     const method: string = req.method || "GET";
 
-    req.query = query;
+    req.queryParams = query;
 
     this.middlewareManager.executeMiddlewares(req, res, () => {
       this.router.resolveRoute(req, res, path, method);

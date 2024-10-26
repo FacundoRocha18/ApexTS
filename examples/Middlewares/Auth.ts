@@ -1,4 +1,4 @@
-import { Request, Response } from "../types";
+import { Request, Response } from "../../src/Types/main";
 
 const auth = (req: Request, res: Response, next: () => void): void => {
   const authHeader = req.headers["authorization"];
