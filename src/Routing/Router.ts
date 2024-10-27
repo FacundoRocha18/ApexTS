@@ -48,7 +48,7 @@ export class Router implements IRouter {
 			// we set the path key to an empty object
 			this.routes[path] = {};
 		}
-
+		
 		// We assign the handler function to the method key
 		this.routes[path][method] = handler;
 	}
@@ -59,26 +59,25 @@ export class Router implements IRouter {
 		path: string,
 		method: string,
 	): void {
+		const { pathname, searchParams } = new URL(path, "http://localhost");
+
+		let routeFound = false;
+
 		for (const registeredPath in this.routes) {
-			const handler: Handler = this.routes[registeredPath]?.[method];
-			const { pathname, searchParams } = new URL(path, "http://localhost");
-
-			if (!handler) {
-				throw new Error(`No handler found for ${method} ${path}`);
-			}
-
 			if (!this.comparePaths(path, registeredPath)) {
+				continue;
+			}
+			routeFound = true;
+
+			const handler: Handler = this.routes[registeredPath]?.[method];
+			if (!handler) {
 				continue;
 			}
 
 			const queryParams = this.extractQueryParamsFromURL(searchParams);
 			const pathVariables = this.extractPathVariablesFromURL(pathname, registeredPath);
 
-			if (!queryParams) {
-				continue;
-			}
-
-			if (!pathVariables) {
+			if (!queryParams || !pathVariables) {
 				continue;
 			}
 
@@ -86,6 +85,13 @@ export class Router implements IRouter {
 			req.pathVariables = pathVariables;
 
 			handler(req, res);
+			return;
+		}
+
+		if (!routeFound) {
+			console.error(`No handler found for ${method} ${path}`);
+			res.statusCode = 404;
+			res.end("Not Found");
 		}
 	}
 

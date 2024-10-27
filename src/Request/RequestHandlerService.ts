@@ -1,4 +1,3 @@
-import { parse, UrlWithParsedQuery } from "url";
 import { Request, Response } from "../Types/main";
 import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
 import { IRouter } from "../Interfaces/Router.interface";
