@@ -52,6 +52,12 @@ app.post("/post-test", (req: Request, res: Response) => {
 });
 
 app.put("/put-test", (req: Request, res: Response) => {
+	
+	if (res.statusMessage === "Invalid JSON") {
+		res.end("Invalid JSON");
+		return null;
+	}
+	
 	res.statusCode = 201;
 	res.end("PUT endpoint working");
 });

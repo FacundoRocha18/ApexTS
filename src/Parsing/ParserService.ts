@@ -15,11 +15,12 @@ export class ParserService implements IParserService {
     req.on("end", () => {
       try {
         req.body = JSON.parse(parsedBody);
-      } catch (e) {
-        console.log(parsedBody);
+      } catch (error) {
         req.body = parsedBody;
-        console.log(e);
+				res.statusCode = 400;
+				res.statusMessage = "Invalid JSON";
       }
+
       callback(req, res, path, method);
     });
   }
