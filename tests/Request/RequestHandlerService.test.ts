@@ -51,10 +51,10 @@ describe("RequestHandlerService", () => {
     expect(router.resolveRoute).toHaveBeenCalledWith(req, res, "/test", "GET");
   });
 
-  it("should set req.query correctly", () => {
+  it("should set req.queryParams correctly", () => {
     requestHandlerService.handleRequest(req, res);
 
-    expect(req.query).toEqual({ param: "value" });
+    expect(req.queryParams).toEqual({ param: "value" });
   });
 
   it('should resolve route with empty pathname as "/"', () => {

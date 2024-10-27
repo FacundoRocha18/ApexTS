@@ -63,6 +63,10 @@ export class Router implements IRouter {
 			const handler: Handler = this.routes[registeredPath]?.[method];
 			const { pathname, searchParams } = new URL(path, "http://localhost");
 
+			if (!handler) {
+				throw new Error(`No handler found for ${method} ${path}`);
+			}
+
 			if (!this.comparePaths(path, registeredPath)) {
 				continue;
 			}
