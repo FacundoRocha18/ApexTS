@@ -1,5 +1,5 @@
-import { framework } from "../../src/app";
-import { IRouter } from "../../src/Interfaces/Router.interface";
+import { framework } from "../../lib/app";
+import { IRouter } from "../../lib/Interfaces/Router.interface";
 
 const router: IRouter = framework.router;
 

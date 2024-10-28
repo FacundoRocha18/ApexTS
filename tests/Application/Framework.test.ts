@@ -1,10 +1,10 @@
 import * as http from "http";
-import { Framework } from "../../src/Application/Framework";
-import { IFramework } from "../../src/Interfaces/Framework.interface";
-import { IRouter } from "../../src/Interfaces/Router.interface";
-import { IMiddlewareManager } from "../../src/Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "../../src/Interfaces/RequestHandlerService.interface";
-import { RouteHandler } from "../../src/Types/Router";
+import { Framework } from "../../lib/Application/Framework";
+import { IFramework } from "../../lib/Interfaces/Framework.interface";
+import { IRouter } from "../../lib/Interfaces/Router.interface";
+import { IMiddlewareManager } from "../../lib/Interfaces/MiddlewareManager.interface";
+import { IRequestHandlerService } from "../../lib/Interfaces/RequestHandlerService.interface";
+import { RouteHandler } from "../../lib/Types/Router";
 
 jest.mock("http");
 

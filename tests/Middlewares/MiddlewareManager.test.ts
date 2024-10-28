@@ -1,9 +1,9 @@
-import { IMiddlewareManager } from "../../src/Interfaces/MiddlewareManager.interface";
-import { MiddlewareManager } from "../../src/Middlewares/MiddlewareManager";
-import { IRouteProcessorService } from "../../src/Interfaces/RouteProcessorService.interface";
-import { MiddlewareFunction } from "../../src/Types/Middlewares";
-import { HttpRequest } from "../../src/Types/Request";
-import { HttpResponse } from "../../src/Types/Response";
+import { IMiddlewareManager } from "../../lib/Interfaces/MiddlewareManager.interface";
+import { MiddlewareManager } from "../../lib/Middlewares/MiddlewareManager";
+import { IRouteProcessorService } from "../../lib/Interfaces/RouteProcessorService.interface";
+import { MiddlewareFunction } from "../../lib/Types/Middlewares";
+import { HttpRequest } from "../../lib/Types/Request";
+import { HttpResponse } from "../../lib/Types/Response";
 
 jest.mock("../../src/Interfaces/RouteProcessorService.interface");
 

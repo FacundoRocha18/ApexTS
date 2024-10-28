@@ -1,11 +1,11 @@
 import { envConfig } from "./Config/environment.config";
-import { HttpRequest } from "../src/Types/Request";
-import { HttpResponse } from "../src/Types/Response";
-import { IFramework } from "../src/Interfaces/Framework.interface";
+import { HttpRequest } from "../lib/Types/Request";
+import { HttpResponse } from "../lib/Types/Response";
+import { IFramework } from "../lib/Interfaces/Framework.interface";
 import { auth } from "./Middlewares/Auth";
 import { logger } from "./Middlewares/Logger";
-import { framework } from "../src/app";
-import { useJsonResponseMiddleware } from "../src/Middlewares/UseJsonResponseMiddleware";
+import { framework } from "../lib/app";
+import { useJsonResponseMiddleware } from "../lib/Middlewares/UseJsonResponseMiddleware";
 
 const app: IFramework = framework;
 const PORT: number = envConfig.PORT;

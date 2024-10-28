@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./",
+    "rootDir": "lib",
     "outDir": "./dist",
     "target": "ES6",
     "module": "commonjs",
@@ -10,15 +10,17 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./global.d.ts",
-      "src/Types/Utils.d.ts",
+      "lib/Types/Utils.d.ts",
       "./node_modules/@types"
     ]
   },
   "include": [
-    "src",
+    "lib",
     "./examples",
+		"./tests",
     "examples/Config/environment.config.ts",
     "global.d.ts",
-    "src/Types/Utils.d.ts"
+    "lib/Types/Utils.d.ts",
+		"node_modules/@types",
   ]
 }

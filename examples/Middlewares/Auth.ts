@@ -1,5 +1,5 @@
-import { HttpRequest } from "../../src/Types/Request";
-import { HttpResponse } from "../../src/Types/Response";
+import { HttpRequest } from "../../lib/Types/Request";
+import { HttpResponse } from "../../lib/Types/Response";
 
 const auth = (req: HttpRequest, res: HttpResponse, next: () => void): void => {
   const authHeader = req.headers["authorization"];
