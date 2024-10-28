@@ -3,7 +3,7 @@ import { IRouter } from "../../lib/router/router.interface";
 import { HttpMethods } from "../../lib/http/http-methods";
 import { IHttpRequest } from "../../lib/interfaces/request.interface";
 import { IHttpResponse } from "../../lib/interfaces/response.interface";
-import { TRouteHandler, TRouteDefinition } from "../../lib/router/router";
+import { TRouteHandler, TRouteDefinition } from "../../lib/router/router.types";
 
 describe("Router", () => {
   let routerInstance: IRouter;

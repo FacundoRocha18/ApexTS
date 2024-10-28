@@ -4,7 +4,7 @@ import { IFramework } from "../../lib/application/framework.interface";
 import { IRouter } from "../../lib/router/router.interface";
 import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
 import { IRequestHandler } from "../../lib/http/request/request-handler.interface";
-import { TRouteHandler } from "../../lib/router/router";
+import { TRouteHandler } from "../../lib/router/router.types";
 
 jest.mock("http");
 
