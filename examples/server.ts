@@ -24,7 +24,6 @@ app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {
     return null;
   }
 
-  res.setHeader("Content-type", "application/json");
   res.statusCode = 200;
   res.json("GET endpoint working");
 });
@@ -42,7 +41,6 @@ app.get("/products/:category/:id", (req: HttpRequest, res: HttpResponse) => {
     },
   };
 
-  res.setHeader("Content-type", "application/json");
   res.statusCode = 200;
   res.json(data);
 });

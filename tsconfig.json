@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": "lib",
     "outDir": "./dist",
     "target": "ES6",
     "module": "commonjs",
@@ -12,15 +11,18 @@
       "./global.d.ts",
       "lib/Types/Utils.d.ts",
       "./node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "@src/*": ["./lib/*"],
+      "@tests/*": ["./tests/*"]
+    }
   },
   "include": [
-    "lib",
-    "./examples",
-		"./tests",
-    "examples/Config/environment.config.ts",
+    "lib/**/*",
+    "lib/Types/*",
+    "examples/**/*",
+    "tests/**/*",
     "global.d.ts",
-    "lib/Types/Utils.d.ts",
-		"node_modules/@types",
+    "node_modules/@types"
   ]
 }
