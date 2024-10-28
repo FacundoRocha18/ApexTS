@@ -19,10 +19,7 @@
   },
   "include": [
     "lib/**/*",
-    "lib/Types/*",
     "examples/**/*",
     "tests/**/*",
-    "global.d.ts",
-    "node_modules/@types"
   ]
 }
