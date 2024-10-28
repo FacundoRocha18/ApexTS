@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon ./src/examples/index.ts",
+    "dev": "nodemon exec",
     "test": "jest --watch",
     "build": "tsc",
     "lint": "npx eslint . --fix",
