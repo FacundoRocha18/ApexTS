@@ -3,7 +3,7 @@ import { Framework } from "../../lib/application/framework";
 import { IFramework } from "../../lib/interfaces/framework.interface";
 import { IRouter } from "../../lib/interfaces/router.interface";
 import { IMiddlewareManager } from "../../lib/interfaces/middleware-manager.interface";
-import { IRequestHandlerService } from "../../lib/interfaces/request-handler.interface";
+import { IRequestHandler } from "../../lib/interfaces/request-handler.interface";
 import { RouteHandler } from "../../lib/types/router";
 
 jest.mock("http");
@@ -12,7 +12,7 @@ describe("Framework", () => {
   let frameworkInstance: IFramework;
   let serverMock: { listen: jest.Mock };
   let routerMock: jest.Mocked<IRouter>;
-  let requestHandlerServiceMock: jest.Mocked<IRequestHandlerService>;
+  let requestHandlerServiceMock: jest.Mocked<IRequestHandler>;
   let middlewareManagerMock: jest.Mocked<IMiddlewareManager>;
   let handler: RouteHandler;
   const path = "/users";

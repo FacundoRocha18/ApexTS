@@ -2,7 +2,7 @@ import http from "http";
 import { IFramework } from "../interfaces/framework.interface";
 import { IRouter } from "../interfaces/router.interface";
 import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
-import { IRequestHandlerService } from "../interfaces/request-handler.interface";
+import { IRequestHandler } from "../interfaces/request-handler.interface";
 import { MiddlewareFunction } from "../types/middlewares";
 import { RouteHandler } from "../types/router";
 
@@ -12,7 +12,7 @@ export class Framework implements IFramework {
   constructor(
     router: IRouter,
     private middlewareManager: IMiddlewareManager,
-    private requestHandlerTypeService: IRequestHandlerService,
+    private requestHandlerTypeService: IRequestHandler,
   ) {
     this.router = router;
   }
