@@ -11,7 +11,7 @@ import { ParserService } from "../Parsing/ParserService";
 import { Router } from "../Routing/Router";
 import { Framework } from "../Application/Framework";
 import { MiddlewareManager } from "../Middlewares/MiddlewareManager";
-import { RequestHandlerService } from "../Request/RequestHandlerService";
+import { RequestHandlerService } from "../Http/Request/RequestHandlerService";
 import { RouteProcessorService } from "../Routing/RouteProcessorService";
 
 // Create instances of the classes

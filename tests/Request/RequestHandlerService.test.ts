@@ -1,4 +1,4 @@
-import { RequestHandlerService } from "../../lib/Request/RequestHandlerService";
+import { RequestHandlerService } from "../../lib/Http/Request/RequestHandlerService";
 import { IMiddlewareManager } from "../../lib/Interfaces/MiddlewareManager.interface";
 import { IRouter } from "../../lib/Interfaces/Router.interface";
 import { HttpRequest } from "../../lib/Types/Request";
