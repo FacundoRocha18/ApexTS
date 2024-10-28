@@ -1,5 +1,5 @@
-import { HttpRequest } from "../../lib/Types/Request";
-import { HttpResponse } from "../../lib/Types/Response";
+import { HttpRequest } from "../../lib/Types/request";
+import { HttpResponse } from "../../lib/Types/response";
 
 const loggerMiddleware = (
   req: HttpRequest,

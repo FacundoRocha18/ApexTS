@@ -9,17 +9,13 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./global.d.ts",
-      "lib/Types/Utils.d.ts",
+      "lib/Types/utils.d.ts",
       "./node_modules/@types"
     ],
     "paths": {
       "@src/*": ["./lib/*"],
-      "@tests/*": ["./tests/*"]
+      "@tests/*": ["./__tests__/*"]
     }
   },
-  "include": [
-    "lib/**/*",
-    "examples/**/*",
-    "tests/**/*",
-  ]
+  "include": ["lib/**/*", "examples/**/*", "__tests__/**/*"]
 }

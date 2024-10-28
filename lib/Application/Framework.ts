@@ -1,10 +1,10 @@
 import http from "http";
-import { IFramework } from "../Interfaces/Framework.interface";
-import { IRouter } from "../Interfaces/Router.interface";
-import { IMiddlewareManager } from "../Interfaces/MiddlewareManager.interface";
-import { IRequestHandlerService } from "../Interfaces/RequestHandlerService.interface";
-import { MiddlewareFunction } from "../Types/Middlewares";
-import { RouteHandler } from "../Types/Router";
+import { IFramework } from "../Interfaces/framework.interface";
+import { IRouter } from "../Interfaces/router.interface";
+import { IMiddlewareManager } from "../Interfaces/middleware-manager.interface";
+import { IRequestHandlerService } from "../Interfaces/request-handler.interface";
+import { MiddlewareFunction } from "../Types/middlewares";
+import { RouteHandler } from "../Types/router";
 
 export class Framework implements IFramework {
   public router: IRouter;

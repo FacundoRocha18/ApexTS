@@ -1,8 +1,8 @@
-import { RequestHandlerService } from "../../lib/Http/Request/RequestHandlerService";
-import { IMiddlewareManager } from "../../lib/Interfaces/MiddlewareManager.interface";
-import { IRouter } from "../../lib/Interfaces/Router.interface";
-import { HttpRequest } from "../../lib/Types/Request";
-import { HttpResponse } from "../../lib/Types/Response";
+import { RequestHandlerService } from "../../lib/Http/Request/request-handler";
+import { IMiddlewareManager } from "../../lib/Interfaces/middleware-manager.interface";
+import { IRouter } from "../../lib/Interfaces/router.interface";
+import { HttpRequest } from "../../lib/Types/request";
+import { HttpResponse } from "../../lib/Types/response";
 
 describe("RequestHandlerService", () => {
   let requestHandlerService: RequestHandlerService;

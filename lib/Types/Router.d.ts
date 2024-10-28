@@ -1,5 +1,5 @@
-import { HttpRequest } from "./Request";
-import { HttpResponse } from "./Response";
+import { HttpRequest } from "./request";
+import { HttpResponse } from "./response";
 
 export type RouteDefinition = {
   [path: string]: { [method: string]: RouteHandler };

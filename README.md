@@ -4,29 +4,29 @@ Framework es un framework web ligero, escrito en Node.js y TypeScript, diseñado
 
 Tabla de Contenidos
 
-* Características
-* Instalación
-* Ejemplo de Uso
-* Estructura de Carpetas
-* API
-  * Router
-  * MiddlewareManager
-  * RequestHandlerService
-* Configuración
-* Pruebas
-* Contribuciones
-* Licencia
+- Características
+- Instalación
+- Ejemplo de Uso
+- Estructura de Carpetas
+- API
+  - Router
+  - MiddlewareManager
+  - RequestHandlerService
+- Configuración
+- Pruebas
+- Contribuciones
+- Licencia
 
 ## Características
 
-* Enrutamiento Dinámico: Permite crear rutas dinámicamente y manejar parámetros de ruta.
-* Middlewares Flexibles: Maneja middlewares de forma eficiente para añadir funciones como validación, logging y más.
-* Soporte para JSON y Respuestas Personalizadas: Incluye métodos extendidos de respuesta como res.json para facilitar la creación de API REST.
-* Modular y Extensible: Construido para facilitar el uso de dependencias y ser extendido con nuevos módulos.
+- Enrutamiento Dinámico: Permite crear rutas dinámicamente y manejar parámetros de ruta.
+- Middlewares Flexibles: Maneja middlewares de forma eficiente para añadir funciones como validación, logging y más.
+- Soporte para JSON y Respuestas Personalizadas: Incluye métodos extendidos de respuesta como res.json para facilitar la creación de API REST.
+- Modular y Extensible: Construido para facilitar el uso de dependencias y ser extendido con nuevos módulos.
 
 ## Instalación
 
-``` Typescript
+```Typescript
 npm install myframework
 ```
 
@@ -34,8 +34,13 @@ npm install myframework
 
 ### Crear un Servidor Básico
 
-``` typescript
-import { MyFramework, Router, MiddlewareManager, RequestHandlerService } from 'myframework';
+```typescript
+import {
+  MyFramework,
+  Router,
+  MiddlewareManager,
+  RequestHandlerService,
+} from "myframework";
 
 const app = new MyFramework();
 const router = new Router();
@@ -49,19 +54,19 @@ middlewareManager.use((req, res, next) => {
 });
 
 // Define rutas
-router.get('/hello', (req, res) => {
-  res.end('Hello, world!');
+router.get("/hello", (req, res) => {
+  res.end("Hello, world!");
 });
 
-app.use('/', router);
+app.use("/", router);
 app.listen(3000, () => {
-  console.log('Servidor en ejecución en http://localhost:3000');
+  console.log("Servidor en ejecución en http://localhost:3000");
 });
 ```
 
 ## Estructura de Carpetas
 
-``` bash
+```bash
 /framework
 |-- /lib
 |   |-- MyFramework.ts        # Configuración y arranque del servidor
@@ -82,10 +87,10 @@ Permite definir y manejar rutas de diferentes métodos HTTP.
 
 #### Métodos Router
 
-* get(path: string, handler: Handler): Define una ruta GET.
-* post(path: string, handler: Handler): Define una ruta POST.
-* put(path: string, handler: Handler): Define una ruta PUT.
-* delete(path: string, handler: Handler): Define una ruta DELETE.
+- get(path: string, handler: Handler): Define una ruta GET.
+- post(path: string, handler: Handler): Define una ruta POST.
+- put(path: string, handler: Handler): Define una ruta PUT.
+- delete(path: string, handler: Handler): Define una ruta DELETE.
 
 ### MiddlewareManager
 
@@ -93,8 +98,8 @@ Clase que administra middlewares y asegura su ejecución en el orden registrado.
 
 #### Métodos MiddlewareManager
 
-* use(middleware: Middleware): Registra un middleware que será ejecutado para cada solicitud.
-* executeMiddlewares(req: Request, res: Response, next: () => void): Ejecuta todos los middlewares en orden.
+- use(middleware: Middleware): Registra un middleware que será ejecutado para cada solicitud.
+- executeMiddlewares(req: Request, res: Response, next: () => void): Ejecuta todos los middlewares en orden.
 
 ### RequestHandlerService
 
@@ -102,7 +107,7 @@ Gestiona la solicitud y procesa la ruta.
 
 #### Métodos RequestHandlerService
 
-* handleRequest(req: Request, res: Response): Ejecuta los middlewares y resuelve la ruta correspondiente a la solicitud.
+- handleRequest(req: Request, res: Response): Ejecuta los middlewares y resuelve la ruta correspondiente a la solicitud.
 
 ## Configuración
 
@@ -110,7 +115,7 @@ Gestiona la solicitud y procesa la ruta.
 
 Para soportar varias carpetas raíz y el uso de TypeScript, configura tu tsconfig.json de la siguiente manera:
 
-``` json
+```json
 {
   "compilerOptions": {
     "outDir": "./dist",
@@ -130,11 +135,7 @@ Para soportar varias carpetas raíz y el uso de TypeScript, configura tu tsconfi
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": [
-    "lib/**/*",
-    "examples/**/*",
-    "tests/**/*",
-  ]
+  "include": ["lib/**/*", "examples/**/*", "tests/**/*"]
 }
 ```
 
@@ -146,7 +147,7 @@ Al iniciar una instancia de MyFramework, puedes pasar opciones adicionales para 
 
 Para ejecutar los tests, instala Jest:
 
-``` bash
+```bash
 npm install --save-dev jest
 ```
 

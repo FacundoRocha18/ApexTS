@@ -10,14 +10,14 @@ interface ENV {
   PORT: number | undefined;
 }
 
-interface Config {
+interface Configuration {
   NODE_ENV: string;
   PORT: number;
 }
 
 // Loading process.env as ENV interface
 
-const getConfig = (): ENV => {
+const loadConfiguration = (): ENV => {
   return {
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
@@ -30,17 +30,19 @@ const getConfig = (): ENV => {
 // it as Config which just removes the undefined from our type
 // definition.
 
-const getEnvConfig = (config: ENV): Config => {
+const validateEnvironmentConfiguration = (config: ENV): Configuration => {
   for (const [key, value] of Object.entries(config)) {
     if (value === undefined) {
       throw new Error(`Missing key ${key} in config.env`);
     }
   }
-  return config as Config;
+
+  return config as Configuration;
 };
 
-const config = getConfig();
+const configuration = loadConfiguration();
 
-const envConfig = getEnvConfig(config);
+const validatedEnvironmentConfiguration =
+  validateEnvironmentConfiguration(configuration);
 
-export { envConfig };
+export { validatedEnvironmentConfiguration as environmentConfiguration };

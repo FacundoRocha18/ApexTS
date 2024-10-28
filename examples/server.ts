@@ -1,15 +1,14 @@
-import { envConfig } from "./Config/environment.config";
-import { HttpRequest } from "../lib/Types/Request";
-import { HttpResponse } from "../lib/Types/Response";
-import { IFramework } from "../lib/Interfaces/Framework.interface";
-import { authMiddleware } from "./Middlewares/AuthMiddleware";
-import { loggerMiddleware } from "./Middlewares/LoggerMiddleware";
-import { useJsonResponseMiddleware } from "../lib/Middlewares/UseJsonResponseMiddleware";
-import { framework } from "../lib/app";
+import { HttpRequest } from "../lib/Types/request";
+import { HttpResponse } from "../lib/Types/response";
+import { IFramework } from "../lib/Interfaces/framework.interface";
+import { authMiddleware } from "./Middlewares/auth-middleware";
+import { loggerMiddleware } from "./Middlewares/logger-middleware";
+import { useJsonResponseMiddleware } from "../lib/Middlewares/json-response-middleware";
+import { framework, environmentConfiguration } from "../lib";
 
 const app: IFramework = framework;
-const PORT: number = envConfig.PORT;
-const NODE_ENV: string = envConfig.NODE_ENV;
+const PORT: number = environmentConfiguration.PORT;
+const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 
 app.use(authMiddleware);
 app.use(loggerMiddleware);

@@ -1,8 +1,8 @@
-import { HttpMethods } from "../Http/HttpMethods";
-import { IRouter } from "../Interfaces/Router.interface";
-import { TPathVariables, TQueryParams, HttpRequest } from "../Types/Request";
-import { HttpResponse } from "../Types/Response";
-import { RouteHandler, RouteDefinition } from "../Types/Router";
+import { HttpMethods } from "../Http/http-methods";
+import { IRouter } from "../Interfaces/router.interface";
+import { TPathVariables, TQueryParams, HttpRequest } from "../Types/request";
+import { HttpResponse } from "../Types/response";
+import { RouteHandler, RouteDefinition } from "../Types/router";
 
 export class Router implements IRouter {
   private routes: RouteDefinition = {};
