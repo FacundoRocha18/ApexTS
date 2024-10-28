@@ -5,6 +5,7 @@ import { IFramework } from "../src/Interfaces/Framework.interface";
 import { auth } from "./Middlewares/Auth";
 import { logger } from "./Middlewares/Logger";
 import { framework } from "../src/app";
+import { useJsonResponseMiddleware } from "../src/Middlewares/UseJsonResponseMiddleware";
 
 const app: IFramework = framework;
 const PORT: number = envConfig.PORT;
@@ -12,17 +13,20 @@ const NODE_ENV: string = envConfig.NODE_ENV;
 
 app.use(auth);
 app.use(logger);
+app.use(useJsonResponseMiddleware);
 
 app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {
   const { query } = req.queryParams;
 
   if (query === "ping") {
-    res.end(`Query: ${query} Response: pong`);
+    res.setHeader("Content-type", "application/json");
+    res.end(JSON.stringify(`Query: ${query} Response: pong`));
     return null;
   }
 
+  res.setHeader("Content-type", "application/json");
   res.statusCode = 200;
-  res.end("GET endpoint working");
+  res.json("GET endpoint working");
 });
 
 app.get("/products/:category/:id", (req: HttpRequest, res: HttpResponse) => {
@@ -40,39 +44,29 @@ app.get("/products/:category/:id", (req: HttpRequest, res: HttpResponse) => {
 
   res.setHeader("Content-type", "application/json");
   res.statusCode = 200;
-  res.end(JSON.stringify(data));
+  res.json(data);
 });
 
 app.post("/post-test", (req: HttpRequest, res: HttpResponse) => {
-  const { data } = req.body;
-
-  if (data === "ping") {
-    res.end("Pong");
-    return null;
-  }
+  const body = req.body;
 
   res.statusCode = 201;
-  res.end(`Data received ${data}`);
+  res.json(body);
 });
 
 app.put("/put-test", (req: HttpRequest, res: HttpResponse) => {
-  if (res.statusMessage === "Invalid JSON") {
-    res.end("Invalid JSON");
-    return null;
-  }
-
   res.statusCode = 201;
-  res.end("PUT endpoint working");
+  res.json("PUT endpoint working");
 });
 
 app.del("/delete-test", (req: HttpRequest, res: HttpResponse) => {
   res.statusCode = 201;
-  res.end("DELETE endpoint working");
+  res.json("DELETE endpoint working");
 });
 
 app.patch("/patch-test", (req: HttpRequest, res: HttpResponse) => {
   res.statusCode = 201;
-  res.end("PATCH endpoint working");
+  res.json("PATCH endpoint working");
 });
 
 app.listen(PORT, NODE_ENV);
