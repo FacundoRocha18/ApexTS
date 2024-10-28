@@ -1,5 +1,6 @@
-import { Request, Response } from "../Types/main";
+import { HttpRequest } from "../Types/Request";
+import { HttpResponse } from "../Types/Response";
 
 export interface IRequestHandlerService {
-  handleRequest(req: Request, res: Response): void;
+  handleRequest(req: HttpRequest, res: HttpResponse): void;
 }

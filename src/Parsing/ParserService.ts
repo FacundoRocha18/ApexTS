@@ -1,4 +1,4 @@
-import { ParserParams } from "../Types/main";
+import { ParserParams } from "../Types/Utils";
 import { IParserService } from "../Interfaces/ParserService.interface";
 
 export class ParserService implements IParserService {
@@ -17,8 +17,8 @@ export class ParserService implements IParserService {
         req.body = JSON.parse(parsedBody);
       } catch (error) {
         req.body = parsedBody;
-				res.statusCode = 400;
-				res.statusMessage = "Invalid JSON";
+        res.statusCode = 400;
+        res.statusMessage = "Invalid JSON";
       }
 
       callback(req, res, path, method);

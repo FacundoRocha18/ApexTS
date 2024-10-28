@@ -1,51 +1,37 @@
 import * as http from "http";
 import { Framework } from "../../src/Application/Framework";
-import { Handler } from "../../src/Types/main";
 import { IFramework } from "../../src/Interfaces/Framework.interface";
 import { IRouter } from "../../src/Interfaces/Router.interface";
 import { IMiddlewareManager } from "../../src/Interfaces/MiddlewareManager.interface";
 import { IRequestHandlerService } from "../../src/Interfaces/RequestHandlerService.interface";
+import { RouteHandler } from "../../src/Types/Router";
 
-jest.mock("../../src/Routing/Router.ts");
-jest.mock("../../src/Parsing/ParserService.ts");
 jest.mock("http");
 
 describe("Framework", () => {
-  let fastFrameworkInstance: IFramework;
+  let frameworkInstance: IFramework;
   let serverMock: { listen: jest.Mock };
-  let routerMock: IRouter;
-  let requestHandlerServiceMock: IRequestHandlerService;
-  let middlewareManagerMock: IMiddlewareManager;
-  let handler: Handler;
+  let routerMock: jest.Mocked<IRouter>;
+  let requestHandlerServiceMock: jest.Mocked<IRequestHandlerService>;
+  let middlewareManagerMock: jest.Mocked<IMiddlewareManager>;
+  let handler: RouteHandler;
   const path = "/users";
 
-  class MiddlewareManager implements IMiddlewareManager {
-    use = jest.fn();
-    executeMiddlewares = jest.fn();
-  }
-
-  class RequestHandlerService implements IRequestHandlerService {
-    handleRequest = jest.fn();
-  }
-
-  class Router implements IRouter {
-    constructor() {}
-
-    public use = jest.fn();
-    public get = jest.fn();
-    public post = jest.fn();
-    public del = jest.fn();
-    public put = jest.fn();
-    public patch = jest.fn();
-    public resolveRoute = jest.fn();
-    public handleRequest = jest.fn();
-  }
-
   beforeEach(() => {
-    routerMock = new Router();
-    requestHandlerServiceMock = new RequestHandlerService();
-    middlewareManagerMock = new MiddlewareManager();
-    fastFrameworkInstance = new Framework(
+    routerMock = {
+      get: jest.fn(),
+      post: jest.fn(),
+      del: jest.fn(),
+      put: jest.fn(),
+      patch: jest.fn(),
+    } as Partial<IRouter> as jest.Mocked<IRouter>;
+    requestHandlerServiceMock = {
+      handleRequest: jest.fn(),
+    };
+    middlewareManagerMock = {
+      executeMiddlewares: jest.fn(),
+    } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
+    frameworkInstance = new Framework(
       routerMock,
       middlewareManagerMock,
       requestHandlerServiceMock,
@@ -65,79 +51,77 @@ describe("Framework", () => {
   });
 
   it("Should be an instance of FastFramework", () => {
-    expect(fastFrameworkInstance).toBeInstanceOf(Framework);
+    expect(frameworkInstance).toBeInstanceOf(Framework);
   });
 
   it("Should initialize with the provided Router", () => {
-    expect(fastFrameworkInstance.router).toBe(routerMock);
+    expect(frameworkInstance.router).toBe(routerMock);
   });
 
   it("Should initialize with the provided MiddlewareManager", () => {
-    expect(fastFrameworkInstance["middlewareManager"]).toBe(
-      middlewareManagerMock,
-    );
+    expect(frameworkInstance["middlewareManager"]).toBe(middlewareManagerMock);
   });
 
   it("Should initialize with the provided RequestHandlerService", () => {
-    expect(fastFrameworkInstance["requestHandlerService"]).toBe(
+    expect(frameworkInstance["requestHandlerService"]).toEqual(
       requestHandlerServiceMock,
     );
   });
 
   it("Should have a get method", () => {
-    expect(fastFrameworkInstance.get).toBeDefined();
+    expect(frameworkInstance.get).toBeDefined();
   });
 
   it("Should have a post method", () => {
-    expect(fastFrameworkInstance.post).toBeDefined();
+    expect(frameworkInstance.post).toBeDefined();
   });
 
   it("Should have a delete method", () => {
-    expect(fastFrameworkInstance.del).toBeDefined();
+    expect(frameworkInstance.del).toBeDefined();
   });
 
   it("Should have a put method", () => {
-    expect(fastFrameworkInstance.put).toBeDefined();
+    expect(frameworkInstance.put).toBeDefined();
   });
 
   it("Should have a patch method", () => {
-    expect(fastFrameworkInstance.patch).toBeDefined();
+    expect(frameworkInstance.patch).toBeDefined();
   });
 
   it("Should have a listen method", () => {
-    expect(fastFrameworkInstance.listen).toBeDefined();
+    expect(frameworkInstance.listen).toBeDefined();
   });
 
   it("Should call router.get method with correct arguments", () => {
-    fastFrameworkInstance.get(path, handler);
+    frameworkInstance.get(path, handler);
 
     expect(routerMock.get).toHaveBeenCalledWith(path, handler);
     expect(routerMock.get).toHaveBeenCalledTimes(1);
   });
 
   it("Should call router.post method with correct arguments", () => {
-    fastFrameworkInstance.post(path, handler);
+    frameworkInstance.post(path, handler);
 
     expect(routerMock.post).toHaveBeenCalledWith(path, handler);
     expect(routerMock.post).toHaveBeenCalledTimes(1);
   });
 
   it("Should call router.delete method with correct arguments", () => {
-    fastFrameworkInstance.del(path, handler);
+    frameworkInstance.del(path, handler);
 
     expect(routerMock.del).toHaveBeenCalledWith(path, handler);
     expect(routerMock.del).toHaveBeenCalledTimes(1);
   });
 
   it("Should call router.put method with correct arguments", () => {
-    fastFrameworkInstance.put(path, handler);
+    frameworkInstance.put(path, handler);
 
     expect(routerMock.put).toHaveBeenCalledWith(path, handler);
     expect(routerMock.put).toHaveBeenCalledTimes(1);
   });
 
   it("Should call router.patch method with correct arguments", () => {
-    fastFrameworkInstance.patch(path, handler);
+    frameworkInstance.patch(path, handler);
 
     expect(routerMock.patch).toHaveBeenCalledWith(path, handler);
     expect(routerMock.patch).toHaveBeenCalledTimes(1);
@@ -149,7 +133,7 @@ describe("Framework", () => {
     const reqMock = {};
     const resMock = {};
 
-    fastFrameworkInstance.listen(port, node_env);
+    frameworkInstance.listen(port, node_env);
 
     expect(http.createServer).toHaveBeenCalledTimes(1);
 

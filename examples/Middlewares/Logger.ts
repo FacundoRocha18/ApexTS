@@ -1,8 +1,9 @@
-import { Request, Response } from "../../src/Types/main";
+import { HttpRequest } from "../../src/Types/Request";
+import { HttpResponse } from "../../src/Types/Response";
 
 const logger = (
-  req: Request,
-  res: Response,
+  req: HttpRequest,
+  res: HttpResponse,
   next: () => void,
 ): void | Promise<void> => {
   console.log(`${req.method} ${req.url}`);

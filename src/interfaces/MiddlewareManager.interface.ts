@@ -1,6 +1,12 @@
-import { Middleware, Request, Response } from "../Types/main";
+import { MiddlewareFunction } from "../Types/Middlewares";
+import { HttpRequest } from "../Types/Request";
+import { HttpResponse } from "../Types/Response";
 
 export interface IMiddlewareManager {
-  use(middleware: Middleware): void;
-  executeMiddlewares(req: Request, res: Response, next?: () => void): void;
+  use(middleware: MiddlewareFunction): void;
+  executeMiddlewares(
+    req: HttpRequest,
+    res: HttpResponse,
+    next?: () => void,
+  ): void;
 }

@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./global.d.ts",
-      "src/Types/main.d.ts",
+      "src/Types/Utils.d.ts",
       "./node_modules/@types"
     ]
   },
@@ -19,6 +19,6 @@
     "./examples",
     "examples/Config/environment.config.ts",
     "global.d.ts",
-    "src/Types/main.d.ts"
+    "src/Types/Utils.d.ts"
   ]
 }
