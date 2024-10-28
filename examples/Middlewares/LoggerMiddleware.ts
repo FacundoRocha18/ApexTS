@@ -1,7 +1,7 @@
 import { HttpRequest } from "../../lib/Types/Request";
 import { HttpResponse } from "../../lib/Types/Response";
 
-const logger = (
+const loggerMiddleware = (
   req: HttpRequest,
   res: HttpResponse,
   next: () => void,
@@ -10,4 +10,4 @@ const logger = (
   next();
 };
 
-export { logger };
+export { loggerMiddleware };

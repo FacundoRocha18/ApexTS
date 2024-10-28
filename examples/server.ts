@@ -2,8 +2,8 @@ import { envConfig } from "./Config/environment.config";
 import { HttpRequest } from "../lib/Types/Request";
 import { HttpResponse } from "../lib/Types/Response";
 import { IFramework } from "../lib/Interfaces/Framework.interface";
-import { auth } from "./Middlewares/Auth";
-import { logger } from "./Middlewares/Logger";
+import { authMiddleware } from "./Middlewares/AuthMiddleware";
+import { loggerMiddleware } from "./Middlewares/LoggerMiddleware";
 import { framework } from "../lib/app";
 import { useJsonResponseMiddleware } from "../lib/Middlewares/UseJsonResponseMiddleware";
 
@@ -11,8 +11,8 @@ const app: IFramework = framework;
 const PORT: number = envConfig.PORT;
 const NODE_ENV: string = envConfig.NODE_ENV;
 
-app.use(auth);
-app.use(logger);
+app.use(authMiddleware);
+app.use(loggerMiddleware);
 app.use(useJsonResponseMiddleware);
 
 app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {

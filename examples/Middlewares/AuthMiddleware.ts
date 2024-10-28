@@ -1,7 +1,7 @@
 import { HttpRequest } from "../../lib/Types/Request";
 import { HttpResponse } from "../../lib/Types/Response";
 
-const auth = (req: HttpRequest, res: HttpResponse, next: () => void): void => {
+const authMiddleware = (req: HttpRequest, res: HttpResponse, next: () => void): void => {
   const authHeader = req.headers["authorization"];
 
   if (authHeader !== "Bearer valid-token") {
@@ -13,4 +13,4 @@ const auth = (req: HttpRequest, res: HttpResponse, next: () => void): void => {
   next();
 };
 
-export { auth };
+export { authMiddleware };
