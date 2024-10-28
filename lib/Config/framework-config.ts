@@ -1,7 +1,7 @@
 // Import the interfaces
 import { IParserService } from "../interfaces/parser-service.interface";
 import { IRouter } from "../interfaces/router.interface";
-import { IFramework } from "../interfaces/framework.interface";
+import { IFramework } from "../application/framework.interface";
 import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
 import { IRequestHandler } from "../interfaces/request-handler.interface";
 import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";

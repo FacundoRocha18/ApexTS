@@ -1,5 +1,5 @@
 import http from "http";
-import { IFramework } from "../interfaces/framework.interface";
+import { IFramework } from "./framework.interface";
 import { IRouter } from "../interfaces/router.interface";
 import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
 import { IRequestHandler } from "../interfaces/request-handler.interface";
