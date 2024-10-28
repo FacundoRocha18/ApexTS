@@ -1,9 +1,9 @@
 import * as http from "http";
 import { Framework } from "../../lib/application/framework";
 import { IFramework } from "../../lib/application/framework.interface";
-import { IRouter } from "../../lib/interfaces/router.interface";
-import { IMiddlewareManager } from "../../lib/interfaces/middleware-manager.interface";
-import { IRequestHandler } from "../../lib/interfaces/request-handler.interface";
+import { IRouter } from "../../lib/router/router.interface";
+import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
+import { IRequestHandler } from "../../lib/http/request/request-handler.interface";
 import { RouteHandler } from "../../lib/types/router";
 
 jest.mock("http");

@@ -1,6 +1,6 @@
-import { IMiddlewareManager } from "../../lib/interfaces/middleware-manager.interface";
+import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
 import { MiddlewareManager } from "../../lib/middlewares/middleware-manager";
-import { IRouteProcessorService } from "../../lib/interfaces/route-processor-service.interface";
+import { IRouteProcessorService } from "../../lib/router/route-processor-service.interface";
 import { MiddlewareFunction } from "../../lib/types/middlewares";
 import { HttpRequest } from "../../lib/types/request";
 import { HttpResponse } from "../../lib/types/response";

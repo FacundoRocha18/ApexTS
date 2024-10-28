@@ -1,5 +1,5 @@
 import { Router } from "../../lib/router/router";
-import { IRouter } from "../../lib/interfaces/router.interface";
+import { IRouter } from "../../lib/router/router.interface";
 import { HttpMethods } from "../../lib/http/http-methods";
 import { HttpRequest } from "../../lib/types/request";
 import { HttpResponse } from "../../lib/types/response";

@@ -1,6 +1,6 @@
 import { MiddlewareFunction } from "../types/middlewares";
 import { RouteHandler } from "../types/router";
-import { IRouter } from "./router.interface";
+import { IRouter } from "../router/router.interface";
 
 export interface IFramework {
   router: IRouter;

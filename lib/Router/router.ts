@@ -1,5 +1,5 @@
 import { HttpMethods } from "../http/http-methods";
-import { IRouter } from "../interfaces/router.interface";
+import { IRouter } from "./router.interface";
 import { TPathVariables, TQueryParams, HttpRequest } from "../types/request";
 import { HttpResponse } from "../types/response";
 import { RouteHandler, RouteDefinition } from "../types/router";

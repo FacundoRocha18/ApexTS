@@ -1,6 +1,6 @@
 import { RequestHandler } from "../../lib/http/request/request-handler";
-import { IMiddlewareManager } from "../../lib/interfaces/middleware-manager.interface";
-import { IRouter } from "../../lib/interfaces/router.interface";
+import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
+import { IRouter } from "../../lib/router/router.interface";
 import { HttpRequest } from "../../lib/types/request";
 import { HttpResponse } from "../../lib/types/response";
 

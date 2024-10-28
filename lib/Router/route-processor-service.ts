@@ -1,6 +1,6 @@
-import { IParserService } from "../interfaces/parser-service.interface";
-import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";
-import { IRouter } from "../interfaces/router.interface";
+import { IParserService } from "../parser/parser-service.interface";
+import { IRouteProcessorService } from "./route-processor-service.interface";
+import { IRouter } from "./router.interface";
 import { HttpRequest } from "../types/request";
 import { HttpResponse } from "../types/response";
 

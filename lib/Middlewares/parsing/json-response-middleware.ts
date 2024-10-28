@@ -1,6 +1,6 @@
-import { MiddlewareFunction } from "../types/middlewares";
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { MiddlewareFunction } from "../../types/middlewares";
+import { HttpRequest } from "../../types/request";
+import { HttpResponse } from "../../types/response";
 
 export const jsonResponseMiddleware: MiddlewareFunction = (
   req: HttpRequest,

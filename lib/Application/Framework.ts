@@ -1,8 +1,8 @@
 import http from "http";
 import { IFramework } from "./framework.interface";
-import { IRouter } from "../interfaces/router.interface";
-import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
-import { IRequestHandler } from "../interfaces/request-handler.interface";
+import { IRouter } from "../router/router.interface";
+import { IMiddlewareManager } from "../middlewares/middleware-manager.interface";
+import { IRequestHandler } from "../http/request/request-handler.interface";
 import { MiddlewareFunction } from "../types/middlewares";
 import { RouteHandler } from "../types/router";
 

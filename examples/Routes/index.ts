@@ -1,5 +1,5 @@
 import { framework } from "../../lib";
-import { IRouter } from "../../lib/interfaces/router.interface";
+import { IRouter } from "../../lib/router/router.interface";
 
 const router: IRouter = framework.router;
 

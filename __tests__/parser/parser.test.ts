@@ -1,6 +1,6 @@
 import { ParserService } from "../../lib/parser/parser-service";
 import { IncomingMessage, ServerResponse } from "http";
-import { IParserService } from "../../lib/interfaces/parser-service.interface";
+import { IParserService } from "../../lib/parser/parser-service.interface";
 import { HttpRequest } from "../../lib/types/request";
 import { HttpResponse } from "../../lib/types/response";
 

@@ -1,6 +1,6 @@
-import { IMiddlewareError } from "../errors/middlewares/MiddlewareError.interface";
-import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
-import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";
+import { IMiddlewareError } from "../errors/middlewares/middleware-error.interface";
+import { IMiddlewareManager } from "./middleware-manager.interface";
+import { IRouteProcessorService } from "../router/route-processor-service.interface";
 import { MiddlewareFunction } from "../types/middlewares";
 import { HttpRequest } from "../types/request";
 import { HttpResponse } from "../types/response";
