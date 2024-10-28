@@ -5,7 +5,7 @@ import { TMiddlewareFunction } from "../../lib/middlewares/middleware.types";
 import { IHttpRequest } from "../../lib/interfaces/request.interface";
 import { IHttpResponse } from "../../lib/interfaces/response.interface";
 
-jest.mock("../../src/Interfaces/RouteProcessorService.interface");
+jest.mock("../../lib/router/route-processor-service");
 
 describe("MiddlewareManager", () => {
   let middlewareManager: IMiddlewareManager;

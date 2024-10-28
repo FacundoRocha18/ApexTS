@@ -12,7 +12,7 @@ export class Framework implements IFramework {
   constructor(
     router: IRouter,
     private middlewareManager: IMiddlewareManager,
-    private requestHandlerTypeService: IRequestHandler,
+    private requestHandler: IRequestHandler,
   ) {
     this.router = router;
   }
@@ -43,7 +43,7 @@ export class Framework implements IFramework {
 
   public listen(port: number, node_env: string): void {
     const server = http.createServer((req, res) =>
-      this.requestHandlerTypeService.handleRequest(req, res),
+      this.requestHandler.handleRequest(req, res),
     );
 
     server.listen(port, () => {
