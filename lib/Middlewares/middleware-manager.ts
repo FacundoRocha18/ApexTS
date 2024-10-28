@@ -1,9 +1,9 @@
-import { IMiddlewareError } from "../Errors/Middlewares/MiddlewareError.interface";
-import { IMiddlewareManager } from "../Interfaces/middleware-manager.interface";
-import { IRouteProcessorService } from "../Interfaces/route-processor-service.interface";
-import { MiddlewareFunction } from "../Types/middlewares";
-import { HttpRequest } from "../Types/request";
-import { HttpResponse } from "../Types/response";
+import { IMiddlewareError } from "../errors/middlewares/MiddlewareError.interface";
+import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
+import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";
+import { MiddlewareFunction } from "../types/middlewares";
+import { HttpRequest } from "../types/request";
+import { HttpResponse } from "../types/response";
 
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: MiddlewareFunction[] = [];

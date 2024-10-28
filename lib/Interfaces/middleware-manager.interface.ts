@@ -1,6 +1,6 @@
-import { MiddlewareFunction } from "../Types/middlewares";
-import { HttpRequest } from "../Types/request";
-import { HttpResponse } from "../Types/response";
+import { MiddlewareFunction } from "../types/middlewares";
+import { HttpRequest } from "../types/request";
+import { HttpResponse } from "../types/response";
 
 export interface IMiddlewareManager {
   use(middleware: MiddlewareFunction): void;

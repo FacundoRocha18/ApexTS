@@ -1,18 +1,19 @@
 // Import all the interfaces
-import { IParserService } from "../Interfaces/parser-service.interface";
-import { IRouter } from "../Interfaces/router.interface";
-import { IFramework } from "../Interfaces/framework.interface";
-import { IMiddlewareManager } from "../Interfaces/middleware-manager.interface";
-import { IRequestHandlerService } from "../Interfaces/request-handler.interface";
-import { IRouteProcessorService } from "../Interfaces/route-processor-service.interface";
+import { IParserService } from "../interfaces/parser-service.interface";
+import { IRouter } from "../interfaces/router.interface";
+import { IFramework } from "../interfaces/framework.interface";
+import { IMiddlewareManager } from "../interfaces/middleware-manager.interface";
+import { IRequestHandlerService } from "../interfaces/request-handler.interface";
+import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";
 
 // Import all the classes
-import { ParserService } from "../Parser/parser-service";
-import { Router } from "../Router/router";
-import { Framework } from "../Application/framework";
-import { MiddlewareManager } from "../Middlewares/middleware-manager";
-import { RequestHandlerService } from "../Http/Request/request-handler";
-import { RouteProcessorService } from "../Router/route-processor-service";
+import { ParserService } from "../parser/parser-service";
+import { Router } from "../router/router";
+import { Framework } from "../application/framework";
+import { MiddlewareManager } from "../middlewares/middleware-manager";
+import { RequestHandlerService } from "../http/request/request-handler";
+import { RouteProcessorService } from "../router/route-processor-service";
+import { jsonResponseMiddleware } from '../middlewares/json-response-middleware';
 
 // Create instances of the classes
 const router: IRouter = new Router();
@@ -33,5 +34,6 @@ const framework: IFramework = new Framework(
   middlewareManager,
   requestHandlerService,
 );
+framework.use(jsonResponseMiddleware);
 
 export { framework };

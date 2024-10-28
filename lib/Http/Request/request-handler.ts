@@ -1,8 +1,8 @@
-import { IMiddlewareManager } from "../../Interfaces/middleware-manager.interface";
-import { IRouter } from "../../Interfaces/router.interface";
-import { IRequestHandlerService } from "../../Interfaces/request-handler.interface";
-import { HttpRequest } from "../../Types/request";
-import { HttpResponse } from "../../Types/response";
+import { IMiddlewareManager } from "../../interfaces/middleware-manager.interface";
+import { IRouter } from "../../interfaces/router.interface";
+import { IRequestHandlerService } from "../../interfaces/request-handler.interface";
+import { HttpRequest } from "../../types/request";
+import { HttpResponse } from "../../types/response";
 
 export class RequestHandlerService implements IRequestHandlerService {
   constructor(

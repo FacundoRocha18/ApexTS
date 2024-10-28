@@ -1,8 +1,8 @@
-import { IParserService } from "../Interfaces/parser-service.interface";
-import { IRouteProcessorService } from "../Interfaces/route-processor-service.interface";
-import { IRouter } from "../Interfaces/router.interface";
-import { HttpRequest } from "../Types/request";
-import { HttpResponse } from "../Types/response";
+import { IParserService } from "../interfaces/parser-service.interface";
+import { IRouteProcessorService } from "../interfaces/route-processor-service.interface";
+import { IRouter } from "../interfaces/router.interface";
+import { HttpRequest } from "../types/request";
+import { HttpResponse } from "../types/response";
 
 export class RouteProcessorService implements IRouteProcessorService {
   constructor(

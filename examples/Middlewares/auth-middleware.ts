@@ -1,5 +1,5 @@
-import { HttpRequest } from "../../lib/Types/request";
-import { HttpResponse } from "../../lib/Types/response";
+import { HttpRequest } from "../../lib/types/request";
+import { HttpResponse } from "../../lib/types/response";
 
 const authMiddleware = (
   req: HttpRequest,

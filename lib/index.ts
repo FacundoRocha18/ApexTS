@@ -1,2 +1,2 @@
-export { framework } from "./Config/framework-config";
-export { environmentConfiguration } from "./Config/environment-config";
+export { framework } from "./config/framework-config";
+export { environmentConfiguration } from "./config/environment-config";

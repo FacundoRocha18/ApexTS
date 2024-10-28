@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./global.d.ts",
-      "lib/Types/utils.d.ts",
+      "lib/types/utils.d.ts",
       "./node_modules/@types"
     ],
     "paths": {

@@ -1,8 +1,8 @@
-import { ParserService } from "../../lib/Parser/parser-service";
+import { ParserService } from "../../lib/parser/parser-service";
 import { IncomingMessage, ServerResponse } from "http";
-import { IParserService } from "../../lib/Interfaces/parser-service.interface";
-import { HttpRequest } from "../../lib/Types/request";
-import { HttpResponse } from "../../lib/Types/response";
+import { IParserService } from "../../lib/interfaces/parser-service.interface";
+import { HttpRequest } from "../../lib/types/request";
+import { HttpResponse } from "../../lib/types/response";
 
 describe("Parser - parseBody", () => {
   let parser: IParserService;

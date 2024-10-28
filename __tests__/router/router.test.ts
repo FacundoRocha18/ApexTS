@@ -1,9 +1,9 @@
-import { Router } from "../../lib/Router/router";
-import { IRouter } from "../../lib/Interfaces/router.interface";
-import { HttpMethods } from "../../lib/Http/http-methods";
-import { HttpRequest } from "../../lib/Types/request";
-import { HttpResponse } from "../../lib/Types/response";
-import { RouteHandler, RouteDefinition } from "../../lib/Types/router";
+import { Router } from "../../lib/router/router";
+import { IRouter } from "../../lib/interfaces/router.interface";
+import { HttpMethods } from "../../lib/http/http-methods";
+import { HttpRequest } from "../../lib/types/request";
+import { HttpResponse } from "../../lib/types/response";
+import { RouteHandler, RouteDefinition } from "../../lib/types/router";
 
 describe("Router", () => {
   let routerInstance: IRouter;

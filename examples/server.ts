@@ -1,9 +1,8 @@
-import { HttpRequest } from "../lib/Types/request";
-import { HttpResponse } from "../lib/Types/response";
-import { IFramework } from "../lib/Interfaces/framework.interface";
-import { authMiddleware } from "./Middlewares/auth-middleware";
-import { loggerMiddleware } from "./Middlewares/logger-middleware";
-import { useJsonResponseMiddleware } from "../lib/Middlewares/json-response-middleware";
+import { HttpRequest } from "../lib/types/request";
+import { HttpResponse } from "../lib/types/response";
+import { IFramework } from "../lib/interfaces/framework.interface";
+import { authMiddleware } from "./middlewares/auth-middleware";
+import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { framework, environmentConfiguration } from "../lib";
 
 const app: IFramework = framework;
@@ -12,7 +11,6 @@ const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 
 app.use(authMiddleware);
 app.use(loggerMiddleware);
-app.use(useJsonResponseMiddleware);
 
 app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {
   const { query } = req.queryParams;
