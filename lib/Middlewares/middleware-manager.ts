@@ -40,6 +40,7 @@ export class MiddlewareManager implements IMiddlewareManager {
   ): void {
     res.statusCode = 500;
     res.statusMessage = "Internal Server Error";
-    res.end("Error: " + error.message);
+    res.write("Error: " + error.message);
+		res.end();
   }
 }
