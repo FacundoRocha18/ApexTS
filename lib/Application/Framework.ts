@@ -15,7 +15,6 @@ export class Framework implements IFramework {
     private requestHandlerTypeService: IRequestHandlerService,
   ) {
     this.router = router;
-    this.middlewareManager = middlewareManager;
   }
 
   public use(middleware: MiddlewareFunction): void {

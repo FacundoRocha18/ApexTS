@@ -4,8 +4,8 @@ import { HttpResponse } from "../lib/Types/Response";
 import { IFramework } from "../lib/Interfaces/Framework.interface";
 import { authMiddleware } from "./Middlewares/AuthMiddleware";
 import { loggerMiddleware } from "./Middlewares/LoggerMiddleware";
-import { framework } from "../lib/app";
 import { useJsonResponseMiddleware } from "../lib/Middlewares/UseJsonResponseMiddleware";
+import { framework } from "../lib/app";
 
 const app: IFramework = framework;
 const PORT: number = envConfig.PORT;
