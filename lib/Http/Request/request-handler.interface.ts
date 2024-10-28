@@ -1,6 +1,6 @@
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { IHttpRequest } from '../../interfaces/request.interface';
+import { IHttpResponse } from '../../interfaces/response.interface';
 
 export interface IRequestHandler {
-  handleRequest(req: HttpRequest, res: HttpResponse): void;
+  handleRequest(req: IHttpRequest, res: IHttpResponse): void;
 }

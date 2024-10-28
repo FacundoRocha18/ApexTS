@@ -1,16 +1,16 @@
 import { Router } from "../../lib/router/router";
 import { IRouter } from "../../lib/router/router.interface";
 import { HttpMethods } from "../../lib/http/http-methods";
-import { HttpRequest } from "../../lib/types/request";
-import { HttpResponse } from "../../lib/types/response";
-import { RouteHandler, RouteDefinition } from "../../lib/types/router";
+import { IHttpRequest } from "../../lib/interfaces/request.interface";
+import { IHttpResponse } from "../../lib/interfaces/response.interface";
+import { TRouteHandler, TRouteDefinition } from "../../lib/router/router";
 
 describe("Router", () => {
   let routerInstance: IRouter;
   let method: HttpMethods;
   const path: string = "/test";
-  const mockHandler: RouteHandler = jest.fn(
-    (req: HttpRequest, res: HttpResponse) => {
+  const mockHandler: TRouteHandler = jest.fn(
+    (req: IHttpRequest, res: IHttpResponse) => {
       res.end();
     },
   );
@@ -27,7 +27,7 @@ describe("Router", () => {
     method = HttpMethods.GET;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.use(method, path, mockHandler);
@@ -40,7 +40,7 @@ describe("Router", () => {
     method = HttpMethods.GET;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.get(path, mockHandler);
@@ -53,7 +53,7 @@ describe("Router", () => {
     method = HttpMethods.POST;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.post(path, mockHandler);
@@ -66,7 +66,7 @@ describe("Router", () => {
     method = HttpMethods.DELETE;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.del(path, mockHandler);
@@ -79,7 +79,7 @@ describe("Router", () => {
     method = HttpMethods.PUT;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.put(path, mockHandler);
@@ -92,7 +92,7 @@ describe("Router", () => {
     method = HttpMethods.PATCH;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: RouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.patch(path, mockHandler);
@@ -102,18 +102,18 @@ describe("Router", () => {
   });
 
   it("should resolve a route and execute the handler", () => {
-    const req: Partial<HttpRequest> = {
+    const req: Partial<IHttpRequest> = {
       url: "/test",
       method: "GET",
     };
-    const res: Partial<HttpResponse> = {
+    const res: Partial<IHttpResponse> = {
       end: jest.fn(),
     };
 
     routerInstance.get("/test", mockHandler);
     routerInstance.resolveRoute(
-      req as HttpRequest,
-      res as HttpResponse,
+      req as IHttpRequest,
+      res as IHttpResponse,
       "/test",
       HttpMethods.GET,
     );
@@ -124,8 +124,8 @@ describe("Router", () => {
 
   it("should assign the URL params to the req.params object", () => {
     const path = "/test/:number";
-    const req: Partial<HttpRequest> = {};
-    const res: Partial<HttpResponse> = {
+    const req: Partial<IHttpRequest> = {};
+    const res: Partial<IHttpResponse> = {
       end: jest.fn(),
     };
 
@@ -133,8 +133,8 @@ describe("Router", () => {
 
     routerInstance.get(path, mockHandler);
     routerInstance.resolveRoute(
-      req as HttpRequest,
-      res as HttpResponse,
+      req as IHttpRequest,
+      res as IHttpResponse,
       "/test/1",
       HttpMethods.GET,
     );
@@ -145,8 +145,8 @@ describe("Router", () => {
 
   it("should assign the URL query params to the req.params object", () => {
     const path = "/test?number=1&name=John";
-    const req: Partial<HttpRequest> = {};
-    const res: Partial<HttpResponse> = {
+    const req: Partial<IHttpRequest> = {};
+    const res: Partial<IHttpResponse> = {
       end: jest.fn(),
     };
 
@@ -154,8 +154,8 @@ describe("Router", () => {
 
     routerInstance.get(path, mockHandler);
     routerInstance.resolveRoute(
-      req as HttpRequest,
-      res as HttpResponse,
+      req as IHttpRequest,
+      res as IHttpResponse,
       path,
       HttpMethods.GET,
     );

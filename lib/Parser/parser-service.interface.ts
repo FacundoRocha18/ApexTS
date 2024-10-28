@@ -1,5 +1,5 @@
-import { ParserParams } from "../types/utils";
+import { IParseParams } from "./parse-params.interface";
 
 export interface IParserService {
-  parse(params: ParserParams): void;
+  parse(params: IParseParams): void;
 }

@@ -1,13 +1,13 @@
 import { ParserService } from "../../lib/parser/parser-service";
 import { IncomingMessage, ServerResponse } from "http";
 import { IParserService } from "../../lib/parser/parser-service.interface";
-import { HttpRequest } from "../../lib/types/request";
-import { HttpResponse } from "../../lib/types/response";
+import { IHttpRequest } from "../../lib/interfaces/request.interface";
+import { IHttpResponse } from "../../lib/interfaces/response.interface";
 
 describe("Parser - parseBody", () => {
   let parser: IParserService;
-  let req: Partial<HttpRequest>;
-  let res: HttpResponse;
+  let req: Partial<IHttpRequest>;
+  let res: IHttpResponse;
   let callback: jest.Mock;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe("Parser - parseBody", () => {
     req = {
       on: jest.fn(),
       body: undefined,
-    } as Partial<HttpRequest>;
+    } as Partial<IHttpRequest>;
 
     // Res mock using ServerResponse
     res = new ServerResponse({} as IncomingMessage);
@@ -41,7 +41,7 @@ describe("Parser - parseBody", () => {
     );
 
     parser.parse({
-      req: req as HttpRequest,
+      req: req as IHttpRequest,
       res,
       path: "/test",
       method: "POST",

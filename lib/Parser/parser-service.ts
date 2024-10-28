@@ -1,10 +1,10 @@
-import { ParserParams } from "../types/utils";
+import { IParseParams } from "./parse-params.interface";
 import { IParserService } from "./parser-service.interface";
 
 export class ParserService implements IParserService {
   constructor() {}
 
-  public parse(params: ParserParams): void {
+  public parse(params: IParseParams): void {
     const { req, res, path, method, callback } = params;
     let parsedBody: string = "";
 

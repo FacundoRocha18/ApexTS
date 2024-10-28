@@ -1,5 +1,5 @@
-import { HttpRequest } from "../lib/types/request";
-import { HttpResponse } from "../lib/types/response";
+import { IHttpRequest } from "../lib/interfaces/request.interface";
+import { IHttpResponse } from "../lib/interfaces/response.interface";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { framework, environmentConfiguration } from "../lib";
@@ -12,7 +12,7 @@ const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 app.use(authMiddleware);
 app.use(loggerMiddleware);
 
-app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {
+app.get("/get-test", (req: IHttpRequest, res: IHttpResponse): void => {
   const { query } = req.queryParams;
 
   if (query === "ping") {
@@ -25,7 +25,7 @@ app.get("/get-test", (req: HttpRequest, res: HttpResponse): void => {
   res.json("GET endpoint working");
 });
 
-app.get("/products/:category/:id", (req: HttpRequest, res: HttpResponse) => {
+app.get("/products/:category/:id", (req: IHttpRequest, res: IHttpResponse) => {
   const { id, category } = req.pathVariables;
   const { name, surname } = req.queryParams;
 
@@ -42,24 +42,24 @@ app.get("/products/:category/:id", (req: HttpRequest, res: HttpResponse) => {
   res.json(data);
 });
 
-app.post("/post-test", (req: HttpRequest, res: HttpResponse) => {
+app.post("/post-test", (req: IHttpRequest, res: IHttpResponse) => {
   const body = req.body;
 
   res.statusCode = 201;
   res.json(body);
 });
 
-app.put("/put-test", (req: HttpRequest, res: HttpResponse) => {
+app.put("/put-test", (req: IHttpRequest, res: IHttpResponse) => {
   res.statusCode = 201;
   res.json("PUT endpoint working");
 });
 
-app.del("/delete-test", (req: HttpRequest, res: HttpResponse) => {
+app.del("/delete-test", (req: IHttpRequest, res: IHttpResponse) => {
   res.statusCode = 201;
   res.json("DELETE endpoint working");
 });
 
-app.patch("/patch-test", (req: HttpRequest, res: HttpResponse) => {
+app.patch("/patch-test", (req: IHttpRequest, res: IHttpResponse) => {
   res.statusCode = 201;
   res.json("PATCH endpoint working");
 });

@@ -1,9 +1,9 @@
-import { HttpRequest } from "../../lib/types/request";
-import { HttpResponse } from "../../lib/types/response";
+import { IHttpRequest } from "../../lib/interfaces/request.interface";
+import { IHttpResponse } from "../../lib/interfaces/response.interface";
 
 const authMiddleware = (
-  req: HttpRequest,
-  res: HttpResponse,
+  req: IHttpRequest,
+  res: IHttpResponse,
   next: () => void,
 ): void => {
   const authHeader = req.headers["authorization"];

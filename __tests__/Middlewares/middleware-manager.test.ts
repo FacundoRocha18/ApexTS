@@ -1,9 +1,9 @@
 import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
 import { MiddlewareManager } from "../../lib/middlewares/middleware-manager";
 import { IRouteProcessorService } from "../../lib/router/route-processor-service.interface";
-import { MiddlewareFunction } from "../../lib/types/middlewares";
-import { HttpRequest } from "../../lib/types/request";
-import { HttpResponse } from "../../lib/types/response";
+import { TMiddlewareFunction } from "../../lib/middlewares/middleware.types";
+import { IHttpRequest } from "../../lib/interfaces/request.interface";
+import { IHttpResponse } from "../../lib/interfaces/response.interface";
 
 jest.mock("../../src/Interfaces/RouteProcessorService.interface");
 
@@ -23,7 +23,7 @@ describe("MiddlewareManager", () => {
   });
 
   it("should add middleware using use method", () => {
-    const mockMiddleware: MiddlewareFunction = jest.fn();
+    const mockMiddleware: TMiddlewareFunction = jest.fn();
 
     middlewareManager.use(mockMiddleware);
 
@@ -31,8 +31,8 @@ describe("MiddlewareManager", () => {
   });
 
   it("should execute middlewares in sequence", () => {
-    const req = {} as HttpRequest;
-    const res = {} as HttpResponse;
+    const req = {} as IHttpRequest;
+    const res = {} as IHttpResponse;
     const mockMiddleware1 = jest.fn((_req, _res, next) => next());
     const mockMiddleware2 = jest.fn((_req, _res, next) => next());
 
@@ -49,11 +49,11 @@ describe("MiddlewareManager", () => {
   });
 
   it("should handle errors in middleware and return 500 status", () => {
-    const req = {} as HttpRequest;
+    const req = {} as IHttpRequest;
     const res = {
       statusCode: 200,
       end: jest.fn(),
-    } as unknown as HttpResponse;
+    } as unknown as IHttpResponse;
 
     const mockErrorMiddleware = jest.fn(() => {
       throw new Error("Middleware error");
@@ -68,8 +68,8 @@ describe("MiddlewareManager", () => {
   });
 
   it("should call processRoute when no middlewares are present", () => {
-    const req = { url: "/", method: "GET" } as HttpRequest;
-    const res = {} as HttpResponse;
+    const req = { url: "/", method: "GET" } as IHttpRequest;
+    const res = {} as IHttpResponse;
 
     middlewareManager.executeMiddlewares(req, res);
 
@@ -82,8 +82,8 @@ describe("MiddlewareManager", () => {
   });
 
   it("should call processRoute after all middlewares are executed", () => {
-    const req = { url: "/", method: "GET" } as HttpRequest;
-    const res = {} as HttpResponse;
+    const req = { url: "/", method: "GET" } as IHttpRequest;
+    const res = {} as IHttpResponse;
     const mockMiddleware1 = jest.fn((_req, _res, next) => next());
     const mockMiddleware2 = jest.fn((_req, _res, next) => next());
 
@@ -101,8 +101,8 @@ describe("MiddlewareManager", () => {
   });
 
   it("should stop execution if a middleware does not call next", () => {
-    const req = { url: "/", method: "GET" } as HttpRequest;
-    const res = {} as HttpResponse;
+    const req = { url: "/", method: "GET" } as IHttpRequest;
+    const res = {} as IHttpResponse;
 
     const mockMiddleware1 = jest.fn((_req, _res, _next) => {});
     const mockMiddleware2 = jest.fn((_req, _res, next) => next());
@@ -117,8 +117,8 @@ describe("MiddlewareManager", () => {
   });
 
   it("should allow middlewares to be added dynamically and execute them", () => {
-    const req = {} as HttpRequest;
-    const res = {} as HttpResponse;
+    const req = {} as IHttpRequest;
+    const res = {} as IHttpResponse;
 
     const dynamicMiddleware1 = jest.fn((_req, _res, next) => next());
     const dynamicMiddleware2 = jest.fn((_req, _res, next) => next());

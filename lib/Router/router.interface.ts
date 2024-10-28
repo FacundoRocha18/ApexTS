@@ -1,19 +1,19 @@
 import { HttpMethods } from "../http/http-methods";
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
-import { RouteHandler } from "../types/router";
+import { IHttpRequest } from "../interfaces/request.interface";
+import { IHttpResponse } from "../interfaces/response.interface";
+import { TRouteHandler } from "./router.types";
 
 export interface IRouter {
-  use(method: HttpMethods, path: string, handler: RouteHandler): void;
-  get(path: string, handler: RouteHandler): void;
-  post(path: string, handler: RouteHandler): void;
-  put(path: string, handler: RouteHandler): void;
-  del(path: string, handler: RouteHandler): void;
-  patch(path: string, handler: RouteHandler): void;
+  use(method: HttpMethods, path: string, handler: TRouteHandler): void;
+  get(path: string, handler: TRouteHandler): void;
+  post(path: string, handler: TRouteHandler): void;
+  put(path: string, handler: TRouteHandler): void;
+  del(path: string, handler: TRouteHandler): void;
+  patch(path: string, handler: TRouteHandler): void;
 
   resolveRoute(
-    req: HttpRequest,
-    res: HttpResponse,
+    req: IHttpRequest,
+    res: IHttpResponse,
     path: string,
     method: string,
   ): void;

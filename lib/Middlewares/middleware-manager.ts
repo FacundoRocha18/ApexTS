@@ -1,20 +1,20 @@
 import { IMiddlewareError } from "../errors/middlewares/middleware-error.interface";
 import { IMiddlewareManager } from "./middleware-manager.interface";
 import { IRouteProcessorService } from "../router/route-processor-service.interface";
-import { MiddlewareFunction } from "../types/middlewares";
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { TMiddlewareFunction } from "./middleware.types";
+import { IHttpRequest } from "../interfaces/request.interface";
+import { IHttpResponse } from "../interfaces/response.interface";
 
 export class MiddlewareManager implements IMiddlewareManager {
-  private middlewares: MiddlewareFunction[] = [];
+  private middlewares: TMiddlewareFunction[] = [];
 
   constructor(private routeProcessorService: IRouteProcessorService) {}
 
-  public use(middleware: MiddlewareFunction): void {
+  public use(middleware: TMiddlewareFunction): void {
     this.middlewares.push(middleware);
   }
 
-  public executeMiddlewares(req: HttpRequest, res: HttpResponse): void {
+  public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
     const execute = (index: number): void => {
       if (index >= this.middlewares.length) {
         this.routeProcessorService.processRoute(req, res, req.url, req.method);
@@ -36,7 +36,7 @@ export class MiddlewareManager implements IMiddlewareManager {
 
   private handleMiddlewareError(
     error: IMiddlewareError,
-    res: HttpResponse,
+    res: IHttpResponse,
   ): void {
     res.statusCode = 500;
     res.statusMessage = "Internal Server Error";

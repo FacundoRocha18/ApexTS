@@ -1,42 +1,42 @@
 import { HttpMethods } from "../http/http-methods";
 import { IRouter } from "./router.interface";
-import { TPathVariables, TQueryParams, HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
-import { RouteHandler, RouteDefinition } from "../types/router";
+import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces/request.interface";
+import { IHttpResponse } from "../interfaces/response.interface";
+import { TRouteHandler, TRouteDefinition } from "./router.types";
 
 export class Router implements IRouter {
-  private routes: RouteDefinition = {};
+  private routes: TRouteDefinition = {};
 
   constructor() {}
 
-  public use(method: HttpMethods, path: string, handler: RouteHandler): void {
+  public use(method: HttpMethods, path: string, handler: TRouteHandler): void {
     this.addRoute(method, path, handler);
   }
 
-  public get(path: string, handler: RouteHandler): void {
+  public get(path: string, handler: TRouteHandler): void {
     this.addRoute(HttpMethods.GET, path, handler);
   }
 
-  public post(path: string, handler: RouteHandler): void {
+  public post(path: string, handler: TRouteHandler): void {
     this.addRoute(HttpMethods.POST, path, handler);
   }
 
-  public del(path: string, handler: RouteHandler): void {
+  public del(path: string, handler: TRouteHandler): void {
     this.addRoute(HttpMethods.DELETE, path, handler);
   }
 
-  public put(path: string, handler: RouteHandler): void {
+  public put(path: string, handler: TRouteHandler): void {
     this.addRoute(HttpMethods.PUT, path, handler);
   }
 
-  public patch(path: string, handler: RouteHandler): void {
+  public patch(path: string, handler: TRouteHandler): void {
     this.addRoute(HttpMethods.PATCH, path, handler);
   }
 
   private addRoute(
     method: HttpMethods,
     path: string,
-    handler: RouteHandler,
+    handler: TRouteHandler,
   ): void {
     if (!method) {
       throw new Error("Method must be a non-empty string");
@@ -60,8 +60,8 @@ export class Router implements IRouter {
   }
 
   public resolveRoute(
-    req: HttpRequest,
-    res: HttpResponse,
+    req: IHttpRequest,
+    res: IHttpResponse,
     path: string,
     method: string,
   ): void {
@@ -75,7 +75,7 @@ export class Router implements IRouter {
       }
       routeFound = true;
 
-      const handler: RouteHandler = this.routes[registeredPath]?.[method];
+      const handler: TRouteHandler = this.routes[registeredPath]?.[method];
       if (!handler) {
         continue;
       }

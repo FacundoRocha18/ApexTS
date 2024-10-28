@@ -1,10 +1,10 @@
-import { MiddlewareFunction } from "../../types/middlewares";
-import { HttpRequest } from "../../types/request";
-import { HttpResponse } from "../../types/response";
+import { TMiddlewareFunction } from "../middleware.types";
+import { IHttpRequest } from "../../interfaces/request.interface";
+import { IHttpResponse } from "../../interfaces/response.interface";
 
-export const jsonResponseMiddleware: MiddlewareFunction = (
-  req: HttpRequest,
-  res: HttpResponse,
+export const jsonResponseMiddleware: TMiddlewareFunction = (
+  req: IHttpRequest,
+  res: IHttpResponse,
   next: () => void,
 ) => {
   res.json = (obj: any) => {

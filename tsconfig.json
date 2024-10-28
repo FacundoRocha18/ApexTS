@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./global.d.ts",
-      "lib/types/utils.d.ts",
+      "lib/parser/parse-params.interface.ts",
       "./node_modules/@types"
     ],
     "paths": {

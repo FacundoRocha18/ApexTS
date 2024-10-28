@@ -1,15 +1,15 @@
 import { RequestHandler } from "../../lib/http/request/request-handler";
 import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
 import { IRouter } from "../../lib/router/router.interface";
-import { HttpRequest } from "../../lib/types/request";
-import { HttpResponse } from "../../lib/types/response";
+import { IHttpRequest } from "../../lib/interfaces/request.interface";
+import { IHttpResponse } from "../../lib/interfaces/response.interface";
 
 describe("RequestHandlerService", () => {
   let requestHandlerService: RequestHandler;
   let middlewareManager: jest.Mocked<IMiddlewareManager>;
   let router: jest.Mocked<IRouter>;
-  let req: HttpRequest;
-  let res: HttpResponse;
+  let req: IHttpRequest;
+  let res: IHttpResponse;
 
   beforeEach(() => {
     middlewareManager = {
@@ -28,11 +28,11 @@ describe("RequestHandlerService", () => {
     req = {
       method: "GET",
       url: "/test?param=value",
-    } as Partial<HttpRequest> as HttpRequest;
+    } as Partial<IHttpRequest> as IHttpRequest;
 
     res = {
       end: jest.fn(),
-    } as Partial<HttpResponse> as HttpResponse;
+    } as Partial<IHttpResponse> as IHttpResponse;
   });
 
   it("should execute middlewares and resolve the route", () => {

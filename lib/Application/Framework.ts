@@ -3,8 +3,8 @@ import { IFramework } from "./framework.interface";
 import { IRouter } from "../router/router.interface";
 import { IMiddlewareManager } from "../middlewares/middleware-manager.interface";
 import { IRequestHandler } from "../http/request/request-handler.interface";
-import { MiddlewareFunction } from "../types/middlewares";
-import { RouteHandler } from "../types/router";
+import { TMiddlewareFunction } from "../middlewares/middleware.types";
+import { TRouteHandler } from "../router/router.types";
 
 export class Framework implements IFramework {
   public router: IRouter;
@@ -17,27 +17,27 @@ export class Framework implements IFramework {
     this.router = router;
   }
 
-  public use(middleware: MiddlewareFunction): void {
+  public use(middleware: TMiddlewareFunction): void {
     this.middlewareManager.use(middleware);
   }
 
-  public get(path: string, HandlerType: RouteHandler): void {
+  public get(path: string, HandlerType: TRouteHandler): void {
     this.router.get(path, HandlerType);
   }
 
-  public post(path: string, HandlerType: RouteHandler): void {
+  public post(path: string, HandlerType: TRouteHandler): void {
     this.router.post(path, HandlerType);
   }
 
-  public put(path: string, HandlerType: RouteHandler): void {
+  public put(path: string, HandlerType: TRouteHandler): void {
     this.router.put(path, HandlerType);
   }
 
-  public del(path: string, HandlerType: RouteHandler): void {
+  public del(path: string, HandlerType: TRouteHandler): void {
     this.router.del(path, HandlerType);
   }
 
-  public patch(path: string, HandlerType: RouteHandler): void {
+  public patch(path: string, HandlerType: TRouteHandler): void {
     this.router.patch(path, HandlerType);
   }
 

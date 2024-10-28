@@ -1,12 +1,12 @@
-import { MiddlewareFunction } from "../types/middlewares";
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { TMiddlewareFunction } from "./middleware.types";
+import { IHttpRequest } from "../interfaces/request.interface";
+import { IHttpResponse } from "../interfaces/response.interface";
 
 export interface IMiddlewareManager {
-  use(middleware: MiddlewareFunction): void;
+  use(middleware: TMiddlewareFunction): void;
   executeMiddlewares(
-    req: HttpRequest,
-    res: HttpResponse,
+    req: IHttpRequest,
+    res: IHttpResponse,
     next?: () => void,
   ): void;
 }

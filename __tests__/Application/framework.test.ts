@@ -4,7 +4,7 @@ import { IFramework } from "../../lib/application/framework.interface";
 import { IRouter } from "../../lib/router/router.interface";
 import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
 import { IRequestHandler } from "../../lib/http/request/request-handler.interface";
-import { RouteHandler } from "../../lib/types/router";
+import { TRouteHandler } from "../../lib/router/router";
 
 jest.mock("http");
 
@@ -14,7 +14,7 @@ describe("Framework", () => {
   let routerMock: jest.Mocked<IRouter>;
   let requestHandlerServiceMock: jest.Mocked<IRequestHandler>;
   let middlewareManagerMock: jest.Mocked<IMiddlewareManager>;
-  let handler: RouteHandler;
+  let handler: TRouteHandler;
   const path = "/users";
 
   beforeEach(() => {
