@@ -60,7 +60,7 @@ router.get("/hello", (req, res) => {
 
 app.use("/", router);
 app.listen(3000, () => {
-  console.log("Servidor en ejecución en http://localhost:3000");
+	console.log("Servidor en ejecución en http://localhost:3000");
 });
 ```
 
@@ -68,15 +68,51 @@ app.listen(3000, () => {
 
 ```bash
 /framework
+|-- /__tests__  # Tests del framework
+|-- /examples  # Ejemplos de uso del framework
 |-- /lib
-|   |-- MyFramework.ts        # Configuración y arranque del servidor
-|   |-- Router.ts             # Módulo de rutas
-|   |-- MiddlewareManager.ts  # Módulo para gestión de middlewares
-|   |-- RequestHandlerService.ts  # Servicio de manejo de solicitudes
-|-- /examples                 # Ejemplos de uso del framework
-|-- /tests                    # Tests del framework
-|-- tsconfig.json             # Configuración de TypeScript
-|-- README.md                 # Documentación
+|   |-- /application  # Módulo de la aplicación
+|   |   |-- framework.interface.ts  # Interfaz de IFramework 
+|   |   |-- framework.ts  # Clase principal del framework 
+|   |-- /config  # Módulo de configuración
+|   |   |-- environment-config.ts   # Configuración del ambiente
+|   |   |-- framework-config.ts     # Configuración y arranque del servidor
+|   |-- /errors  # Módulo de errores
+|   |   |-- /middlewares
+|   |   |   |-- middleware-error.interface.ts  # Interfaz del error de los middlewares 
+|   |-- /http # Módulo de HTTP
+|   |   |-- /request
+|   |   |   |-- request-handler.interface.ts  # Interfaz de RequestHandler
+|   |   |   |-- request-handler.ts  # Clase RequestHandler
+|   |   |-- http-methods.ts  # Librería de métodos HTTP
+|   |   |-- http-not-found-exception.ts  # Excepcion para ruta inexistente
+|   |-- /interfaces  # Módulo de interfaces generales
+|   |   |-- request.interface.ts
+|   |   |-- response.interface.ts
+|   |-- /middlewares # Módulo de middlewares
+|   |   |-- /parsing
+|   |   |   |-- json-response-middleware.ts
+|   |   |-- middleware-manager.interface.ts
+|   |   |-- middleware-manager.ts
+|   |   |-- middleware.types.ts
+|   |-- /parser  # Módulo de parseo
+|   |   |-- parse-params.interface.ts
+|   |   |-- parser-service.interface.ts
+|   |   |-- parse-service.ts
+|   |-- /router  # Módulo de rutas
+|   |   |-- route-procesor-service.interface.ts
+|   |   |-- route-procesor-service.ts
+|   |   |-- router.interface.ts
+|   |   |-- router.ts
+|   |   |-- router.types.ts
+|   |-- /types  # Módulo de tipos
+|   |-- index.ts  # Indice de exportación para framework y la configuración del ambiente
+|-- .env  # Configuración del ambiente
+|-- .env.example  # Configuración del ambiente de ejemplo
+|-- tsconfig.json  # Configuración de TypeScript
+|-- nodemon.json  # Configuración de Nodemon
+|-- package.json  # Configuración de NodeJS
+|-- README.md  # Documentación del proyecto
 ```
 
 ## API
