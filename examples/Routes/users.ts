@@ -1,6 +1,5 @@
-import { framework } from "../../lib";
+import { framework, IHttpRequest, IHttpResponse } from "../../lib";
 import { IRouter } from "../../lib/router/router.interface";
-import { Request, Response } from "../types";
 
 const router: IRouter = framework.router;
 
@@ -9,9 +8,9 @@ router.get("/users", (req, res) => {
   res.end("Users Route");
 });
 
-router.get("/users/:id", (req: Request, res: Response) => {
-  const params = req.params;
-  const { name } = req.query;
+router.get("/users/:id", (req: IHttpRequest, res: IHttpResponse) => {
+  const params = req.pathVariables;
+  const { name } = req.queryParams;
   const userId = params?.id;
 
   res.statusCode = 200;
