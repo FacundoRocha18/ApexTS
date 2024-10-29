@@ -1,10 +1,8 @@
 import http from "http";
-import { IFramework } from "./framework.interface";
-import { IRouter } from "../router/router.interface";
-import { IMiddlewareManager } from "../middlewares/middleware-manager.interface";
-import { IRequestHandler } from "../http/request/request-handler.interface";
-import { TMiddlewareFunction } from "../middlewares/middleware.types";
-import { TRouteHandler } from "../router/router.types";
+import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
+import { IRouter, TRouteHandler } from "../router";
+import { IFramework } from "../application";
+import { IRequestHandler } from "../http";
 
 export class Framework implements IFramework {
   public router: IRouter;

@@ -1,21 +1,8 @@
-// Import the interfaces
-import { IRouter } from "../router/router.interface";
-import { IFramework } from "../application/framework.interface";
-import { IParserService } from "../parser/parser-service.interface";
-import { IRequestHandler } from "../http/request/request-handler.interface";
-import { IMiddlewareManager } from "../middlewares/middleware-manager.interface";
-import { IRouteProcessorService } from "../router/route-processor-service.interface";
-
-// Import the classes
-import { Router } from "../router/router";
-import { Framework } from "../application/framework";
-import { ParserService } from "../parser/parser-service";
-import { RequestHandler } from "../http/request/request-handler";
-import { MiddlewareManager } from "../middlewares/middleware-manager";
-import { RouteProcessorService } from "../router/route-processor-service";
-
-// Import the base middlewares
-import { jsonResponseMiddleware } from '../middlewares/parsing/json-response-middleware';
+import { MiddlewareManager, IMiddlewareManager, jsonResponseMiddleware } from "../middlewares";
+import { Router, IRouter, RouteProcessorService, IRouteProcessorService } from "../router";
+import { RequestHandler, IRequestHandler } from "../http";
+import { ParserService, IParserService } from "../parser";
+import { Framework, IFramework } from "../application";
 
 // Create instances of the classes
 const parserService: IParserService = new ParserService();

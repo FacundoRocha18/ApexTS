@@ -1,10 +1,6 @@
-import { IMiddlewareManager } from "../../lib/middlewares/middleware-manager.interface";
-import { MiddlewareManager } from "../../lib/middlewares/middleware-manager";
-import { IRouteProcessorService } from "../../lib/router/route-processor-service.interface";
-import { TMiddlewareFunction } from "../../lib/middlewares/middleware.types";
-import { IHttpRequest } from "../../lib/interfaces/request.interface";
-import { IHttpResponse } from "../../lib/interfaces/response.interface";
-import { write } from 'fs';
+import { MiddlewareManager, IMiddlewareManager, TMiddlewareFunction } from "../../lib/middlewares";
+import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
+import { IRouteProcessorService } from "../../lib/router";
 
 jest.mock("../../lib/router/route-processor-service");
 

@@ -1,8 +1,7 @@
-import { RequestHandler } from "../../../lib/http/request/request-handler";
-import { IMiddlewareManager } from "../../../lib/middlewares/middleware-manager.interface";
-import { IRouter } from "../../../lib/router/router.interface";
-import { IHttpRequest } from "../../../lib/interfaces/request.interface";
-import { IHttpResponse } from "../../../lib/interfaces/response.interface";
+import { IHttpRequest, IHttpResponse } from "../../../lib/interfaces";
+import { IMiddlewareManager } from "../../../lib/middlewares";
+import { RequestHandler } from "../../../lib/http";
+import { IRouter } from "../../../lib/router";
 
 describe("RequestHandlerService", () => {
   let requestHandlerService: RequestHandler;

@@ -1,5 +1,4 @@
-import { IHttpRequest } from "../interfaces/request.interface";
-import { IHttpResponse } from "../interfaces/response.interface";
+import { IHttpRequest, IHttpResponse } from "../interfaces";
 
 export interface IParseParams {
   req: IHttpRequest;

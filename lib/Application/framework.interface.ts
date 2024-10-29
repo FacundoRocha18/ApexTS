@@ -1,6 +1,5 @@
 import { TMiddlewareFunction } from "../middlewares/middleware.types";
-import { TRouteHandler } from "../router/router.types";
-import { IRouter } from "../router/router.interface";
+import { TRouteHandler, IRouter } from "../router";
 
 export interface IFramework {
   router: IRouter;

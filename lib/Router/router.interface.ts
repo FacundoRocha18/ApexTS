@@ -1,7 +1,6 @@
-import { HttpMethods } from "../http/http-methods";
-import { IHttpRequest } from "../interfaces/request.interface";
-import { IHttpResponse } from "../interfaces/response.interface";
-import { TRouteHandler } from "./router.types";
+import { IHttpRequest, IHttpResponse } from "../interfaces";
+import { TRouteHandler } from "../router";
+import { HttpMethods } from "../http";
 
 export interface IRouter {
   use(method: HttpMethods, path: string, handler: TRouteHandler): void;

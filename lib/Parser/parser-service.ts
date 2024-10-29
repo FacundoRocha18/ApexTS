@@ -1,6 +1,5 @@
 import { TQueryParams, TPathVariables } from '../interfaces/request.interface';
-import { IParseParams } from "./parse-params.interface";
-import { IParserService } from "./parser-service.interface";
+import { IParseParams, IParserService } from "../parser";
 
 export class ParserService implements IParserService {
   constructor() {}

@@ -1,11 +1,7 @@
-import { Router } from "../../lib/router/router";
-import { IRouter } from "../../lib/router/router.interface";
-import { HttpMethods } from "../../lib/http/http-methods";
-import { IHttpRequest } from "../../lib/interfaces/request.interface";
-import { IHttpResponse } from "../../lib/interfaces/response.interface";
-import { TRouteHandler, TRouteDefinition } from "../../lib/router/router.types";
-import { IParserService } from '../../lib/parser/parser-service.interface';
-import { ParserService } from '../../lib/parser/parser-service';
+import { Router, IRouter, TRouteDefinition, TRouteHandler } from "../../lib/router";
+import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
+import { ParserService, IParserService } from '../../lib/parser';
+import { HttpMethods } from "../../lib/http";
 
 describe("Router", () => {
 	let mockedParserService: jest.Mocked<IParserService>;

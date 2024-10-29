@@ -1,6 +1,5 @@
-import { TMiddlewareFunction } from "../middleware.types";
-import { IHttpRequest } from "../../interfaces/request.interface";
-import { IHttpResponse } from "../../interfaces/response.interface";
+import { TMiddlewareFunction } from "../../middlewares";
+import { IHttpRequest, IHttpResponse } from "../../interfaces";
 
 export const jsonResponseMiddleware: TMiddlewareFunction = (
   req: IHttpRequest,

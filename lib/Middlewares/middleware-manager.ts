@@ -1,9 +1,7 @@
-import { IMiddlewareError } from "../errors/middlewares/middleware-error.interface";
-import { IMiddlewareManager } from "./middleware-manager.interface";
-import { IRouteProcessorService } from "../router/route-processor-service.interface";
-import { TMiddlewareFunction } from "./middleware.types";
-import { IHttpRequest } from "../interfaces/request.interface";
-import { IHttpResponse } from "../interfaces/response.interface";
+import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
+import { IHttpRequest, IHttpResponse } from "../interfaces";
+import { IRouteProcessorService } from "../router";
+import { IMiddlewareError } from "../errors";
 
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: TMiddlewareFunction[] = [];

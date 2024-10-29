@@ -1,9 +1,8 @@
-import { HttpMethods } from "../http/http-methods";
-import { IRouter } from "./router.interface";
-import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces/request.interface";
-import { IHttpResponse } from "../interfaces/response.interface";
-import { TRouteHandler, TRouteDefinition } from "./router.types";
-import { IParserService } from '../parser/parser-service.interface';
+import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces";
+import { TRouteHandler, TRouteDefinition, IRouter } from "../router";
+import { IHttpResponse } from "../interfaces";
+import { IParserService } from '../parser';
+import { HttpMethods } from "../http";
 
 export class Router implements IRouter {
   private routes: TRouteDefinition = {};

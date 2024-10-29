@@ -1,5 +1,5 @@
-import { TQueryParams, TPathVariables } from '../interfaces/request.interface';
-import { IParseParams } from "./parse-params.interface";
+import { TQueryParams, TPathVariables } from '../interfaces';
+import { IParseParams } from "../parser";
 
 export interface IParserService {
   convertRequestBodyToJson(params: IParseParams): void;

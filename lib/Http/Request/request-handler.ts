@@ -1,8 +1,7 @@
-import { IMiddlewareManager } from "../../middlewares/middleware-manager.interface";
-import { IRouter } from "../../router/router.interface";
-import { IRequestHandler } from "./request-handler.interface";
-import { IHttpRequest } from "../../interfaces/request.interface";
-import { IHttpResponse } from "../../interfaces/response.interface";
+import { IHttpRequest, IHttpResponse } from "../../interfaces";
+import { IMiddlewareManager } from "../../middlewares";
+import { IRequestHandler } from "../../http";
+import { IRouter } from "../../router";
 
 export class RequestHandler implements IRequestHandler {
   constructor(
