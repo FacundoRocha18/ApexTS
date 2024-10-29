@@ -19,10 +19,7 @@ describe("RequestHandlerService", () => {
       resolveRoute: jest.fn(),
     } as Partial<IRouter> as jest.Mocked<IRouter>;
 
-    requestHandlerService = new RequestHandler(
-      middlewareManager,
-      router,
-    );
+    requestHandlerService = new RequestHandler(middlewareManager, router);
 
     res = {
       end: jest.fn(),
@@ -30,7 +27,7 @@ describe("RequestHandlerService", () => {
   });
 
   it("should execute middlewares and resolve the route", () => {
-		req = {
+    req = {
       method: "GET",
       url: "/test",
     } as Partial<IHttpRequest> as IHttpRequest;

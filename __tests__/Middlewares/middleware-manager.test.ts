@@ -1,4 +1,8 @@
-import { MiddlewareManager, IMiddlewareManager, TMiddlewareFunction } from "../../lib/middlewares";
+import {
+  MiddlewareManager,
+  IMiddlewareManager,
+  TMiddlewareFunction,
+} from "../../lib/middlewares";
 import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
 import { IRouteProcessorService } from "../../lib/router";
 
@@ -50,7 +54,7 @@ describe("MiddlewareManager", () => {
     const res = {
       statusCode: 200,
       end: jest.fn(),
-			write: jest.fn(),
+      write: jest.fn(),
     } as unknown as IHttpResponse;
 
     const mockErrorMiddleware = jest.fn(() => {
@@ -63,8 +67,8 @@ describe("MiddlewareManager", () => {
 
     expect(res.statusCode).toBe(500);
     expect(res.statusMessage).toBe("Internal Server Error");
-		expect(res.write).toHaveBeenCalledWith("Error: Middleware error");
-		expect(res.end).toHaveBeenCalled();
+    expect(res.write).toHaveBeenCalledWith("Error: Middleware error");
+    expect(res.end).toHaveBeenCalled();
   });
 
   it("should call processRoute when no middlewares are present", () => {

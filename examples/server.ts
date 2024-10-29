@@ -1,9 +1,12 @@
-import { IHttpRequest } from "../lib/interfaces/request.interface";
-import { IHttpResponse } from "../lib/interfaces/response.interface";
+import {
+  IHttpRequest,
+  IHttpResponse,
+  IFramework,
+  framework,
+  environmentConfiguration,
+} from "../lib";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
-import { framework, environmentConfiguration } from "../lib";
-import { IFramework } from '../lib/application/framework.interface';
 
 const app: IFramework = framework;
 const PORT: number = environmentConfiguration.PORT;

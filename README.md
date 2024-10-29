@@ -60,7 +60,7 @@ router.get("/hello", (req, res) => {
 
 app.use("/", router);
 app.listen(3000, () => {
-	console.log("Servidor en ejecución en http://localhost:3000");
+  console.log("Servidor en ejecución en http://localhost:3000");
 });
 ```
 
@@ -72,14 +72,14 @@ app.listen(3000, () => {
 |-- /examples  # Ejemplos de uso del framework
 |-- /lib
 |   |-- /application  # Módulo de la aplicación
-|   |   |-- framework.interface.ts  # Interfaz de IFramework 
-|   |   |-- framework.ts  # Clase principal del framework 
+|   |   |-- framework.interface.ts  # Interfaz de IFramework
+|   |   |-- framework.ts  # Clase principal del framework
 |   |-- /config  # Módulo de configuración
 |   |   |-- environment-config.ts   # Configuración del ambiente
 |   |   |-- framework-config.ts     # Configuración y arranque del servidor
 |   |-- /errors  # Módulo de errores
 |   |   |-- /middlewares
-|   |   |   |-- middleware-error.interface.ts  # Interfaz del error de los middlewares 
+|   |   |   |-- middleware-error.interface.ts  # Interfaz del error de los middlewares
 |   |-- /http # Módulo de HTTP
 |   |   |-- /request
 |   |   |   |-- request-handler.interface.ts  # Interfaz de RequestHandler

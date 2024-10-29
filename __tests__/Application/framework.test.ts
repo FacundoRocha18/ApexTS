@@ -31,8 +31,8 @@ describe("Framework", () => {
     mockedMiddlewareManager = {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
-    
-		framework = new Framework(
+
+    framework = new Framework(
       mockedRouter,
       mockedMiddlewareManager,
       mockedRequestHandler,
@@ -64,9 +64,7 @@ describe("Framework", () => {
   });
 
   it("should initialize with the provided RequestHandler", () => {
-    expect(framework["requestHandler"]).toEqual(
-      mockedRequestHandler,
-    );
+    expect(framework["requestHandler"]).toEqual(mockedRequestHandler);
   });
 
   it("should have a get method", () => {
@@ -138,7 +136,10 @@ describe("Framework", () => {
 
     expect(http.createServer).toHaveBeenCalledTimes(1);
 
-    expect(mockedServer.listen).toHaveBeenCalledWith(port, expect.any(Function));
+    expect(mockedServer.listen).toHaveBeenCalledWith(
+      port,
+      expect.any(Function),
+    );
 
     const createServerCallback = (http.createServer as jest.Mock).mock
       .calls[0][0];

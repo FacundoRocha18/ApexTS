@@ -1,7 +1,7 @@
 import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces";
 import { TRouteHandler, TRouteDefinition, IRouter } from "../router";
 import { IHttpResponse } from "../interfaces";
-import { IParserService } from '../parser';
+import { IParserService } from "../parser";
 import { HttpMethods } from "../http";
 
 export class Router implements IRouter {
@@ -82,10 +82,11 @@ export class Router implements IRouter {
 
       const queryParams: TQueryParams =
         this.parserService.extractQueryParamsFromURL(searchParams);
-      const pathVariables: TPathVariables = this.parserService.extractPathVariablesFromURL(
-        pathname,
-        registeredPath,
-      );
+      const pathVariables: TPathVariables =
+        this.parserService.extractPathVariablesFromURL(
+          pathname,
+          registeredPath,
+        );
 
       if (!queryParams || !pathVariables) {
         continue;
@@ -105,7 +106,7 @@ export class Router implements IRouter {
     }
   }
 
-	private comparePaths(requestPath: string, registeredPath: string): boolean {
+  private comparePaths(requestPath: string, registeredPath: string): boolean {
     const registeredPathSegments: string[] = registeredPath.split("/");
     const requestPathSegments: string[] = requestPath.split("/");
 

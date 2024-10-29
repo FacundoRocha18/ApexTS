@@ -1,10 +1,15 @@
-import { Router, IRouter, TRouteDefinition, TRouteHandler } from "../../lib/router";
+import {
+  Router,
+  IRouter,
+  TRouteDefinition,
+  TRouteHandler,
+} from "../../lib/router";
 import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
-import { ParserService, IParserService } from '../../lib/parser';
+import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";
 
 describe("Router", () => {
-	let mockedParserService: jest.Mocked<IParserService>;
+  let mockedParserService: jest.Mocked<IParserService>;
   let routerInstance: IRouter;
   let method: HttpMethods;
   const path: string = "/test";
@@ -14,18 +19,18 @@ describe("Router", () => {
     },
   );
 
-	jest.mock('../../lib/parser/parser-service', () => {
-		return {
-			ParserService: jest.fn().mockImplementation(() => ({
-				parseBody: jest.fn().mockReturnValue({ key: 'mockedValue' }),
-				extractPathVariables: jest.fn().mockReturnValue({ id: '123' }),
-				extractQueryParams: jest.fn().mockReturnValue({ search: 'mockQuery' })
-			})),
-		};
-	});
+  jest.mock("../../lib/parser/parser-service", () => {
+    return {
+      ParserService: jest.fn().mockImplementation(() => ({
+        parseBody: jest.fn().mockReturnValue({ key: "mockedValue" }),
+        extractPathVariables: jest.fn().mockReturnValue({ id: "123" }),
+        extractQueryParams: jest.fn().mockReturnValue({ search: "mockQuery" }),
+      })),
+    };
+  });
 
   beforeEach(() => {
-		mockedParserService = new ParserService() as jest.Mocked<IParserService>;
+    mockedParserService = new ParserService() as jest.Mocked<IParserService>;
 
     routerInstance = new Router(mockedParserService);
   });
@@ -128,7 +133,7 @@ describe("Router", () => {
       "/test",
       HttpMethods.GET,
     );
-		
+
     expect(mockHandler).toHaveBeenCalled();
     expect(mockHandler).toHaveBeenCalledWith(req, res);
   });
