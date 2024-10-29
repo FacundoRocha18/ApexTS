@@ -4,8 +4,11 @@ import { HttpMethods } from "../../lib/http/http-methods";
 import { IHttpRequest } from "../../lib/interfaces/request.interface";
 import { IHttpResponse } from "../../lib/interfaces/response.interface";
 import { TRouteHandler, TRouteDefinition } from "../../lib/router/router.types";
+import { IParserService } from '../../lib/parser/parser-service.interface';
+import { ParserService } from '../../lib/parser/parser-service';
 
 describe("Router", () => {
+	let mockedParserService: jest.Mocked<IParserService>;
   let routerInstance: IRouter;
   let method: HttpMethods;
   const path: string = "/test";
@@ -15,8 +18,20 @@ describe("Router", () => {
     },
   );
 
+	jest.mock('../../lib/parser/parser-service', () => {
+		return {
+			ParserService: jest.fn().mockImplementation(() => ({
+				parseBody: jest.fn().mockReturnValue({ key: 'mockedValue' }),
+				extractPathVariables: jest.fn().mockReturnValue({ id: '123' }),
+				extractQueryParams: jest.fn().mockReturnValue({ search: 'mockQuery' })
+			})),
+		};
+	});
+
   beforeEach(() => {
-    routerInstance = new Router();
+		mockedParserService = new ParserService() as jest.Mocked<IParserService>;
+
+    routerInstance = new Router(mockedParserService);
   });
 
   afterEach(() => {
@@ -117,7 +132,7 @@ describe("Router", () => {
       "/test",
       HttpMethods.GET,
     );
-
+		
     expect(mockHandler).toHaveBeenCalled();
     expect(mockHandler).toHaveBeenCalledWith(req, res);
   });

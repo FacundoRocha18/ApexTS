@@ -21,7 +21,7 @@ export class RouteProcessorService implements IRouteProcessorService {
       return null;
     }
 
-    this.parserService.parse({
+    this.parserService.convertRequestBodyToJson({
       req,
       res,
       path,

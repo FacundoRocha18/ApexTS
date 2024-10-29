@@ -40,7 +40,7 @@ describe("Parser - parseBody", () => {
       },
     );
 
-    parser.parse({
+    parser.convertRequestBodyToJson({
       req: req as IHttpRequest,
       res,
       path: "/test",
@@ -69,7 +69,7 @@ describe("Parser - parseBody", () => {
     );
 
     // Call the parseBody method
-    parser.parse({
+    parser.convertRequestBodyToJson({
       req: req as IncomingMessage,
       res,
       path: "/test",

@@ -3,11 +3,12 @@ import { IRouter } from "./router.interface";
 import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces/request.interface";
 import { IHttpResponse } from "../interfaces/response.interface";
 import { TRouteHandler, TRouteDefinition } from "./router.types";
+import { IParserService } from '../parser/parser-service.interface';
 
 export class Router implements IRouter {
   private routes: TRouteDefinition = {};
 
-  constructor() {}
+  constructor(private parserService: IParserService) {}
 
   public use(method: HttpMethods, path: string, handler: TRouteHandler): void {
     this.addRoute(method, path, handler);
@@ -81,8 +82,8 @@ export class Router implements IRouter {
       }
 
       const queryParams: TQueryParams =
-        this.extractQueryParamsFromURL(searchParams);
-      const pathVariables: TPathVariables = this.extractPathVariablesFromURL(
+        this.parserService.extractQueryParamsFromURL(searchParams);
+      const pathVariables: TPathVariables = this.parserService.extractPathVariablesFromURL(
         pathname,
         registeredPath,
       );
@@ -105,7 +106,7 @@ export class Router implements IRouter {
     }
   }
 
-  private comparePaths(requestPath: string, registeredPath: string): boolean {
+	private comparePaths(requestPath: string, registeredPath: string): boolean {
     const registeredPathSegments: string[] = registeredPath.split("/");
     const requestPathSegments: string[] = requestPath.split("/");
 
@@ -114,40 +115,5 @@ export class Router implements IRouter {
     }
 
     return true;
-  }
-
-  private extractQueryParamsFromURL(
-    searchParams: URLSearchParams,
-  ): TQueryParams {
-    const queryParams: TQueryParams = {};
-
-    searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
-
-    return queryParams;
-  }
-
-  private extractPathVariablesFromURL(
-    requestPath: string,
-    registeredPath: string,
-  ): TPathVariables {
-    const registeredPathSegments: string[] = registeredPath.split("/");
-    const requestPathSegments: string[] = requestPath.split("/");
-    const pathVariables: TPathVariables = {};
-
-    for (let i = 0; i < registeredPathSegments.length; i++) {
-      const registeredPart = registeredPathSegments[i];
-      const requestPart = requestPathSegments[i];
-
-      if (!registeredPart.startsWith(":")) {
-        continue;
-      }
-
-      const paramName = registeredPart.slice(1);
-      pathVariables[paramName] = requestPart;
-    }
-
-    return pathVariables;
   }
 }

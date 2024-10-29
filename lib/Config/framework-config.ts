@@ -18,8 +18,8 @@ import { RouteProcessorService } from "../router/route-processor-service";
 import { jsonResponseMiddleware } from '../middlewares/parsing/json-response-middleware';
 
 // Create instances of the classes
-const router: IRouter = new Router();
 const parserService: IParserService = new ParserService();
+const router: IRouter = new Router(parserService);
 const routeProcessorService: IRouteProcessorService = new RouteProcessorService(
   router,
   parserService,

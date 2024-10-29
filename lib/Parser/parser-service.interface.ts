@@ -1,5 +1,8 @@
+import { TQueryParams, TPathVariables } from '../interfaces/request.interface';
 import { IParseParams } from "./parse-params.interface";
 
 export interface IParserService {
-  parse(params: IParseParams): void;
+  convertRequestBodyToJson(params: IParseParams): void;
+	extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams;
+	extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables;
 }
