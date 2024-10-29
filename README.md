@@ -1,4 +1,5 @@
-# Framework
+# SwiftTS
+## Lightweight framework with TypeScript power.
 
 Framework es un framework web ligero, escrito en Node.js y TypeScript, diseñado para simplificar la creación de aplicaciones RESTful con un manejo eficiente de rutas y middlewares.
 
@@ -27,7 +28,7 @@ Tabla de Contenidos
 ## Instalación
 
 ```Typescript
-npm install myframework
+npm install swiftts
 ```
 
 ## Ejemplo de Uso
