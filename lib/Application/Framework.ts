@@ -5,15 +5,11 @@ import { IFramework } from ".";
 import { IRequestHandler } from "../http";
 
 export class Framework implements IFramework {
-  public router: IRouter;
-
   constructor(
-    router: IRouter,
+    public router: IRouter,
     private middlewareManager: IMiddlewareManager,
     private requestHandler: IRequestHandler,
-  ) {
-    this.router = router;
-  }
+  ) {}
 
   public use(middleware: TMiddlewareFunction): void {
     this.middlewareManager.use(middleware);

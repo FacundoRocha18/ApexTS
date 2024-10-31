@@ -1,4 +1,4 @@
-import { IHttpRequest, IHttpResponse } from '../../lib';
+import { IHttpRequest, IHttpResponse } from "../../lib";
 
 export const getProducts = (req: IHttpRequest, res: IHttpResponse) => {
   const { id, category } = req.pathVariables;

@@ -1,4 +1,4 @@
-import { IHttpRequest, IHttpResponse } from '../../lib';
+import { IHttpRequest, IHttpResponse } from "../../lib";
 
 export const getTest = (req: IHttpRequest, res: IHttpResponse): void => {
   const { query } = req.queryParams;
