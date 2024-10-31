@@ -1,6 +1,4 @@
 import {
-  IHttpRequest,
-  IHttpResponse,
   IFramework,
   framework,
   environmentConfiguration,

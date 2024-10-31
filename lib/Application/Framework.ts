@@ -19,24 +19,24 @@ export class Framework implements IFramework {
     this.middlewareManager.use(middleware);
   }
 
-  public get(path: string, HandlerType: TRouteHandler): void {
-    this.router.get(path, HandlerType);
+  public get(path: string, handler: TRouteHandler): void {
+    this.router.get(path, handler);
   }
 
-  public post(path: string, HandlerType: TRouteHandler): void {
-    this.router.post(path, HandlerType);
+  public post(path: string, handler: TRouteHandler): void {
+    this.router.post(path, handler);
   }
 
-  public put(path: string, HandlerType: TRouteHandler): void {
-    this.router.put(path, HandlerType);
+  public put(path: string, handler: TRouteHandler): void {
+    this.router.put(path, handler);
   }
 
-  public del(path: string, HandlerType: TRouteHandler): void {
-    this.router.del(path, HandlerType);
+  public del(path: string, handler: TRouteHandler): void {
+    this.router.del(path, handler);
   }
 
-  public patch(path: string, HandlerType: TRouteHandler): void {
-    this.router.patch(path, HandlerType);
+  public patch(path: string, handler: TRouteHandler): void {
+    this.router.patch(path, handler);
   }
 
   public listen(port: number, node_env: string): void {
