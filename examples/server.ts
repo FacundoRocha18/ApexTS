@@ -1,4 +1,4 @@
-import { IFramework, FrameworkFactory } from "../lib";
+import { IFramework, FrameworkFactory, environmentConfiguration } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { getTest } from "./controllers/get-test";
@@ -7,7 +7,6 @@ import { postTest } from "./controllers/post-test";
 import { putTest } from "./controllers/put-test";
 import { deleteTest } from "./controllers/delete-test";
 import { patchTest } from "./controllers/patch-test";
-import { environmentConfiguration } from "../lib";
 
 const PORT: number = environmentConfiguration.PORT;
 const NODE_ENV: string = environmentConfiguration.NODE_ENV;
