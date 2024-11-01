@@ -1,7 +1,7 @@
 import http from "http";
 import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
 import { IRouter, TRouteHandler } from "../router";
-import { IFramework } from ".";
+import { IFramework } from "../application";
 import { IRequestHandler } from "../http";
 
 export class Framework implements IFramework {
