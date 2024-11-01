@@ -2,7 +2,7 @@ import * as http from "http";
 import { Framework, IFramework } from "../../lib/application";
 import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middlewares";
-import { TRequestHandler } from '../../lib/types';
+import { TRequestHandler } from "../../lib/types";
 
 jest.mock("http");
 
@@ -27,10 +27,7 @@ describe("Framework", () => {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
 
-    framework = new Framework(
-      mockedRouter,
-      mockedMiddlewareManager,
-    );
+    framework = new Framework(mockedRouter, mockedMiddlewareManager);
 
     mockedServer = {
       listen: jest.fn(),

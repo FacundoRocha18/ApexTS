@@ -12,9 +12,9 @@ const PORT: number = environmentConfiguration.PORT;
 const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 
 const app: IFramework = new FrameworkFactory()
-	.withCustomMiddleware(authMiddleware)
-	.withCustomMiddleware(loggerMiddleware)
-	.create();
+  .withCustomMiddleware(authMiddleware)
+  .withCustomMiddleware(loggerMiddleware)
+  .create();
 
 app.get("/get-test", getTest);
 

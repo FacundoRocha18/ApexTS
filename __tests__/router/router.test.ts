@@ -1,8 +1,4 @@
-import {
-  Router,
-  IRouter,
-  TRouteDefinition,
-} from "../../lib/router";
+import { Router, IRouter, TRouteDefinition } from "../../lib/router";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";

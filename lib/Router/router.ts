@@ -1,4 +1,9 @@
-import { TPathVariables, TQueryParams, IHttpRequest, TRequestHandler } from "../types";
+import {
+  TPathVariables,
+  TQueryParams,
+  IHttpRequest,
+  TRequestHandler,
+} from "../types";
 import { TRouteDefinition, IRouter } from "../router";
 import { IParserService } from "../parser";
 import { IHttpResponse } from "../types";
@@ -9,7 +14,11 @@ export class Router implements IRouter {
 
   constructor(private parserService: IParserService) {}
 
-  public use(method: HttpMethods, path: string, handler: TRequestHandler): void {
+  public use(
+    method: HttpMethods,
+    path: string,
+    handler: TRequestHandler,
+  ): void {
     this.addRoute(method, path, handler);
   }
 
