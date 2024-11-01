@@ -1,4 +1,4 @@
-import { IHttpRequest, IHttpResponse } from "../../../lib/interfaces";
+import { IHttpRequest, IHttpResponse } from "../../../lib/types";
 import { IMiddlewareManager } from "../../../lib/middlewares";
 import { RequestHandler } from "../../../lib/http";
 import { IRouter } from "../../../lib/router";
@@ -32,7 +32,7 @@ describe("RequestHandlerService", () => {
       url: "/test",
     } as Partial<IHttpRequest> as IHttpRequest;
 
-    requestHandlerService.handleRequest(req, res);
+    requestHandlerService.listen(req, res);
 
     expect(middlewareManager.executeMiddlewares).toHaveBeenCalledWith(
       req,
@@ -50,7 +50,7 @@ describe("RequestHandlerService", () => {
 
   it('should resolve route with empty pathname as "/"', () => {
     req.url = "";
-    requestHandlerService.handleRequest(req, res);
+    requestHandlerService.listen(req, res);
 
     const next = middlewareManager.executeMiddlewares.mock.calls[0][2];
     if (next) {

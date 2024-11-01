@@ -1,4 +1,4 @@
-import { IHttpRequest, IHttpResponse } from "../interfaces";
+import { IHttpRequest, IHttpResponse } from "../types";
 
 export type TMiddlewareFunction = (
   req: IHttpRequest,

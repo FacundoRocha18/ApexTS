@@ -1,7 +1,7 @@
-import { TPathVariables, TQueryParams, IHttpRequest } from "../interfaces";
-import { TRouteHandler, TRouteDefinition, IRouter } from "../router";
-import { IHttpResponse } from "../interfaces";
+import { TPathVariables, TQueryParams, IHttpRequest, TRequestHandler } from "../types";
+import { TRouteDefinition, IRouter } from "../router";
 import { IParserService } from "../parser";
+import { IHttpResponse } from "../types";
 import { HttpMethods } from "../http";
 
 export class Router implements IRouter {
@@ -9,34 +9,34 @@ export class Router implements IRouter {
 
   constructor(private parserService: IParserService) {}
 
-  public use(method: HttpMethods, path: string, handler: TRouteHandler): void {
+  public use(method: HttpMethods, path: string, handler: TRequestHandler): void {
     this.addRoute(method, path, handler);
   }
 
-  public get(path: string, handler: TRouteHandler): void {
+  public get(path: string, handler: TRequestHandler): void {
     this.addRoute(HttpMethods.GET, path, handler);
   }
 
-  public post(path: string, handler: TRouteHandler): void {
+  public post(path: string, handler: TRequestHandler): void {
     this.addRoute(HttpMethods.POST, path, handler);
   }
 
-  public del(path: string, handler: TRouteHandler): void {
+  public del(path: string, handler: TRequestHandler): void {
     this.addRoute(HttpMethods.DELETE, path, handler);
   }
 
-  public put(path: string, handler: TRouteHandler): void {
+  public put(path: string, handler: TRequestHandler): void {
     this.addRoute(HttpMethods.PUT, path, handler);
   }
 
-  public patch(path: string, handler: TRouteHandler): void {
+  public patch(path: string, handler: TRequestHandler): void {
     this.addRoute(HttpMethods.PATCH, path, handler);
   }
 
   private addRoute(
     method: HttpMethods,
     path: string,
-    handler: TRouteHandler,
+    handler: TRequestHandler,
   ): void {
     if (!method) {
       throw new Error("Method must be a non-empty string");
@@ -75,7 +75,7 @@ export class Router implements IRouter {
       }
       routeFound = true;
 
-      const handler: TRouteHandler = this.routes[registeredPath]?.[method];
+      const handler: TRequestHandler = this.routes[registeredPath]?.[method];
       if (!handler) {
         continue;
       }

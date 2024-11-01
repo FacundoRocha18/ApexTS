@@ -1,11 +1,6 @@
-import { IHttpRequest } from "../interfaces/request.interface";
-import { IHttpResponse } from "../interfaces/response.interface";
+import type { TRequestHandler } from "../types";
 
 export type TRouteDefinition = {
-  [path: string]: { [method: string]: TRouteHandler };
+  [path: string]: { [method: string]: TRequestHandler };
 };
 
-export type TRouteHandler = (
-  req: IHttpRequest,
-  res: IHttpResponse,
-) => void | Promise<void>;

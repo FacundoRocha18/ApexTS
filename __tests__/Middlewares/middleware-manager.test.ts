@@ -3,7 +3,7 @@ import {
   IMiddlewareManager,
   TMiddlewareFunction,
 } from "../../lib/middlewares";
-import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
+import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { IRouteProcessorService } from "../../lib/router";
 
 jest.mock("../../lib/router/route-processor-service");

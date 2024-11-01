@@ -1,8 +1,9 @@
 import * as http from "http";
 import { Framework, IFramework } from "../../lib/application";
-import { IRouter, TRouteHandler } from "../../lib/router";
+import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middlewares";
 import { IRequestHandler } from "../../lib/http";
+import { TRequestHandler } from '../../lib/types';
 
 jest.mock("http");
 
@@ -12,7 +13,7 @@ describe("Framework", () => {
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedRequestHandler: jest.Mocked<IRequestHandler>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
-  let handler: TRouteHandler;
+  let handler: TRequestHandler;
   const path = "/users";
 
   beforeEach(() => {
@@ -25,7 +26,7 @@ describe("Framework", () => {
     } as Partial<IRouter> as jest.Mocked<IRouter>;
 
     mockedRequestHandler = {
-      handleRequest: jest.fn(),
+      listen: jest.fn(),
     };
 
     mockedMiddlewareManager = {
@@ -146,7 +147,7 @@ describe("Framework", () => {
 
     createServerCallback(reqMock, resMock);
 
-    expect(mockedRequestHandler.handleRequest).toHaveBeenCalledWith(
+    expect(mockedRequestHandler.listen).toHaveBeenCalledWith(
       reqMock,
       resMock,
     );

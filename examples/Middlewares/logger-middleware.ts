@@ -1,5 +1,5 @@
-import { IHttpRequest } from "../../lib/interfaces/request.interface";
-import { IHttpResponse } from "../../lib/interfaces/response.interface";
+import { IHttpRequest } from "../../lib/types/request";
+import { IHttpResponse } from "../../lib/types/response";
 
 const loggerMiddleware = (
   req: IHttpRequest,

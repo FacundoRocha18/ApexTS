@@ -1,4 +1,4 @@
-import { TQueryParams, TPathVariables } from "../interfaces/request.interface";
+import { TQueryParams, TPathVariables } from "../types/request";
 import { IParseParams, IParserService } from "../parser";
 
 export class ParserService implements IParserService {

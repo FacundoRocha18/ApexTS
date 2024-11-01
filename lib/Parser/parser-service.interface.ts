@@ -1,4 +1,4 @@
-import { TQueryParams, TPathVariables } from "../interfaces";
+import { TQueryParams, TPathVariables } from "../types";
 import { IParseParams } from "../parser";
 
 export interface IParserService {

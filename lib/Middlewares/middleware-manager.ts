@@ -1,5 +1,5 @@
 import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
-import { IHttpRequest, IHttpResponse } from "../interfaces";
+import { IHttpRequest, IHttpResponse } from "../types";
 import { IRouteProcessorService } from "../router";
 import { IMiddlewareError } from "../errors";
 

@@ -1,5 +1,5 @@
 import { IRouteProcessorService, IRouter } from "../router";
-import { IHttpRequest, IHttpResponse } from "../interfaces";
+import { IHttpRequest, IHttpResponse } from "../types";
 import { IParserService } from "../parser";
 
 export class RouteProcessorService implements IRouteProcessorService {

@@ -1,5 +1,5 @@
-import { IHttpRequest, IHttpResponse } from "../../interfaces";
+import { IHttpRequest, IHttpResponse } from "../../types";
 
-export interface IRequestHandler {
-  handleRequest(req: IHttpRequest, res: IHttpResponse): void;
+export interface IRequestListener {
+  listen(req: IHttpRequest, res: IHttpResponse): void;
 }

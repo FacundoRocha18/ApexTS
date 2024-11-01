@@ -1,47 +1,54 @@
 import http from "http";
 import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
-import { IRouter, TRouteHandler } from "../router";
 import { IFramework } from "../application";
+import { TRequestHandler } from '../types';
 import { IRequestHandler } from "../http";
+import { IRouter } from "../router";
 
 export class Framework implements IFramework {
-  constructor(
-    public router: IRouter,
-    private middlewareManager: IMiddlewareManager,
-    private requestHandler: IRequestHandler,
-  ) {}
+	constructor(
+		public router: IRouter,
+		private middlewareManager: IMiddlewareManager,
+		private requestHandler: IRequestHandler,
+	) { }
 
-  public use(middleware: TMiddlewareFunction): void {
-    this.middlewareManager.use(middleware);
-  }
+	public use(middleware: TMiddlewareFunction): void {
+		this.middlewareManager.use(middleware);
+	}
 
-  public get(path: string, handler: TRouteHandler): void {
-    this.router.get(path, handler);
-  }
+	public get(path: string, handler: TRequestHandler): void {
+		this.router.get(path, handler);
+	}
 
-  public post(path: string, handler: TRouteHandler): void {
-    this.router.post(path, handler);
-  }
+	public post(path: string, handler: TRequestHandler): void {
+		this.router.post(path, handler);
+	}
 
-  public put(path: string, handler: TRouteHandler): void {
-    this.router.put(path, handler);
-  }
+	public put(path: string, handler: TRequestHandler): void {
+		this.router.put(path, handler);
+	}
 
-  public del(path: string, handler: TRouteHandler): void {
-    this.router.del(path, handler);
-  }
+	public del(path: string, handler: TRequestHandler): void {
+		this.router.del(path, handler);
+	}
 
-  public patch(path: string, handler: TRouteHandler): void {
-    this.router.patch(path, handler);
-  }
+	public patch(path: string, handler: TRequestHandler): void {
+		this.router.patch(path, handler);
+	}
 
-  public listen(port: number, node_env: string): void {
-    const server = http.createServer((req, res) =>
-      this.requestHandler.handleRequest(req, res),
-    );
+	private startHttpServer(): http.Server {
+		const server = http.createServer((req, res) =>
+			this.requestHandler.listen(req, res),
+		);
 
-    server.listen(port, () => {
-      console.log(`Server running on port: ${port} on ${node_env} mode`);
-    });
-  }
+		return server;
+	};
+
+	public listen(port: number, node_env: string): void {
+		const server = this.startHttpServer();
+
+		server.listen(port, () => {
+			console.log(`Server running on port: ${port} on ${node_env} mode`);
+		});
+	}
 }

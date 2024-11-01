@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
+import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 
 describe("Parser - parseBody", () => {

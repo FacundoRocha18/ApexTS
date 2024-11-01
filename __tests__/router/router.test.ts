@@ -2,9 +2,8 @@ import {
   Router,
   IRouter,
   TRouteDefinition,
-  TRouteHandler,
 } from "../../lib/router";
-import { IHttpRequest, IHttpResponse } from "../../lib/interfaces";
+import { IHttpRequest, IHttpResponse, TRequestHandler } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";
 
@@ -13,7 +12,7 @@ describe("Router", () => {
   let routerInstance: IRouter;
   let method: HttpMethods;
   const path: string = "/test";
-  const mockHandler: TRouteHandler = jest.fn(
+  const mockHandler: TRequestHandler = jest.fn(
     (req: IHttpRequest, res: IHttpResponse) => {
       res.end();
     },
