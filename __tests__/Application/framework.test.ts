@@ -2,7 +2,6 @@ import * as http from "http";
 import { Framework, IFramework } from "../../lib/application";
 import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middlewares";
-import { IRequestHandler } from "../../lib/http";
 import { TRequestHandler } from '../../lib/types';
 
 jest.mock("http");
@@ -11,7 +10,6 @@ describe("Framework", () => {
   let framework: IFramework;
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
-  let mockedRequestHandler: jest.Mocked<IRequestHandler>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
   let handler: TRequestHandler;
   const path = "/users";
@@ -25,10 +23,6 @@ describe("Framework", () => {
       patch: jest.fn(),
     } as Partial<IRouter> as jest.Mocked<IRouter>;
 
-    mockedRequestHandler = {
-      listen: jest.fn(),
-    };
-
     mockedMiddlewareManager = {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
@@ -36,7 +30,6 @@ describe("Framework", () => {
     framework = new Framework(
       mockedRouter,
       mockedMiddlewareManager,
-      mockedRequestHandler,
     );
 
     mockedServer = {
@@ -62,10 +55,6 @@ describe("Framework", () => {
 
   it("should initialize with the provided MiddlewareManager", () => {
     expect(framework["middlewareManager"]).toBe(mockedMiddlewareManager);
-  });
-
-  it("should initialize with the provided RequestHandler", () => {
-    expect(framework["requestHandler"]).toEqual(mockedRequestHandler);
   });
 
   it("should have a get method", () => {
@@ -140,16 +129,6 @@ describe("Framework", () => {
     expect(mockedServer.listen).toHaveBeenCalledWith(
       port,
       expect.any(Function),
-    );
-
-    const createServerCallback = (http.createServer as jest.Mock).mock
-      .calls[0][0];
-
-    createServerCallback(reqMock, resMock);
-
-    expect(mockedRequestHandler.listen).toHaveBeenCalledWith(
-      reqMock,
-      resMock,
     );
   });
 });

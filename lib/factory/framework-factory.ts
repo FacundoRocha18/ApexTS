@@ -10,7 +10,6 @@ import {
 	RouteProcessorService,
 	Router,
 } from "../router";
-import { IRequestHandler, RequestHandler } from "../http";
 import { IParserService, ParserService } from "../parser";
 import { Framework, IFramework } from "../application";
 
@@ -21,29 +20,24 @@ import { Framework, IFramework } from "../application";
  * @param router - The router to use, it uses a default Router if none is provided
  * @param routeProcessorService - The route processor service to use, it uses a default RouteProcessorService if none is provided
  * @param middlewareManager - The middleware manager to use, it uses a default MiddlewareManager if none is provided
- * @param requestHandler - The request handler to use, it uses a default RequestHandler if none is provided
  */
 export class FrameworkFactory {
 	private parserService: IParserService;
 	private router: IRouter;
 	private routeProcessorService: IRouteProcessorService;
 	private middlewareManager: IMiddlewareManager;
-	private requestHandler: IRequestHandler;
 
 	constructor(
 		parserService?: IParserService,
 		router?: IRouter,
 		routeProcessorService?: IRouteProcessorService,
 		middlewareManager?: IMiddlewareManager,
-		requestHandler?: IRequestHandler,
 	) {
 		this.parserService = parserService || new ParserService();
 		this.router = router || new Router(this.parserService);
 		this.routeProcessorService = routeProcessorService || new RouteProcessorService(this.router, this.parserService);
 		this.middlewareManager =
 			middlewareManager || new MiddlewareManager(this.routeProcessorService);
-		this.requestHandler =
-			requestHandler || new RequestHandler(this.middlewareManager, this.router);
 	}
 
 	/**
@@ -54,7 +48,6 @@ export class FrameworkFactory {
 		const framework = new Framework(
 			this.router,
 			this.middlewareManager,
-			this.requestHandler,
 		);
 
 		this.middlewareManager.use(jsonResponseMiddleware);

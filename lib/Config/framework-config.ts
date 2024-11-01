@@ -9,7 +9,6 @@ import {
   RouteProcessorService,
   IRouteProcessorService,
 } from "../router";
-import { RequestHandler, IRequestHandler } from "../http";
 import { ParserService, IParserService } from "../parser";
 import { Framework, IFramework } from "../application";
 
@@ -23,14 +22,9 @@ const routeProcessorService: IRouteProcessorService = new RouteProcessorService(
 const middlewareManager: IMiddlewareManager = new MiddlewareManager(
   routeProcessorService,
 );
-const requestHandlerService: IRequestHandler = new RequestHandler(
-  middlewareManager,
-  router,
-);
 const framework: IFramework = new Framework(
   router,
   middlewareManager,
-  requestHandlerService,
 );
 
 framework.use(jsonResponseMiddleware);

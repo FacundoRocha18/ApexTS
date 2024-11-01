@@ -2,14 +2,12 @@ import http from "http";
 import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
 import { IFramework } from "../application";
 import { TRequestHandler } from '../types';
-import { IRequestHandler } from "../http";
 import { IRouter } from "../router";
 
 export class Framework implements IFramework {
 	constructor(
 		public router: IRouter,
 		private middlewareManager: IMiddlewareManager,
-		private requestHandler: IRequestHandler,
 	) { }
 
 	public use(middleware: TMiddlewareFunction): void {
@@ -37,9 +35,14 @@ export class Framework implements IFramework {
 	}
 
 	private startHttpServer(): http.Server {
-		const server = http.createServer((req, res) =>
-			this.requestHandler.listen(req, res),
-		);
+		const server = http.createServer((req, res) => {
+			const path: string = req.url || "/";
+			const method: string = req.method || "GET";
+
+			this.middlewareManager.executeMiddlewares(req, res, () => {
+				this.router.resolveRoute(req, res, path, method);
+			});
+		});
 
 		return server;
 	};
