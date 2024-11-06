@@ -1,31 +1,39 @@
-import { IRequestParamsExtractorService } from '../request';
-import { TPathVariables, TQueryParams } from '../types';
-import { IParserService } from '../parser';
+import { IRequestParamsExtractorService } from "../request";
+import { TPathVariables, TQueryParams } from "../types";
+import { IParserService } from "../parser";
 
-export class RequestParamsExtractorService implements IRequestParamsExtractorService {
-	constructor(private parser: IParserService) { }
+export class RequestParamsExtractorService
+  implements IRequestParamsExtractorService
+{
+  constructor(private parser: IParserService) {}
 
-	public extractQueryParamsFromURL(
-		searchParams: URLSearchParams,
-	): TQueryParams | null {
-		const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+  public extractQueryParamsFromURL(
+    searchParams: URLSearchParams,
+  ): TQueryParams | null {
+    const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
 
-		if (!queryParams) {
-			console.log('No query params found');
-			return null;
-		}
+    if (!queryParams) {
+      console.log("No query params found");
+      return null;
+    }
 
-		return queryParams;
-	}
+    return queryParams;
+  }
 
-	public extractPathVariablesFromURL(pathname: string, registeredPath: string): TPathVariables | null {
-		const pathVariables = this.parser.extractPathVariablesFromURL(pathname, registeredPath);
+  public extractPathVariablesFromURL(
+    pathname: string,
+    registeredPath: string,
+  ): TPathVariables | null {
+    const pathVariables = this.parser.extractPathVariablesFromURL(
+      pathname,
+      registeredPath,
+    );
 
-		if (!pathVariables) {
-			console.log('No path variables found');
-			return null;
-		}
+    if (!pathVariables) {
+      console.log("No path variables found");
+      return null;
+    }
 
-		return pathVariables;
-	}
+    return pathVariables;
+  }
 }
