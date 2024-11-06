@@ -31,32 +31,17 @@ export class FrameworkFactory implements IFrameworkFactory {
 		private routeProcessor?: IRouteProcessorService,
 		private middlewareManager?: IMiddlewareManager
 	) {
-		this.initializeServices(
-			parser,
-			requestParamsExtractor,
-			router,
-			routeProcessor,
-			middlewareManager,
-		);
+		this.initializeServices();
 	}
 
-	private initializeServices(
-		parser: IParserService,
-		requestParamsExtractor: IRequestParamsExtractorService,
-		router: IRouter,
-		routeProcessor: IRouteProcessorService,
-		middlewareManager: IMiddlewareManager,
-	) {
+	private initializeServices() {
 		const serviceFactory = new ServiceFactory();
 
-		this.parser = parser || serviceFactory.create(ParserService);
-		this.requestParamsExtractor =
-			requestParamsExtractor || serviceFactory.create(RequestParamsExtractorService, [this.parser]);
-		this.router = router || serviceFactory.create(Router, [this.requestParamsExtractor]);
-		this.routeProcessor =
-			routeProcessor || serviceFactory.create(RouteProcessorService, [this.router, this.parser]);
-		this.middlewareManager =
-			middlewareManager || serviceFactory.create(MiddlewareManager, [this.routeProcessor]);
+		this.parser = serviceFactory.create(ParserService);
+		this.requestParamsExtractor = serviceFactory.create(RequestParamsExtractorService, [this.parser]);
+		this.router = serviceFactory.create(Router, [this.requestParamsExtractor]);
+		this.routeProcessor = serviceFactory.create(RouteProcessorService, [this.router, this.parser]);
+		this.middlewareManager = serviceFactory.create(MiddlewareManager, [this.routeProcessor]);
 	}
 
 	/**
@@ -79,6 +64,13 @@ export class FrameworkFactory implements IFrameworkFactory {
 		middleware: TMiddlewareFunction,
 	): FrameworkFactory {
 		this.middlewareManager.use(middleware);
+		return this;
+	}
+
+	public withCustomParser(parser: IParserService): FrameworkFactory {
+		this.parser = parser;
+		this.requestParamsExtractor = new RequestParamsExtractorService(this.parser);
+
 		return this;
 	}
 }
