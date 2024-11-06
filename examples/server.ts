@@ -1,4 +1,9 @@
-import { IFramework, FrameworkFactory, environmentConfiguration } from "../lib";
+import {
+  IFramework,
+  FrameworkFactory,
+  environmentConfiguration,
+  jsonMiddleware,
+} from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { getTest } from "./controllers/get-test";
@@ -14,6 +19,7 @@ const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 const app: IFramework = new FrameworkFactory()
   .withCustomMiddleware(authMiddleware)
   .withCustomMiddleware(loggerMiddleware)
+  .withCustomMiddleware(jsonMiddleware)
   .create();
 
 app.get("/get-test", getTest);
