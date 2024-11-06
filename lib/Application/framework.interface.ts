@@ -1,10 +1,11 @@
-import { TMiddlewareFunction } from "../middlewares/middleware.types";
-import { TRequestHandler, IRouter } from "../router";
+import { Middleware } from "../middlewares/middleware.types";
+import { TRequestHandler } from '../types';
+import { IRouter } from "../router";
 
 export interface IFramework {
   router: IRouter;
 
-  use(middleware: TMiddlewareFunction): void;
+  use(middleware: Middleware): void;
   get(path: string, handler: TRequestHandler): void;
   post(path: string, handler: TRequestHandler): void;
   put(path: string, handler: TRequestHandler): void;

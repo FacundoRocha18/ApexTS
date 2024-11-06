@@ -1,6 +1,6 @@
 import { IHttpRequest, IHttpResponse } from "../types";
 
-export type TMiddlewareFunction = (
+export type Middleware = (
   req: IHttpRequest,
   res: IHttpResponse,
   next: () => void,

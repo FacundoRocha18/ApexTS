@@ -1,14 +1,14 @@
-import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
+import { IMiddlewareManager, Middleware } from "../middlewares";
 import { IHttpRequest, IHttpResponse } from "../types";
 import { IRouteProcessorService } from "../router";
 import { IMiddlewareError } from "../errors";
 
 export class MiddlewareManager implements IMiddlewareManager {
-  private middlewares: TMiddlewareFunction[] = [];
+  private middlewares: Middleware[] = [];
 
   constructor(private routeProcessorService: IRouteProcessorService) {}
 
-  public use(middleware: TMiddlewareFunction): void {
+  public use(middleware: Middleware): void {
     this.middlewares.push(middleware);
   }
 

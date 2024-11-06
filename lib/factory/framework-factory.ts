@@ -1,7 +1,7 @@
 import {
   IMiddlewareManager,
   MiddlewareManager,
-  TMiddlewareFunction,
+  Middleware,
 } from "../middlewares";
 import {
   IRouteProcessorService,
@@ -69,7 +69,7 @@ export class FrameworkFactory implements IFrameworkFactory {
    * @returns The FrameworkFactory instance
    */
   public withCustomMiddleware(
-    middleware: TMiddlewareFunction,
+    middleware: Middleware,
   ): FrameworkFactory {
     this.middlewareManager.use(middleware);
     return this;

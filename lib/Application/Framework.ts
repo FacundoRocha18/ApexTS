@@ -1,5 +1,5 @@
 import http from "http";
-import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
+import { IMiddlewareManager, Middleware } from "../middlewares";
 import { IFramework } from ".";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";
@@ -10,7 +10,7 @@ export class Framework implements IFramework {
     private middlewareManager: IMiddlewareManager,
   ) {}
 
-  public use(middleware: TMiddlewareFunction): void {
+  public use(middleware: Middleware): void {
     this.middlewareManager.use(middleware);
   }
 

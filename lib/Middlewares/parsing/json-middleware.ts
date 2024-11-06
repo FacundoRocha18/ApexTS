@@ -1,7 +1,7 @@
-import { TMiddlewareFunction } from "..";
+import { Middleware } from "../../middlewares";
 import { IHttpRequest, IHttpResponse } from "../../types";
 
-export const jsonMiddleware: TMiddlewareFunction = (
+export const jsonMiddleware: Middleware = (
   req: IHttpRequest,
   res: IHttpResponse,
   next: () => void,

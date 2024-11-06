@@ -10,7 +10,7 @@ export interface IHttpRequest extends IncomingMessage {
   queryParams?: TQueryParams;
 }
 
-export type TRequestHandler = (
+export type RequestHandler = (
   req: IHttpRequest,
   res: IHttpResponse,
 ) => void | Promise<void>;
