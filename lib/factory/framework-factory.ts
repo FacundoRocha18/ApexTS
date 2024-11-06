@@ -12,6 +12,7 @@ import {
 } from "../router";
 import { IParserService, ParserService } from "../parser";
 import { Framework, IFramework } from "../application";
+import { RequestParamsExtractorService } from '../request';
 
 /**
  * FrameworkFactory creates a new instance of a Framework with the provided services.
@@ -21,24 +22,27 @@ import { Framework, IFramework } from "../application";
  * @param middlewareManager - The middleware manager to use, it uses a default MiddlewareManager if none is provided
  */
 export class FrameworkFactory {
-  private parserService: IParserService;
+  private parser: IParserService;
+	private requestParamsExtractor: RequestParamsExtractorService;
   private router: IRouter;
-  private routeProcessorService: IRouteProcessorService;
+  private routeProcessor: IRouteProcessorService;
   private middlewareManager: IMiddlewareManager;
 
   constructor(
     parserService?: IParserService,
+		requestParamsExtractorService?: RequestParamsExtractorService,
     router?: IRouter,
     routeProcessorService?: IRouteProcessorService,
     middlewareManager?: IMiddlewareManager,
   ) {
-    this.parserService = parserService || new ParserService();
-    this.router = router || new Router(this.parserService);
-    this.routeProcessorService =
+    this.parser = parserService || new ParserService();
+		this.requestParamsExtractor = requestParamsExtractorService || new RequestParamsExtractorService(this.parser);
+    this.router = router || new Router(this.requestParamsExtractor);
+    this.routeProcessor =
       routeProcessorService ||
-      new RouteProcessorService(this.router, this.parserService);
+      new RouteProcessorService(this.router, this.parser);
     this.middlewareManager =
-      middlewareManager || new MiddlewareManager(this.routeProcessorService);
+      middlewareManager || new MiddlewareManager(this.routeProcessor);
   }
 
   /**

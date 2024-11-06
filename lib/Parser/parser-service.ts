@@ -1,10 +1,10 @@
 import { TQueryParams, TPathVariables } from "../types/request";
-import { IParseParams, IParserService } from "../parser";
+import { IParseArgs, IParserService } from "../parser";
 
 export class ParserService implements IParserService {
   constructor() {}
 
-  public convertRequestBodyToJson(params: IParseParams): void {
+  public convertRequestBodyToJson(params: IParseArgs): void {
     const { req, res, path, method, callback } = params;
     let parsedBody: string = "";
 

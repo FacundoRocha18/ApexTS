@@ -1,6 +1,6 @@
 import { IHttpRequest, IHttpResponse } from "../types";
 
-export interface IParseParams {
+export interface IParseArgs {
   req: IHttpRequest;
   res: IHttpResponse;
   path: string;
