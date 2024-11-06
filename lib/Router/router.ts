@@ -5,13 +5,13 @@ import {
 import { TRouteDefinition, IRouter } from "../router";
 import { IHttpResponse } from "../types";
 import { HttpMethods } from "../http";
-import { RequestParamsExtractorService } from '../request';
+import { IRequestParamsExtractorService } from '../request';
 
 export class Router implements IRouter {
 	private routes: TRouteDefinition = {};
 
 	constructor(
-		private requestParamsExtractor: RequestParamsExtractorService,
+		private requestParamsExtractor: IRequestParamsExtractorService,
 	) { }
 
 	public use(

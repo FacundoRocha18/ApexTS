@@ -1,7 +1,8 @@
-import { IParserService } from '../parser';
+import { IRequestParamsExtractorService } from '../request';
 import { TPathVariables, TQueryParams } from '../types';
+import { IParserService } from '../parser';
 
-export class RequestParamsExtractorService {
+export class RequestParamsExtractorService implements IRequestParamsExtractorService {
 	constructor(private parser: IParserService) { }
 
 	public extractQueryParamsFromURL(
