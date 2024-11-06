@@ -1,4 +1,4 @@
-import { TMiddlewareFunction } from "../middlewares";
+import { Middleware } from "../middlewares";
 import { FrameworkFactory } from "../factory";
 
 export interface IFactory {
@@ -6,7 +6,7 @@ export interface IFactory {
 }
 
 export interface IFrameworkFactory extends IFactory {
-  withCustomMiddleware(middleware: TMiddlewareFunction): FrameworkFactory;
+  withCustomMiddleware(middleware: Middleware): FrameworkFactory;
 }
 
 export type Constructor = new (...args: any[]) => any;
