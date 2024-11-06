@@ -1,6 +1,6 @@
 import http from "http";
 import { IMiddlewareManager, TMiddlewareFunction } from "../middlewares";
-import { IFramework } from "../application";
+import { IFramework } from ".";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";
 

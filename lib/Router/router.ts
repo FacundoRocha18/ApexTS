@@ -74,46 +74,42 @@ export class Router implements IRouter {
     path: string,
     method: string,
   ): void {
-    const { pathname, searchParams } = new URL(path, "http://localhost");
+		const { pathname, searchParams } = new URL(path, "http://localhost");
+		
+    const handler = this.findRouteHandler(pathname, method, searchParams, req);
+  
+  if (!handler) {
+		this.handleNotFound(res, method, path);
+		return null;
+	} 
 
-    let routeFound = false;
-
-    for (const registeredPath in this.routes) {
-      if (!this.comparePaths(path, registeredPath)) {
-        continue;
-      }
-      routeFound = true;
-
-      const handler: TRequestHandler = this.routes[registeredPath]?.[method];
-      if (!handler) {
-        continue;
-      }
-
-      const queryParams: TQueryParams =
-        this.parserService.extractQueryParamsFromURL(searchParams);
-      const pathVariables: TPathVariables =
-        this.parserService.extractPathVariablesFromURL(
-          pathname,
-          registeredPath,
-        );
-
-      if (!queryParams || !pathVariables) {
-        continue;
-      }
-
-      req.queryParams = queryParams;
-      req.pathVariables = pathVariables;
-
-      handler(req, res);
-      return;
-    }
-
-    if (!routeFound) {
-      console.error(`No handler found for ${method} ${path}`);
-      res.statusCode = 404;
-      res.end("Not Found");
-    }
+	handler(req, res);
   }
+
+	private findRouteHandler(
+		pathname: string,
+		method: string,
+		searchParams: URLSearchParams,
+		req: IHttpRequest
+	): TRequestHandler | null {
+		for (const registeredPath in this.routes) {
+			if (!this.comparePaths(pathname, registeredPath)) continue;
+	
+			const handler: TRequestHandler = this.routes[registeredPath]?.[method];
+			if (!handler) continue;
+	
+			const queryParams = this.parserService.extractQueryParamsFromURL(searchParams);
+			const pathVariables = this.parserService.extractPathVariablesFromURL(pathname, registeredPath);
+	
+			if (queryParams && pathVariables) {
+				req.queryParams = queryParams;
+				req.pathVariables = pathVariables;
+				return handler;
+			}
+		}
+		
+		return null;
+	}
 
   private comparePaths(requestPath: string, registeredPath: string): boolean {
     const registeredPathSegments: string[] = registeredPath.split("/");
@@ -125,4 +121,10 @@ export class Router implements IRouter {
 
     return true;
   }
+
+	private handleNotFound(res: IHttpResponse, method: string, path: string): void {
+		console.error(`No handler found for ${method} ${path}`);
+		res.statusCode = 404;
+		res.end("Not Found");
+	}
 }
