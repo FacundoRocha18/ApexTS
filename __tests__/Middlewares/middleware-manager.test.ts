@@ -1,7 +1,7 @@
 import {
   MiddlewareManager,
   IMiddlewareManager,
-  TMiddlewareFunction,
+  Middleware,
 } from "../../lib/middlewares";
 import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { IRouteProcessorService } from "../../lib/router";
@@ -24,7 +24,7 @@ describe("MiddlewareManager", () => {
   });
 
   it("should add middleware using use method", () => {
-    const mockMiddleware: TMiddlewareFunction = jest.fn();
+    const mockMiddleware: Middleware = jest.fn();
 
     middlewareManager.use(mockMiddleware);
 
