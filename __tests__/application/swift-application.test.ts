@@ -6,7 +6,7 @@ import { TRequestHandler } from "../../lib/types";
 
 jest.mock("http");
 
-describe("Framework", () => {
+describe("Swift application", () => {
   let framework: ISwiftApplication;
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;

@@ -1,7 +1,6 @@
 import {
 	ISwiftApplication,
 	SwiftFactory,
-	environmentConfiguration,
 	jsonMiddleware,
 } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
