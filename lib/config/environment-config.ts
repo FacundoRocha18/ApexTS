@@ -1,38 +1,55 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require("dotenv").config();
+import dotenv from "dotenv";
+
+dotenv.config();
 
 interface IEnvironmentVariables {
-  NODE_ENV: string | undefined;
-  PORT: number | undefined;
+	NODE_ENV: string | undefined;
+	PORT: number | undefined;
 }
 
 interface IConfiguration {
-  NODE_ENV: string;
-  PORT: number;
+	NODE_ENV: string;
+	PORT: number;
 }
 
-const loadEnvironmentConfiguration = (): IEnvironmentVariables => {
-  return {
-    NODE_ENV: process.env.NODE_ENV,
-    PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
-  };
-};
+class EnvironmentConfiguration {
+	private static instance: EnvironmentConfiguration;
+	private environmentConfiguration: IConfiguration;
 
-const validateEnvironmentConfiguration = (
-  config: IEnvironmentVariables,
-): IConfiguration => {
-  for (const [key, value] of Object.entries(config)) {
-    if (value === undefined) {
-      throw new Error(`Missing key ${key} in config.env`);
-    }
-  }
+	private constructor() {
+		this.environmentConfiguration = this.loadEnvironmentConfiguration();
+	}
 
-  return config as IConfiguration;
-};
+	public static getInstance(): EnvironmentConfiguration {
+		if (!EnvironmentConfiguration.instance) {
+			EnvironmentConfiguration.instance = new EnvironmentConfiguration();
+		}
 
-const configuration: IConfiguration = loadEnvironmentConfiguration();
+		return EnvironmentConfiguration.instance;
+	}
 
-const validatedEnvironmentConfiguration: IConfiguration =
-  validateEnvironmentConfiguration(configuration);
+	private loadEnvironmentConfiguration(): IEnvironmentVariables {
+		return {
+			NODE_ENV: process.env.NODE_ENV,
+			PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
+		};
+	}
 
-export { validatedEnvironmentConfiguration as environmentConfiguration };
+	private validateEnvironmentConfiguration(): IConfiguration {
+		for (const [key, value] of Object.entries(this.environmentConfiguration)) {
+			if (value === undefined) {
+				throw new Error(`Missing key ${key} in config.env`);
+			}
+		}
+
+		return this.environmentConfiguration;
+	};
+
+	public getConfiguration(): IConfiguration {
+		return this.validateEnvironmentConfiguration();
+	}
+}
+
+const environmentConfiguration: IConfiguration = EnvironmentConfiguration.getInstance().getConfiguration();
+
+export { environmentConfiguration };
