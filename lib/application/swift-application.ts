@@ -1,23 +1,23 @@
 import http from "http";
 import { IMiddlewareManager, Middleware } from "../middlewares";
-import { IFramework } from ".";
+import { ISwiftApplication } from ".";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";
 
-export class Framework implements IFramework {
-	private static instance: Framework;
+export class SwiftApplication implements ISwiftApplication {
+	private static instance: SwiftApplication;
 
 	private constructor(
 		public router: IRouter,
 		private middlewareManager: IMiddlewareManager,
 	) { }
 
-	public static getInstance(router: IRouter, middlewareManager: IMiddlewareManager): Framework {
-		if (!Framework.instance) {
-			Framework.instance = new Framework(router, middlewareManager);
+	public static getInstance(router: IRouter, middlewareManager: IMiddlewareManager): SwiftApplication {
+		if (!SwiftApplication.instance) {
+			SwiftApplication.instance = new SwiftApplication(router, middlewareManager);
 		}
 
-		return Framework.instance;
+		return SwiftApplication.instance;
 	}
 
 	public use(middleware: Middleware): void {

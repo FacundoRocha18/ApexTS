@@ -1,6 +1,6 @@
 import {
-	IFramework,
-	FrameworkFactory,
+	ISwiftApplication,
+	SwiftFactory,
 	environmentConfiguration,
 	jsonMiddleware,
 } from "../lib";
@@ -16,7 +16,7 @@ import { patchTest } from "./controllers/patch-test";
 const PORT: number = environmentConfiguration.PORT;
 const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 
-const app: IFramework = new FrameworkFactory().create();
+const app: ISwiftApplication = new SwiftFactory().create();
 
 app.use(jsonMiddleware);
 app.use(loggerMiddleware);

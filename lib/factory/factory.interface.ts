@@ -1,12 +1,11 @@
 import { Middleware } from "../middlewares";
-import { FrameworkFactory } from "../factory";
 
 export interface IFactory {
   create({}, []): any;
 }
 
-export interface IFrameworkFactory extends IFactory {
-  withCustomMiddleware(middleware: Middleware): FrameworkFactory;
+export interface ISwiftFactory extends IFactory {
+  withCustomMiddleware(middleware: Middleware): ISwiftFactory;
 }
 
 export type Constructor = new (...args: any[]) => any;

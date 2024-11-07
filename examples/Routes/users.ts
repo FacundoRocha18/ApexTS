@@ -1,8 +1,8 @@
-import { FrameworkFactory, IFramework, IHttpRequest, IHttpResponse } from "../../lib";
+import { SwiftFactory, ISwiftApplication, IHttpRequest, IHttpResponse } from "../../lib";
 import { IRouter } from "../../lib/router/";
 
-const framework: IFramework = new FrameworkFactory().create();
-const router: IRouter = framework.router;
+const app: ISwiftApplication = new SwiftFactory().create();
+const router: IRouter = app.router;
 
 router.get("/users", (req, res) => {
   res.statusCode = 200;

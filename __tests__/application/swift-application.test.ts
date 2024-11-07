@@ -1,5 +1,5 @@
 import * as http from "http";
-import { Framework, IFramework } from "../../lib/application";
+import { SwiftApplication, ISwiftApplication } from "../../lib/application";
 import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middlewares";
 import { TRequestHandler } from "../../lib/types";
@@ -7,7 +7,7 @@ import { TRequestHandler } from "../../lib/types";
 jest.mock("http");
 
 describe("Framework", () => {
-  let framework: IFramework;
+  let framework: ISwiftApplication;
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
@@ -28,8 +28,8 @@ describe("Framework", () => {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
 		
-		(Framework as any).instance = null;
-    framework = Framework.getInstance(mockedRouter, mockedMiddlewareManager);
+		(SwiftApplication as any).instance = null;
+    framework = SwiftApplication.getInstance(mockedRouter, mockedMiddlewareManager);
 
     mockedServer = {
       listen: jest.fn(),
@@ -42,11 +42,11 @@ describe("Framework", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-		(Framework as any).instance = null;
+		(SwiftApplication as any).instance = null;
   });
 
   it("should be an instance of FastFramework", () => {
-    expect(framework).toBeInstanceOf(Framework);
+    expect(framework).toBeInstanceOf(SwiftApplication);
   });
 
   it("should initialize with the provided Router", () => {

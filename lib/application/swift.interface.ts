@@ -2,7 +2,7 @@ import { Middleware } from "../middlewares/middleware.types";
 import { TRequestHandler } from '../types';
 import { IRouter } from "../router";
 
-export interface IFramework {
+export interface ISwiftApplication {
   router: IRouter;
 
   use(middleware: Middleware): void;

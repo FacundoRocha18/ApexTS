@@ -1,7 +1,7 @@
 export type {
   IFactory,
-  IFrameworkFactory,
+  ISwiftFactory,
   Constructor,
 } from "./factory.interface";
-export { FrameworkFactory } from "./framework-factory";
+export { SwiftFactory } from "./swift-factory";
 export { ServiceFactory } from "./service-factory";

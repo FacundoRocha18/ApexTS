@@ -10,12 +10,12 @@ import {
   Router,
 } from "../router";
 import { IParserService, ParserService } from "../parser";
-import { Framework, IFramework } from "../application";
+import { ISwiftApplication, SwiftApplication } from "../application";
 import {
   IRequestParamsExtractorService,
   RequestParamsExtractorService,
 } from "../request";
-import { IFrameworkFactory, ServiceFactory } from "../factory";
+import { ISwiftFactory, ServiceFactory } from ".";
 
 /**
  * FrameworkFactory creates a new instance of a Framework with the provided services.
@@ -24,13 +24,14 @@ import { IFrameworkFactory, ServiceFactory } from "../factory";
  * @param routeProcessorService - The route processor service to use, it uses a default RouteProcessorService if none is provided
  * @param middlewareManager - The middleware manager to use, it uses a default MiddlewareManager if none is provided
  */
-export class FrameworkFactory implements IFrameworkFactory {
+export class SwiftFactory implements ISwiftFactory {
+	private middlewareManager: IMiddlewareManager;
+	private parser: IParserService;
+
   constructor(
-    private parser?: IParserService,
     private requestParamsExtractor?: IRequestParamsExtractorService,
     private router?: IRouter,
     private routeProcessor?: IRouteProcessorService,
-    private middlewareManager?: IMiddlewareManager,
   ) {
     this.initializeServices();
   }
@@ -57,8 +58,8 @@ export class FrameworkFactory implements IFrameworkFactory {
    * Creates a new instance of a Framework with the provided services.
    * @returns A new instance of a Framework
    */
-  public create(): IFramework {
-    const framework = Framework.getInstance(this.router, this.middlewareManager);
+  public create(): ISwiftApplication {
+    const framework = SwiftApplication.getInstance(this.router, this.middlewareManager);
 
     return framework;
   }
@@ -70,12 +71,12 @@ export class FrameworkFactory implements IFrameworkFactory {
    */
   public withCustomMiddleware(
     middleware: Middleware,
-  ): FrameworkFactory {
+  ): SwiftFactory {
     this.middlewareManager.use(middleware);
     return this;
   }
 
-  public withCustomParser(parser: IParserService): FrameworkFactory {
+  public withCustomParser(parser: IParserService): SwiftFactory {
     this.parser = parser;
     this.requestParamsExtractor = new RequestParamsExtractorService(
       this.parser,
