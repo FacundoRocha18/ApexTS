@@ -1,4 +1,4 @@
-import { IMiddlewareManager, Middleware } from "../middlewares";
+import { IMiddlewareManager, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
 import { IRouteProcessorService } from "../router";
 import { IMiddlewareError } from "../errors";

@@ -2,7 +2,7 @@ import {
   MiddlewareManager,
   IMiddlewareManager,
   Middleware,
-} from "../../lib/middlewares";
+} from "../../lib/middleware";
 import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { IRouteProcessorService } from "../../lib/router";
 

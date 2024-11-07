@@ -1,4 +1,4 @@
-import { Middleware } from "../middlewares";
+import { Middleware } from "../middleware";
 
 export interface IFactory {
   create({}, []): any;

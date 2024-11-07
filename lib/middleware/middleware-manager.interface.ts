@@ -1,4 +1,4 @@
-import { TMiddlewareFunction } from "../middlewares";
+import { TMiddlewareFunction } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
 
 export interface IMiddlewareManager {

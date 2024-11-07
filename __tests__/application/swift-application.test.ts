@@ -1,7 +1,7 @@
 import * as http from "http";
 import { SwiftApplication, ISwiftApplication } from "../../lib/application";
 import { IRouter } from "../../lib/router";
-import { IMiddlewareManager } from "../../lib/middlewares";
+import { IMiddlewareManager } from "../../lib/middleware";
 import { TRequestHandler } from "../../lib/types";
 
 jest.mock("http");

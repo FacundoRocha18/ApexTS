@@ -2,7 +2,7 @@ import {
 	IMiddlewareManager,
 	MiddlewareManager,
 	Middleware,
-} from "../middlewares";
+} from "../middleware";
 import {
 	IRouteProcessorService,
 	IRouter,

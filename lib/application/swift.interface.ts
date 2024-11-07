@@ -1,4 +1,4 @@
-import { Middleware } from "../middlewares/middleware.types";
+import { Middleware } from "../middleware/middleware.types";
 import { TRequestHandler } from '../types';
 import { IRouter } from "../router";
 

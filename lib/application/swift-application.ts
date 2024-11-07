@@ -1,5 +1,5 @@
 import http from "http";
-import { IMiddlewareManager, Middleware } from "../middlewares";
+import { IMiddlewareManager, Middleware } from "../middleware";
 import { ISwiftApplication } from ".";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";

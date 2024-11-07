@@ -1,4 +1,4 @@
-import { Middleware } from "../../middlewares";
+import { Middleware } from "..";
 import { IHttpRequest, IHttpResponse } from "../../types";
 
 export const jsonMiddleware: Middleware = (
