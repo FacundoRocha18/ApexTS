@@ -13,10 +13,11 @@ import { putTest } from "./controllers/put-test";
 import { deleteTest } from "./controllers/delete-test";
 import { patchTest } from "./controllers/patch-test";
 
-const PORT: number = environmentConfiguration.PORT;
-const NODE_ENV: string = environmentConfiguration.NODE_ENV;
+const factory = new SwiftFactory();
+const PORT: number = factory.getEnvironmentPort();
+const NODE_ENV: string = factory.getEnvironmentNodeEnv();
 
-const app: ISwiftApplication = new SwiftFactory().create();
+const app: ISwiftApplication = factory.create();
 
 app.use(jsonMiddleware);
 app.use(loggerMiddleware);
