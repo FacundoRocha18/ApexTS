@@ -1,8 +1,8 @@
 import {
-  IFramework,
-  FrameworkFactory,
-  environmentConfiguration,
-  jsonMiddleware,
+	IFramework,
+	FrameworkFactory,
+	environmentConfiguration,
+	jsonMiddleware,
 } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";
@@ -16,11 +16,11 @@ import { patchTest } from "./controllers/patch-test";
 const PORT: number = environmentConfiguration.PORT;
 const NODE_ENV: string = environmentConfiguration.NODE_ENV;
 
-const app: IFramework = new FrameworkFactory()
-  .withCustomMiddleware(authMiddleware)
-  .withCustomMiddleware(loggerMiddleware)
-  .withCustomMiddleware(jsonMiddleware)
-  .create();
+const app: IFramework = new FrameworkFactory().create();
+
+app.use(jsonMiddleware);
+app.use(loggerMiddleware);
+app.use(authMiddleware);
 
 app.get("/get-test", getTest);
 

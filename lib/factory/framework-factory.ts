@@ -58,7 +58,7 @@ export class FrameworkFactory implements IFrameworkFactory {
    * @returns A new instance of a Framework
    */
   public create(): IFramework {
-    const framework = new Framework(this.router, this.middlewareManager);
+    const framework = Framework.getInstance(this.router, this.middlewareManager);
 
     return framework;
   }

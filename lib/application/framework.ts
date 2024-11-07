@@ -5,55 +5,65 @@ import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";
 
 export class Framework implements IFramework {
-  constructor(
-    public router: IRouter,
-    private middlewareManager: IMiddlewareManager,
-  ) {}
+	private static instance: Framework;
 
-  public use(middleware: Middleware): void {
-    this.middlewareManager.use(middleware);
-  }
+	private constructor(
+		public router: IRouter,
+		private middlewareManager: IMiddlewareManager,
+	) { }
 
-  public get(path: string, handler: TRequestHandler): void {
-    this.router.get(path, handler);
-  }
+	public static getInstance(router: IRouter, middlewareManager: IMiddlewareManager): Framework {
+		if (!Framework.instance) {
+			Framework.instance = new Framework(router, middlewareManager);
+		}
 
-  public post(path: string, handler: TRequestHandler): void {
-    this.router.post(path, handler);
-  }
+		return Framework.instance;
+	}
 
-  public put(path: string, handler: TRequestHandler): void {
-    this.router.put(path, handler);
-  }
+	public use(middleware: Middleware): void {
+		this.middlewareManager.use(middleware);
+	}
 
-  public del(path: string, handler: TRequestHandler): void {
-    this.router.del(path, handler);
-  }
+	public get(path: string, handler: TRequestHandler): void {
+		this.router.get(path, handler);
+	}
 
-  public patch(path: string, handler: TRequestHandler): void {
-    this.router.patch(path, handler);
-  }
+	public post(path: string, handler: TRequestHandler): void {
+		this.router.post(path, handler);
+	}
 
-  private startHttpServer(): http.Server {
-    const server = http.createServer(
-      (req: IHttpRequest, res: IHttpResponse) => {
-        const path: string = req.url || "/";
-        const method: string = req.method || "GET";
+	public put(path: string, handler: TRequestHandler): void {
+		this.router.put(path, handler);
+	}
 
-        this.middlewareManager.executeMiddlewares(req, res, () => {
-          this.router.resolveRoute(req, res, path, method);
-        });
-      },
-    );
+	public del(path: string, handler: TRequestHandler): void {
+		this.router.del(path, handler);
+	}
 
-    return server;
-  }
+	public patch(path: string, handler: TRequestHandler): void {
+		this.router.patch(path, handler);
+	}
 
-  public listen(port: number, node_env: string): void {
-    const server = this.startHttpServer();
+	private startHttpServer(): http.Server {
+		const server = http.createServer(
+			(req: IHttpRequest, res: IHttpResponse) => {
+				const path: string = req.url || "/";
+				const method: string = req.method || "GET";
 
-    server.listen(port, () => {
-      console.log(`Server running on port: ${port} on ${node_env} mode`);
-    });
-  }
+				this.middlewareManager.executeMiddlewares(req, res, () => {
+					this.router.resolveRoute(req, res, path, method);
+				});
+			},
+		);
+
+		return server;
+	}
+
+	public listen(port: number, node_env: string): void {
+		const server = this.startHttpServer();
+
+		server.listen(port, () => {
+			console.log(`Server running on port: ${port} on ${node_env} mode`);
+		});
+	}
 }

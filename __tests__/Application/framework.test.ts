@@ -12,7 +12,8 @@ describe("Framework", () => {
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
   let handler: TRequestHandler;
-  const path = "/users";
+  
+	const PATH = "/users";
 
   beforeEach(() => {
     mockedRouter = {
@@ -26,8 +27,9 @@ describe("Framework", () => {
     mockedMiddlewareManager = {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
-
-    framework = new Framework(mockedRouter, mockedMiddlewareManager);
+		
+		(Framework as any).instance = null;
+    framework = Framework.getInstance(mockedRouter, mockedMiddlewareManager);
 
     mockedServer = {
       listen: jest.fn(),
@@ -40,6 +42,7 @@ describe("Framework", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+		(Framework as any).instance = null;
   });
 
   it("should be an instance of FastFramework", () => {
@@ -79,37 +82,37 @@ describe("Framework", () => {
   });
 
   it("should call router.get method with correct arguments", () => {
-    framework.get(path, handler);
+    framework.get(PATH, handler);
 
-    expect(mockedRouter.get).toHaveBeenCalledWith(path, handler);
+    expect(mockedRouter.get).toHaveBeenCalledWith(PATH, handler);
     expect(mockedRouter.get).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.post method with correct arguments", () => {
-    framework.post(path, handler);
+    framework.post(PATH, handler);
 
-    expect(mockedRouter.post).toHaveBeenCalledWith(path, handler);
+    expect(mockedRouter.post).toHaveBeenCalledWith(PATH, handler);
     expect(mockedRouter.post).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.delete method with correct arguments", () => {
-    framework.del(path, handler);
+    framework.del(PATH, handler);
 
-    expect(mockedRouter.del).toHaveBeenCalledWith(path, handler);
+    expect(mockedRouter.del).toHaveBeenCalledWith(PATH, handler);
     expect(mockedRouter.del).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.put method with correct arguments", () => {
-    framework.put(path, handler);
+    framework.put(PATH, handler);
 
-    expect(mockedRouter.put).toHaveBeenCalledWith(path, handler);
+    expect(mockedRouter.put).toHaveBeenCalledWith(PATH, handler);
     expect(mockedRouter.put).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.patch method with correct arguments", () => {
-    framework.patch(path, handler);
+    framework.patch(PATH, handler);
 
-    expect(mockedRouter.patch).toHaveBeenCalledWith(path, handler);
+    expect(mockedRouter.patch).toHaveBeenCalledWith(PATH, handler);
     expect(mockedRouter.patch).toHaveBeenCalledTimes(1);
   });
 
