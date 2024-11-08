@@ -4,7 +4,7 @@ import {
   IHttpRequest,
   IHttpResponse,
 } from "../../lib";
-import { IRouter } from "../../lib/router/";
+import { IRouter } from "../../lib/router";
 
 const app: ISwiftApplication = new SwiftFactory().create();
 const router: IRouter = app.router;
