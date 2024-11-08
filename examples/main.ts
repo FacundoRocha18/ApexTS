@@ -1,8 +1,4 @@
-import {
-	ISwiftApplication,
-	SwiftFactory,
-	jsonMiddleware,
-} from "../lib";
+import { ISwiftApplication, SwiftFactory, jsonMiddleware } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { getTest } from "./controllers/get-test";
@@ -11,6 +7,7 @@ import { postTest } from "./controllers/post-test";
 import { putTest } from "./controllers/put-test";
 import { deleteTest } from "./controllers/delete-test";
 import { patchTest } from "./controllers/patch-test";
+import { errorHandlingMiddleware } from '../lib/middleware';
 
 const factory = new SwiftFactory();
 const PORT: number = factory.getEnvironmentPort();
@@ -21,6 +18,7 @@ const app: ISwiftApplication = factory.create();
 app.use(jsonMiddleware);
 app.use(loggerMiddleware);
 app.use(authMiddleware);
+app.use(errorHandlingMiddleware);
 
 app.get("/get-test", getTest);
 

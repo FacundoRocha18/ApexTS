@@ -1,11 +1,11 @@
-import { Middleware } from "../middleware/middleware.types";
-import { TRequestHandler } from '../types';
+import { ErrorMiddleware, Middleware } from "../middleware/middleware.types";
+import { TRequestHandler } from "../types";
 import { IRouter } from "../router";
 
 export interface ISwiftApplication {
   router: IRouter;
 
-  use(middleware: Middleware): void;
+  use(middleware: Middleware | ErrorMiddleware): void;
   get(path: string, handler: TRequestHandler): void;
   post(path: string, handler: TRequestHandler): void;
   put(path: string, handler: TRequestHandler): void;

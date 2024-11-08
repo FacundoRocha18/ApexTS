@@ -1,4 +1,9 @@
-import { SwiftFactory, ISwiftApplication, IHttpRequest, IHttpResponse } from "../../lib";
+import {
+  SwiftFactory,
+  ISwiftApplication,
+  IHttpRequest,
+  IHttpResponse,
+} from "../../lib";
 import { IRouter } from "../../lib/router/";
 
 const app: ISwiftApplication = new SwiftFactory().create();

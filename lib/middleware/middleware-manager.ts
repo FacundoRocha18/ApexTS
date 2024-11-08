@@ -1,15 +1,24 @@
-import { IMiddlewareManager, Middleware } from ".";
+import { ErrorMiddleware, IMiddlewareManager, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
 import { IRouteProcessorService } from "../router";
-import { IMiddlewareError } from "../errors";
+import { IMiddlewareError, MiddlewareError } from "../errors";
 
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: Middleware[] = [];
+	private errorMiddlewares: ErrorMiddleware[] = [];
 
   constructor(private routeProcessorService: IRouteProcessorService) {}
 
-  public use(middleware: Middleware): void {
-    this.middlewares.push(middleware);
+  public use(middleware: Middleware | ErrorMiddleware): void {
+		if (!this.isErrorMiddleware(middleware)) {
+			this.middlewares.push(middleware as Middleware);
+		} 
+		
+		this.errorMiddlewares.push(middleware as ErrorMiddleware);
+  }
+
+	private isErrorMiddleware(middleware: Middleware | ErrorMiddleware): middleware is ErrorMiddleware {
+    return middleware.length === 4;
   }
 
   public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
@@ -36,6 +45,8 @@ export class MiddlewareManager implements IMiddlewareManager {
     error: IMiddlewareError,
     res: IHttpResponse,
   ): void {
+    console.error(error.stack);
+
     res.statusCode = 500;
     res.statusMessage = "Internal Server Error";
     res.write("Error: " + error.message);

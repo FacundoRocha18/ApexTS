@@ -12,8 +12,8 @@ describe("Swift application", () => {
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
   let handler: TRequestHandler;
-  
-	const PATH = "/users";
+
+  const PATH = "/users";
 
   beforeEach(() => {
     mockedRouter = {
@@ -27,9 +27,12 @@ describe("Swift application", () => {
     mockedMiddlewareManager = {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
-		
-		(SwiftApplication as any).instance = null;
-    framework = SwiftApplication.getInstance(mockedRouter, mockedMiddlewareManager);
+
+    (SwiftApplication as any).instance = null;
+    framework = SwiftApplication.getInstance(
+      mockedRouter,
+      mockedMiddlewareManager,
+    );
 
     mockedServer = {
       listen: jest.fn(),
@@ -42,7 +45,7 @@ describe("Swift application", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-		(SwiftApplication as any).instance = null;
+    (SwiftApplication as any).instance = null;
   });
 
   it("should be an instance of FastFramework", () => {

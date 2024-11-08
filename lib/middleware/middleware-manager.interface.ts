@@ -1,8 +1,8 @@
-import { TMiddlewareFunction } from ".";
+import { Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
 
 export interface IMiddlewareManager {
-  use(middleware: TMiddlewareFunction): void;
+  use(middleware: Middleware): void;
   executeMiddlewares(
     req: IHttpRequest,
     res: IHttpResponse,
