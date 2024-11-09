@@ -7,7 +7,7 @@ export type Middleware = (
 ) => void | Promise<void>;
 
 export type ErrorMiddleware = (
-	err: Error,
+  err: Error,
   req: IHttpRequest,
   res: IHttpResponse,
   next: (err?: any) => void,

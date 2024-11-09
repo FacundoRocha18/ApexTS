@@ -5,19 +5,21 @@ import { IMiddlewareError, MiddlewareError } from "../errors";
 
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: Middleware[] = [];
-	private errorMiddlewares: ErrorMiddleware[] = [];
+  private errorMiddlewares: ErrorMiddleware[] = [];
 
   constructor(private routeProcessorService: IRouteProcessorService) {}
 
   public use(middleware: Middleware | ErrorMiddleware): void {
-		if (!this.isErrorMiddleware(middleware)) {
-			this.middlewares.push(middleware as Middleware);
-		} 
-		
-		this.errorMiddlewares.push(middleware as ErrorMiddleware);
+    if (!this.isErrorMiddleware(middleware)) {
+      this.middlewares.push(middleware as Middleware);
+    }
+
+    this.errorMiddlewares.push(middleware as ErrorMiddleware);
   }
 
-	private isErrorMiddleware(middleware: Middleware | ErrorMiddleware): middleware is ErrorMiddleware {
+  private isErrorMiddleware(
+    middleware: Middleware | ErrorMiddleware,
+  ): middleware is ErrorMiddleware {
     return middleware.length === 4;
   }
 

@@ -14,10 +14,11 @@ interface IConfiguration {
 
 class EnvironmentConfiguration {
   private static instance: EnvironmentConfiguration;
-  private environmentConfiguration: IConfiguration;
+	private readonly rawEnvironmentConfiguration: IEnvironmentVariables;
+  private validatedEnvironmentConfiguration: IConfiguration;
 
   private constructor() {
-    this.environmentConfiguration = this.loadEnvironmentConfiguration();
+    this.rawEnvironmentConfiguration = this.loadEnvironmentConfiguration();
   }
 
   public static getInstance(): EnvironmentConfiguration {
@@ -36,13 +37,13 @@ class EnvironmentConfiguration {
   }
 
   private validateEnvironmentConfiguration(): IConfiguration {
-    for (const [key, value] of Object.entries(this.environmentConfiguration)) {
+    for (const [key, value] of Object.entries(this.rawEnvironmentConfiguration)) {
       if (value === undefined) {
         throw new Error(`Missing key ${key} in config.env`);
       }
     }
 
-    return this.environmentConfiguration;
+    return this.validatedEnvironmentConfiguration;
   }
 
   public getConfiguration(): IConfiguration {
