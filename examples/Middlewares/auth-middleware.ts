@@ -11,7 +11,7 @@ const authMiddleware = (
   if (authHeader !== "Bearer valid-token") {
     res.statusCode = 401;
     res.end("Unauthorized");
-    return null;
+    return;
   }
 
   next();
