@@ -27,7 +27,7 @@ export class MiddlewareManager implements IMiddlewareManager {
     const execute = (index: number): void => {
       if (index >= this.middlewares.length) {
         this.routeProcessorService.processRoute(req, res, req.url, req.method);
-        return null;
+        return;
       }
 
       const middleware = this.middlewares[index];
