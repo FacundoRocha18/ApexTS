@@ -37,16 +37,22 @@ class EnvironmentConfiguration {
   }
 
   private validateEnvironmentConfiguration(): IConfiguration {
-    for (const [key, value] of Object.entries(this.environmentConfiguration)) {
-      if (value === undefined) {
-        throw new Error(`Missing key ${key} in config.env`);
-      }
-    }
+    const { NODE_ENV, PORT } = this.environmentConfiguration;
 
-		return this.validatedEnvironmentConfiguration = {
-			NODE_ENV: this.environmentConfiguration.NODE_ENV as string,
-			PORT: this.environmentConfiguration.PORT as number,
+		if (NODE_ENV === undefined) {
+			throw new Error(`Missing key NODE_ENV in config.env`);
+		}
+	
+		if (PORT === undefined) {
+			throw new Error(`Missing key PORT in config.env`);
+		}
+	
+		this.validatedEnvironmentConfiguration = {
+			NODE_ENV: NODE_ENV as string,
+			PORT: Number(PORT),
 		};
+	
+		return this.validatedEnvironmentConfiguration;
   }
 
   public getConfiguration(): IConfiguration {
