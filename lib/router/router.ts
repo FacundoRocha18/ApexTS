@@ -73,17 +73,22 @@ export class Router implements IRouter {
       this.comparePaths(pathname, route),
     );
 
+		if (!registeredPath) {
+			this.handleNotFound(res, method, path);
+			return;
+		}
+
     if (!handler) {
       this.handleNotFound(res, method, path);
       return;
     }
 
     req.queryParams =
-      this.requestParamsExtractor.extractQueryParamsFromURL(searchParams);
+      this.requestParamsExtractor.extractQueryParamsFromURL(searchParams) || {};
     req.pathVariables = this.requestParamsExtractor.extractPathVariablesFromURL(
       pathname,
       registeredPath,
-    );
+    ) || {};
 
     handler(req, res);
   }
@@ -91,7 +96,7 @@ export class Router implements IRouter {
   private findRouteHandler(
     pathname: string,
     method: string,
-  ): TRequestHandler | null {
+  ): TRequestHandler | undefined {
     for (const registeredPath in this.routes) {
       if (!this.comparePaths(pathname, registeredPath)) {
         continue;

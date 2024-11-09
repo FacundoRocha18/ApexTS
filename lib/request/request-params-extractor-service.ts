@@ -9,12 +9,12 @@ export class RequestParamsExtractorService
 
   public extractQueryParamsFromURL(
     searchParams: URLSearchParams,
-  ): TQueryParams | null {
+  ): TQueryParams | undefined {
     const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
 
     if (!queryParams) {
       console.log("No query params found");
-      return null;
+      return;
     }
 
     return queryParams;
@@ -23,7 +23,7 @@ export class RequestParamsExtractorService
   public extractPathVariablesFromURL(
     pathname: string,
     registeredPath: string,
-  ): TPathVariables | null {
+  ): TPathVariables | undefined {
     const pathVariables = this.parser.extractPathVariablesFromURL(
       pathname,
       registeredPath,
@@ -31,7 +31,7 @@ export class RequestParamsExtractorService
 
     if (!pathVariables) {
       console.log("No path variables found");
-      return null;
+      return;
     }
 
     return pathVariables;
