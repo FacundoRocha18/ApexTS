@@ -1,7 +1,7 @@
 import { Middleware } from "../middleware";
 
 export interface IFactory {
-  create({}, []): any;
+  create(serviceConstructor: Constructor, dependencies: any[]): any;
 }
 
 export interface ISwiftFactory extends IFactory {
