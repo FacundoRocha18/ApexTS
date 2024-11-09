@@ -43,7 +43,10 @@ class EnvironmentConfiguration {
       }
     }
 
-    return this.validatedEnvironmentConfiguration;
+		return this.validatedEnvironmentConfiguration = {
+			NODE_ENV: this.environmentConfiguration.NODE_ENV as string,
+			PORT: this.environmentConfiguration.PORT as number,
+		};
   }
 
   public getConfiguration(): IConfiguration {
