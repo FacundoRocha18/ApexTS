@@ -19,7 +19,7 @@ import { ISwiftFactory, ServiceFactory } from ".";
 import { environmentConfiguration } from "../config";
 
 /**
- * FrameworkFactory creates a new instance of a Framework with the provided services.
+ * SwiftFactory creates a new instance of a Framework with the provided services.
  * @param parserService - The parser service to use, it uses a default ParserService if none is provided
  * @param router - The router to use, it uses a default Router if none is provided
  * @param routeProcessorService - The route processor service to use, it uses a default RouteProcessorService if none is provided
