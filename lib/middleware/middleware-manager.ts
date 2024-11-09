@@ -4,54 +4,55 @@ import { IRouteProcessorService } from "../router";
 import { IMiddlewareError, MiddlewareError } from "../errors";
 
 export class MiddlewareManager implements IMiddlewareManager {
-  private middlewares: Middleware[] = [];
-  private errorMiddlewares: ErrorMiddleware[] = [];
+	private middlewares: Middleware[] = [];
+	private errorMiddlewares: ErrorMiddleware[] = [];
 
-  constructor(private routeProcessorService: IRouteProcessorService) {}
+	constructor(private routeProcessorService: IRouteProcessorService) { }
 
-  public use(middleware: Middleware | ErrorMiddleware): void {
-    if (!this.isErrorMiddleware(middleware)) {
-      this.middlewares.push(middleware as Middleware);
-    }
+	public use(middleware: Middleware | ErrorMiddleware): void {
+		if (!this.isErrorMiddleware(middleware)) {
+			this.middlewares.push(middleware as Middleware);
+		}
 
-    this.errorMiddlewares.push(middleware as ErrorMiddleware);
-  }
+		this.errorMiddlewares.push(middleware as ErrorMiddleware);
+	}
 
-  private isErrorMiddleware(
-    middleware: Middleware | ErrorMiddleware,
-  ): middleware is ErrorMiddleware {
-    return middleware.length === 4;
-  }
+	private isErrorMiddleware(
+		middleware: Middleware | ErrorMiddleware,
+	): middleware is ErrorMiddleware {
+		return middleware.length === 4;
+	}
 
-  public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
-    const execute = (index: number): void => {
-      if (index >= this.middlewares.length) {
-        this.routeProcessorService.processRoute(req, res, req.url, req.method);
-        return;
-      }
+	public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
+		const execute = (index: number): void => {
 
-      const middleware = this.middlewares[index];
-      const next = () => execute(index + 1);
+			if (index >= this.middlewares.length) {
+				this.routeProcessorService.processRoute(req, res, req.url || "", req.method || "");
+				return;
+			}
 
-      try {
-        middleware(req, res, next);
-      } catch (error) {
-        this.handleMiddlewareError(error, res);
-      }
-    };
+			const middleware = this.middlewares[index];
+			const next = () => execute(index + 1);
 
-    execute(0);
-  }
+			try {
+				middleware(req, res, next);
+			} catch (error) {
+				this.handleMiddlewareError(error, res);
+			}
+		};
 
-  private handleMiddlewareError(
-    error: IMiddlewareError,
-    res: IHttpResponse,
-  ): void {
-    console.error(error.stack);
+		execute(0);
+	}
 
-    res.statusCode = 500;
-    res.statusMessage = "Internal Server Error";
-    res.write("Error: " + error.message);
-    res.end();
-  }
+	private handleMiddlewareError(
+		error: IMiddlewareError,
+		res: IHttpResponse,
+	): void {
+		console.error(error.stack);
+
+		res.statusCode = 500;
+		res.statusMessage = "Internal Server Error";
+		res.write("Error: " + error.message);
+		res.end();
+	}
 }
