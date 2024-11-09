@@ -24,17 +24,17 @@ import { environmentConfiguration } from "../config";
  * @param router - The router to use, it uses a default Router if none is provided
  * @param routeProcessorService - The route processor service to use, it uses a default RouteProcessorService if none is provided
  * @param middlewareManager - The middleware manager to use, it uses a default MiddlewareManager if none is provided
+ * @todo Add a way to provide custom services to the factory
  */
 export class SwiftFactory implements ISwiftFactory {
   private middlewareManager: IMiddlewareManager;
   private parser: IParserService;
   private environmentConfiguration = environmentConfiguration;
+	private requestParamsExtractor: IRequestParamsExtractorService;
+	private router: IRouter;
+	private routeProcessor: IRouteProcessorService;
 
-  constructor(
-    private requestParamsExtractor?: IRequestParamsExtractorService,
-    private router?: IRouter,
-    private routeProcessor?: IRouteProcessorService,
-  ) {
+  constructor() {
     this.initializeServices();
   }
 
