@@ -59,6 +59,7 @@ export class Router implements IRouter {
     }
 
     this.routes[path][method] = handler;
+		console.log(this.routes);
   }
 
   public resolveRoute(
@@ -90,6 +91,8 @@ export class Router implements IRouter {
       registeredPath,
     ) || {};
 
+		console.log("Pathname: " + pathname);
+		console.log("Handler: " + handler);
     handler(req, res);
   }
 
