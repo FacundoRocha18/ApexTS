@@ -4,7 +4,7 @@ import { ValidationError } from '../../errors';
 
 const jsonValidator = new Ajv();
 
-export const validateRequest = (schema: JSONSchemaType<any>) => {
+export const validationMiddleware = (schema: JSONSchemaType<any>) => {
 	const validate = jsonValidator.compile(schema);
 
 	return (req: IHttpRequest, res: IHttpResponse, next: () => void) => {
