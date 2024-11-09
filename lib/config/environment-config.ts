@@ -14,7 +14,8 @@ interface IConfiguration {
 
 class EnvironmentConfiguration {
   private static instance: EnvironmentConfiguration;
-  private environmentConfiguration: IConfiguration;
+	private environmentConfiguration: IEnvironmentVariables;
+  private validatedEnvironmentConfiguration: IConfiguration;
 
   private constructor() {
     this.environmentConfiguration = this.loadEnvironmentConfiguration();
@@ -42,7 +43,7 @@ class EnvironmentConfiguration {
       }
     }
 
-    return this.environmentConfiguration;
+    return this.validatedEnvironmentConfiguration;
   }
 
   public getConfiguration(): IConfiguration {
@@ -50,7 +51,7 @@ class EnvironmentConfiguration {
   }
 }
 
-const environmentConfiguration: IConfiguration =
+const validatedEnvironmentConfiguration: IConfiguration =
   EnvironmentConfiguration.getInstance().getConfiguration();
 
-export { environmentConfiguration };
+export { validatedEnvironmentConfiguration as environmentConfiguration };
