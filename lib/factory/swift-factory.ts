@@ -95,4 +95,16 @@ export class SwiftFactory implements ISwiftFactory {
 
     return this;
   }
+
+	public get Parser(): IParserService {
+		return this.parser;
+	}
+
+	public get RequestParamsExtractor(): IRequestParamsExtractorService {
+		return this.requestParamsExtractor;
+	}
+
+	public get Router(): IRouter {
+		return this.router;
+	}
 }

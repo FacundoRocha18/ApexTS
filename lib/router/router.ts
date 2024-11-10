@@ -6,8 +6,21 @@ import { IRequestParamsExtractorService } from "../request";
 
 export class Router implements IRouter {
   private routes: TRouteDefinition = {};
+	private static instance: Router;
 
   constructor(private requestParamsExtractor: IRequestParamsExtractorService) {}
+
+	public static getInstance(
+    requestParamsExtractor: IRequestParamsExtractorService,
+  ): Router {
+    if (!Router.instance) {
+      Router.instance = new Router(
+        requestParamsExtractor
+      );
+    }
+
+    return Router.instance;
+  }
 
   public use(
     method: HttpMethods,
@@ -18,7 +31,8 @@ export class Router implements IRouter {
   }
 
   public get(path: string, handler: TRequestHandler): void {
-    this.addRoute(HttpMethods.GET, path, handler);
+		console.log(path, handler);
+		this.addRoute(HttpMethods.GET, path, handler);
   }
 
   public post(path: string, handler: TRequestHandler): void {
@@ -59,7 +73,6 @@ export class Router implements IRouter {
     }
 
     this.routes[path][method] = handler;
-		console.log(this.routes);
   }
 
   public resolveRoute(
@@ -91,8 +104,6 @@ export class Router implements IRouter {
       registeredPath,
     ) || {};
 
-		console.log("Pathname: " + pathname);
-		console.log("Handler: " + handler);
     handler(req, res);
   }
 
@@ -106,7 +117,8 @@ export class Router implements IRouter {
       }
 
       const handler: TRequestHandler = this.routes[registeredPath]?.[method];
-
+			console.log(pathname);
+			console.log("handler" + handler);
       if (!handler) {
         continue;
       }
@@ -115,16 +127,18 @@ export class Router implements IRouter {
     }
   }
 
-  private comparePaths(requestPath: string, registeredPath: string): boolean {
-    const registeredPathSegments: string[] = registeredPath.split("/");
-    const requestPathSegments: string[] = requestPath.split("/");
-
-    if (registeredPathSegments.length !== requestPathSegments.length) {
-      return false;
-    }
-
-    return true;
-  }
+  private comparePaths(pathname: string, registeredPath: string): boolean {
+		const pathParts = pathname.split('/');
+		const registeredParts = registeredPath.split('/');
+	
+		if (pathParts.length !== registeredParts.length) {
+			return false;
+		}
+	
+		return registeredParts.every((part, index) =>
+			part.startsWith(':') || part === pathParts[index]
+		);
+	}
 
   private handleNotFound(
     res: IHttpResponse,
