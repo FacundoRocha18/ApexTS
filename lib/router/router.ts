@@ -31,7 +31,6 @@ export class Router implements IRouter {
   }
 
   public get(path: string, handler: TRequestHandler): void {
-		console.log(path, handler);
 		this.addRoute(HttpMethods.GET, path, handler);
   }
 
@@ -56,17 +55,11 @@ export class Router implements IRouter {
     path: string,
     handler: TRequestHandler,
   ): void {
-    if (!method) {
-      throw new Error("Method must be a non-empty string");
-    }
+    this.ensureMethodIsValid(method);
 
-    if (!path || path === "") {
-      throw new Error("Path must be a non-empty string");
-    }
+    this.ensureNonEmptyPath(path);
 
-    if (!handler) {
-      throw new Error("Handler must be a function");
-    }
+    this.ensureHandlerIsValid(handler);
 
     if (!this.routes[path]) {
       this.routes[path] = {};
@@ -74,6 +67,24 @@ export class Router implements IRouter {
 
     this.routes[path][method] = handler;
   }
+
+	private ensureHandlerIsValid(handler: TRequestHandler) {
+		if (!handler) {
+			throw new Error("Handler must be a function");
+		}
+	}
+
+	private ensureNonEmptyPath(path: string) {
+		if (!path || path === "") {
+			throw new Error("Path must be a non-empty string");
+		}
+	}
+
+	private ensureMethodIsValid(method: HttpMethods) {
+		if (!method) {
+			throw new Error("Method must be a non-empty string");
+		}
+	}
 
   public resolveRoute(
     req: IHttpRequest,
@@ -117,8 +128,6 @@ export class Router implements IRouter {
       }
 
       const handler: TRequestHandler = this.routes[registeredPath]?.[method];
-			console.log(pathname);
-			console.log("handler" + handler);
       if (!handler) {
         continue;
       }
