@@ -9,6 +9,8 @@ import { deleteTest } from "./controllers/delete-test";
 import { patchTest } from "./controllers/patch-test";
 import { errorHandlingMiddleware } from "../lib/middleware";
 import { usersController } from './controllers/users-controller';
+import { userRoutes } from './routes/users.routes';
+import { HttpMethods } from '../lib/http';
 
 const factory = new SwiftFactory();
 const PORT: number = factory.getEnvironmentPort();
@@ -16,12 +18,12 @@ const NODE_ENV: string = factory.getEnvironmentNodeEnv();
 
 const app: ISwiftApplication = factory.create();
 
-app.use(jsonMiddleware);
-app.use(loggerMiddleware);
-app.use(authMiddleware);
-app.use(errorHandlingMiddleware);
+app.useMiddleware(jsonMiddleware);
+app.useMiddleware(loggerMiddleware);
+app.useMiddleware(authMiddleware);
+app.useMiddleware(errorHandlingMiddleware);
 
-app.get("/users", usersController);
+app.useRoute(HttpMethods.GET, "/users", usersController);
 
 app.get("/get-test", getTest);
 
@@ -36,5 +38,3 @@ app.del("/delete-test", deleteTest);
 app.patch("/patch-test", patchTest);
 
 app.listen(PORT, NODE_ENV);
-
-export { app };

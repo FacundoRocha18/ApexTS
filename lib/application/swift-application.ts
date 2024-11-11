@@ -1,8 +1,9 @@
 import http from "http";
-import { IMiddlewareManager, Middleware } from "../middleware";
+import { ErrorMiddleware, IMiddlewareManager, Middleware } from "../middleware";
 import { ISwiftApplication } from ".";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { IRouter } from "../router";
+import { HttpMethods } from '../http';
 
 export class SwiftApplication implements ISwiftApplication {
 	private static instance: SwiftApplication;
@@ -26,8 +27,12 @@ export class SwiftApplication implements ISwiftApplication {
 		return SwiftApplication.instance;
 	}
 
-	public use(middleware: Middleware): void {
+	public useMiddleware(middleware: Middleware | ErrorMiddleware): void {
 		this.middlewareManager.use(middleware);
+	}
+	
+	public useRoute(method: HttpMethods, path: string, handler: TRequestHandler): void {
+		this.router.use(method, path, handler);
 	}
 
 	public get(path: string, handler: TRequestHandler): void {

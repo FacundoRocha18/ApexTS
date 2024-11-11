@@ -6,11 +6,11 @@ interface User {
   password: string;
 }
 
-export const userSchema = {
+export const userSchema: JSONSchemaType<User> = {
   type: "object",
   properties: {
     name: { type: "string", minLength: 1, maxLength: 255 },
-    email: { type: "string", format: "email" },
+    email: { type: "string" },
     password: { type: "string", minLength: 8, maxLength: 255 },
   },
   required: ["name", "email", "password"],

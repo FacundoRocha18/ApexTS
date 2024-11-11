@@ -12,6 +12,7 @@ export class MiddlewareManager implements IMiddlewareManager {
 	public use(middleware: Middleware | ErrorMiddleware): void {
 		if (!this.isErrorMiddleware(middleware)) {
 			this.middlewares.push(middleware as Middleware);
+			return;
 		}
 
 		this.errorMiddlewares.push(middleware as ErrorMiddleware);

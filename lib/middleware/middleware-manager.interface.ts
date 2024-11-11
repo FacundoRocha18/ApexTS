@@ -1,8 +1,8 @@
-import { Middleware } from ".";
+import { ErrorMiddleware, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
 
 export interface IMiddlewareManager {
-  use(middleware: Middleware): void;
+  use(middleware: Middleware | ErrorMiddleware): void;
   executeMiddlewares(
     req: IHttpRequest,
     res: IHttpResponse,
