@@ -16,7 +16,7 @@ import {
   RequestParamsExtractorService,
 } from "../request";
 import { ISwiftFactory, ServiceFactory } from ".";
-import { environmentConfiguration } from "../config";
+import { environmentConfiguration, IEnvironmentConfiguration } from "../config";
 
 /**
  * SwiftFactory creates a new instance of a Framework with the provided services.
@@ -69,12 +69,8 @@ export class SwiftFactory implements ISwiftFactory {
     return framework;
   }
 
-  public getEnvironmentPort(): number {
-    return this.environmentConfiguration.PORT;
-  }
-
-  public getEnvironmentNodeEnv(): string {
-    return this.environmentConfiguration.NODE_ENV;
+  public get EnvironmentConfiguration(): IEnvironmentConfiguration {
+    return this.environmentConfiguration;
   }
 
   /**

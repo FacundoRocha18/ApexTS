@@ -1,21 +1,12 @@
 import dotenv from "dotenv";
+import { IEnvironmentConfiguration, IEnvironmentVariables } from './environment-config.interface';
 
 dotenv.config();
-
-interface IEnvironmentVariables {
-  NODE_ENV: string | undefined;
-  PORT: number | undefined;
-}
-
-interface IConfiguration {
-  NODE_ENV: string;
-  PORT: number;
-}
 
 class EnvironmentConfiguration {
   private static instance: EnvironmentConfiguration;
 	private environmentConfiguration: IEnvironmentVariables;
-  private validatedEnvironmentConfiguration: IConfiguration;
+  private validatedEnvironmentConfiguration: IEnvironmentConfiguration;
 
   private constructor() {
     this.environmentConfiguration = this.loadEnvironmentConfiguration();
@@ -36,7 +27,7 @@ class EnvironmentConfiguration {
     };
   }
 
-  private validateEnvironmentConfiguration(): IConfiguration {
+  private validateEnvironmentConfiguration(): IEnvironmentConfiguration {
     const { NODE_ENV, PORT } = this.environmentConfiguration;
 
 		if (NODE_ENV === undefined) {
@@ -55,12 +46,12 @@ class EnvironmentConfiguration {
 		return this.validatedEnvironmentConfiguration;
   }
 
-  public getConfiguration(): IConfiguration {
+  public getConfiguration(): IEnvironmentConfiguration {
     return this.validateEnvironmentConfiguration();
   }
 }
 
-const validatedEnvironmentConfiguration: IConfiguration =
+const validatedEnvironmentConfiguration: IEnvironmentConfiguration =
   EnvironmentConfiguration.getInstance().getConfiguration();
 
 export { validatedEnvironmentConfiguration as environmentConfiguration };

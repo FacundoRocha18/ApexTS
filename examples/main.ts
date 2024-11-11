@@ -9,13 +9,10 @@ import { deleteTest } from "./controllers/delete-test";
 import { patchTest } from "./controllers/patch-test";
 import { errorHandlingMiddleware } from "../lib/middleware";
 import { usersController } from './controllers/users-controller';
-import { userRoutes } from './routes/users.routes';
 import { HttpMethods } from '../lib/http';
 
 const factory = new SwiftFactory();
-const PORT: number = factory.getEnvironmentPort();
-const NODE_ENV: string = factory.getEnvironmentNodeEnv();
-
+const { PORT, NODE_ENV } = factory.EnvironmentConfiguration;
 const app: ISwiftApplication = factory.create();
 
 app.useMiddleware(jsonMiddleware);
