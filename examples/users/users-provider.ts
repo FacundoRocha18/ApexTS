@@ -1,72 +1,55 @@
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
+import { IUser } from './user-entity';
 
 type PublicUser = Omit<IUser, "password">;
 
 type CreateUser = Omit<IUser, "id">;
 
-const users: IUser[] = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "",
-    password: "",
-  },
-  {
-    id: "2",
-    name: "Jane Doe",
-    email: "",
-    password: "",
-  },
-  {
-    id: "3",
-    name: "John Smith",
-    email: "",
-    password: "",
-  },
-  {
-    id: "4",
-    name: "Jane Smith",
-    email: "",
-    password: "",
-  },
-];
+export class UserService {
+	constructor(private users: IUser[]) {}
 
-export const getUserService = (id: string): PublicUser => {
-  let foundUser: PublicUser | undefined;
+	public findById = (id: string): PublicUser => {
+		let foundUser: PublicUser | undefined;
+	
+		this.users.forEach((user) => {
+			if (user.id === id) {
+				foundUser = {
+					id: user.id,
+					name: user.name,
+					email: user.email,
+				};
+			}
+		});
+	
+		if (!foundUser) {
+			throw new Error("User not found");
+		}
+	
+		return foundUser;
+	};
 
-  users.forEach((user) => {
-    if (user.id === id) {
-      foundUser = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      };
-    }
-  });
+	public listAll = (): PublicUser[] => {
+		return this.users.map((user) => {
+			return {
+				id: user.id,
+				name: user.name,
+				email: user.email,
+			};
+		});
+	}
 
-  if (!foundUser) {
-    throw new Error("User not found");
-  }
+	public create = (userData: CreateUser) => {
+		let id: string = (this.users.length + 1).toString();
+	
+		this.users.push({
+			id: id,
+			name: userData.name,
+			email: userData.email,
+			password: userData.password,
+		});
+	
+		const createdUser = this.findById(id);
+	
+		return createdUser;
+	};
+}
 
-  return foundUser;
-};
-
-export const createUserService = (user: CreateUser) => {
-  let id: string = (users.length + 1).toString();
-
-  users.push({
-    id: id,
-    name: user.name,
-    email: user.email,
-    password: user.password,
-  });
-
-  const createdUser = getUserService(id);
-
-  return createdUser;
-};

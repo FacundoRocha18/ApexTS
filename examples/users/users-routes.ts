@@ -1,7 +1,8 @@
 import { HttpMethods } from '../../lib/http';
 import { TRequestHandler } from '../../lib/types';
-import { createUserController, getUsersController } from './users-controller';
-import { usersModule } from './users-module';
+import { UserController } from './users-controller';
+import { users } from './users-data';
+import { UserService } from './users-provider';
 
 type Route = {
 	method: HttpMethods;
@@ -9,21 +10,23 @@ type Route = {
 	handler: TRequestHandler;
 }
 
+const usersService = new UserService(users);
+const usersController = new UserController(usersService);
+
 export const usersRoutes: Route[] = [
 	{
 		method: HttpMethods.GET,
 		path: "/users",
-		handler: getUsersController
+		handler: usersController.listAll
+	},
+	{
+		method: HttpMethods.GET,
+		path: "/users/find",
+		handler: usersController.find
 	},
 	{
 		method: HttpMethods.POST,
 		path: "/users",
-		handler: createUserController
+		handler: usersController.create
 	}
 ];
-
-/* export const usersRoutes = (router: IRouter) => {
-  router.get("/users", usersModule.controllers.getUsersController);
-
-  router.post("/users", usersModule.controllers.createUserController);
-}; */

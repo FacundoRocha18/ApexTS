@@ -1,19 +1,19 @@
-import { createUserController, getUsersController } from './users-controller';
-import { createUserService, getUserService } from './users-provider';
+import { UserController } from './users-controller';
+import { users } from './users-data';
+import { UserService } from './users-provider';
 import { usersRoutes } from './users-routes';
 
 interface Module {
 	routes: any;
-	controllers: Controller[];
-	providers: Provider[];
+	controllers: any[];
+	providers: any[];
 }
 
-type Controller = (req: any, res: any) => void;
-
-type Provider = (data: any) => any;	
+const usersService = new UserService(users);
+const usersController = new UserController(usersService);
 
 export const usersModule: Module = {
 	routes: usersRoutes,
-	controllers: [getUsersController, createUserController],
-	providers: [getUserService, createUserService]
+	controllers: [UserController],
+	providers: [UserService]
 }

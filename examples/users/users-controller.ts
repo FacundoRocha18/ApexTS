@@ -1,34 +1,47 @@
 import { IHttpRequest, IHttpResponse } from "../../lib";
-import { usersModule } from './users-module';
+import { UserService } from './users-provider';
 
-export const getUsersController = (req: IHttpRequest, res: IHttpResponse) => {
-  const { id } = req.queryParams as { id: string };
+export class UserController {
+	constructor (private readonly service: UserService) {}
 
-  const user = usersModule.providers[0](id);
+	public find = (req: IHttpRequest, res: IHttpResponse) => {
+		const { id } = req.queryParams as { id: string };
 
-  res.statusCode = 200;
-  res.json({
-    status: "success",
-    message: "User retrieved successfully",
-    data: user,
-  });
-};
+		const user = this.service.findById(id);
 
-export const createUserController = (req: IHttpRequest, res: IHttpResponse) => {
-  const { data } = req.body as {
-    data: {
-      name: string;
-      email: string;
-      password: string;
-    };
-  };
+		res.statusCode = 200;
+		res.json({
+			status: "success",
+			message: "User retrieved successfully",
+			data: user,
+		});
+	};
 
-  const createdUser = usersModule.providers[1](data);
+	public listAll = (req: IHttpRequest, res: IHttpResponse) => {
+		res.statusCode = 200;
+		res.json({
+			status: "success",
+			message: "Users retrieved successfully",
+			data: this.service.listAll(),
+		});
+	}
 
-  res.statusCode = 201;
-  res.json({
-    status: "success",
-    message: "User created successfully",
-    data: createdUser,
-  });
-};
+	public create = (req: IHttpRequest, res: IHttpResponse) => {
+		const { data } = req.body as {
+			data: {
+				name: string;
+				email: string;
+				password: string;
+			};
+		};
+	
+		const createdUser = this.service.create(data);
+	
+		res.statusCode = 201;
+		res.json({
+			status: "success",
+			message: "User created successfully",
+			data: createdUser,
+		});
+	};
+}
