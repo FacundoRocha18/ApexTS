@@ -7,6 +7,7 @@ import { homeRoutes } from "./home/home-routes";
 import { testsRoutes } from "./tests/tests-routes";
 import { usersModule } from './users/users-module';
 import { testsModule } from './tests/tests-module';
+import { productsModule } from './products/products-module';
 
 const factory = new SwiftFactory();
 const { PORT, NODE_ENV } = factory.EnvironmentConfiguration;
@@ -19,10 +20,11 @@ app.useMiddleware(errorHandlingMiddleware);
 
 const users = usersModule;
 const tests = testsModule;
+const products = productsModule;
 
 homeRoutes(app.router);
 users.routes(app.router);
 tests.routes(app.router);
-productsRoutes(app.router);
+products.routes(app.router);
 
 app.listen(PORT, NODE_ENV);

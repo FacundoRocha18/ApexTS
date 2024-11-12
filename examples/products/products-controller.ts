@@ -4,7 +4,7 @@ import {
   getProductsService,
 } from "./products-provider";
 
-export const getProducts = (req: IHttpRequest, res: IHttpResponse) => {
+export const getProductsController = (req: IHttpRequest, res: IHttpResponse) => {
   const products = getProductsService();
 
   res.statusCode = 200;
@@ -15,7 +15,7 @@ export const getProducts = (req: IHttpRequest, res: IHttpResponse) => {
   });
 };
 
-export const getProductsByCategory = (
+export const getProductsByCategoryController = (
   req: IHttpRequest,
   res: IHttpResponse,
 ) => {
