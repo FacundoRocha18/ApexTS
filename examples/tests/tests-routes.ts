@@ -1,20 +1,20 @@
 import { IRouter } from "../../lib/router";
 import {
-  getTest,
-  postTest,
-  putTest,
-  deleteTest,
-  patchTest,
+  getTestController,
+  postTestController,
+  putTestController,
+  deleteTestController,
+  patchTestController,
 } from "../tests/tests-controller";
 
 export const testsRoutes = (router: IRouter) => {
-  router.get("/get-test", getTest);
+  router.get("/get-test", getTestController);
 
-  router.post("/post-test", postTest);
+  router.post("/post-test", postTestController);
 
-  router.put("/put-test", putTest);
+  router.put("/put-test", putTestController);
 
-  router.del("/delete-test", deleteTest);
+  router.del("/delete-test", deleteTestController);
 
-  router.patch("/patch-test", patchTest);
+  router.patch("/patch-test", patchTestController);
 };
