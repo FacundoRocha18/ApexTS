@@ -3,6 +3,9 @@ import { TRequestHandler } from "../types";
 import { IRouter } from "../router";
 import { HttpMethods } from '../http';
 
+/**
+ * Public API for the Swift framework.
+ */
 export interface ISwiftApplication {
   router: IRouter;
 
