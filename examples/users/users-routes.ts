@@ -21,7 +21,7 @@ export const usersRoutes: Route[] = [
 	},
 	{
 		method: HttpMethods.GET,
-		path: "/users/find",
+		path: "/users/:id",
 		handler: usersController.find
 	},
 	{

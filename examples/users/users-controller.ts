@@ -5,7 +5,7 @@ export class UserController {
 	constructor (private readonly service: UserService) {}
 
 	public find = (req: IHttpRequest, res: IHttpResponse) => {
-		const { id } = req.queryParams as { id: string };
+		const { id } = req.pathVariables as { id: string };
 
 		const user = this.service.findById(id);
 
