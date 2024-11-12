@@ -1,12 +1,12 @@
 import { JSONSchemaType } from "ajv";
 
-interface User {
+interface IUser {
   name: string;
   email: string;
   password: string;
 }
 
-export const userSchema: JSONSchemaType<User> = {
+export const userSchema: JSONSchemaType<IUser> = {
   type: "object",
   properties: {
     name: { type: "string", minLength: 1, maxLength: 255 },
