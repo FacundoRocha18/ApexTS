@@ -1,9 +1,9 @@
 import { IHttpRequest, IHttpResponse } from "../../lib";
 import { IRouter } from "../../lib/router";
-import { createUser, getUsers } from "../controllers/users-controller";
+import { createUserController, getUsers } from "./users-controller";
 
 export const userRoutes = (router: IRouter) => {
   router.get("/users", getUsers);
 
-  router.post("/users", createUser);
+  router.post("/users", createUserController);
 };

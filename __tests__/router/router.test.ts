@@ -171,7 +171,7 @@ describe("Router", () => {
       HttpMethods.GET,
     );
 
-		console.log(req.queryParams);
+    console.log(req.queryParams);
     expect(req.queryParams).toBeDefined();
     expect(req.queryParams).toEqual({ number: "1", name: "John" });
   });

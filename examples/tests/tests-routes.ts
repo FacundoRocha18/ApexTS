@@ -5,9 +5,9 @@ import {
   putTest,
   deleteTest,
   patchTest,
-} from "../controllers/tests-controller";
+} from "../tests/tests-controller";
 
-export const testRoutes = (router: IRouter) => {
+export const testsRoutes = (router: IRouter) => {
   router.get("/get-test", getTest);
 
   router.post("/post-test", postTest);
