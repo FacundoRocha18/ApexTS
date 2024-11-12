@@ -1,5 +1,5 @@
 import type { TRequestHandler } from "../types";
 
-export type TRouteDefinition = {
+export type Route = {
   [path: string]: { [method: string]: TRequestHandler };
 };
