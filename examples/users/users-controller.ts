@@ -1,10 +1,10 @@
 import { IHttpRequest, IHttpResponse } from "../../lib";
-import { createUserService, getUserService } from "./users-provider";
+import { usersModule } from './users-module';
 
-export const getUsers = (req: IHttpRequest, res: IHttpResponse) => {
+export const getUsersController = (req: IHttpRequest, res: IHttpResponse) => {
   const { id } = req.queryParams as { id: string };
 
-  const user = getUserService(id);
+  const user = usersModule.providers.getUserService(id);
 
   res.statusCode = 200;
   res.json({
@@ -23,7 +23,7 @@ export const createUserController = (req: IHttpRequest, res: IHttpResponse) => {
     };
   };
 
-  const createdUser = createUserService(data);
+  const createdUser = usersModule.providers.createUserService(data);
 
   res.statusCode = 201;
   res.json({
