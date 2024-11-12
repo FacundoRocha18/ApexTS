@@ -133,7 +133,7 @@ describe("Router", () => {
     expect(mockHandler).toHaveBeenCalledWith(req, res);
   });
 
-  it("should assign the URL params to the req.params object", () => {
+  it("should assign the URL params to the req.pathVariables object", () => {
     const path = "/test/:number";
     const req: Partial<IHttpRequest> = {};
     const res: Partial<IHttpResponse> = {
@@ -154,8 +154,8 @@ describe("Router", () => {
     expect(req.pathVariables).toEqual({ number: "1" });
   });
 
-  it("should assign the URL query params to the req.params object", () => {
-    const path = "/test?number=1&name=John";
+  it("should assign the URL query params to the req.queryParams object", () => {
+    const path = "/test";
     const req: Partial<IHttpRequest> = {};
     const res: Partial<IHttpResponse> = {
       end: jest.fn(),
@@ -167,10 +167,11 @@ describe("Router", () => {
     routerInstance.resolveRoute(
       req as IHttpRequest,
       res as IHttpResponse,
-      path,
+      path + "?number=1&name=John",
       HttpMethods.GET,
     );
 
+		console.log(req.queryParams);
     expect(req.queryParams).toBeDefined();
     expect(req.queryParams).toEqual({ number: "1", name: "John" });
   });
