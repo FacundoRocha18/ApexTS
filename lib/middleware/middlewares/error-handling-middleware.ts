@@ -2,7 +2,7 @@ import { ErrorMiddleware } from "../../middleware";
 
 export const errorHandlingMiddleware: ErrorMiddleware = (
   err,
-	req,
+  req,
   res,
   next,
 ) => {

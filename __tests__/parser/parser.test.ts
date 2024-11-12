@@ -19,8 +19,8 @@ describe("ParserService", () => {
 
     // Res mock
     res = {
-			json: jest.fn(),
-		} as Partial<IHttpResponse>;
+      json: jest.fn(),
+    } as Partial<IHttpResponse>;
 
     // Define callback mock
     callback = jest.fn();

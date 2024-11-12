@@ -30,9 +30,9 @@ export class SwiftFactory implements ISwiftFactory {
   private middlewareManager: IMiddlewareManager;
   private parser: IParserService;
   private environmentConfiguration = environmentConfiguration;
-	private requestParamsExtractor: IRequestParamsExtractorService;
-	private router: IRouter;
-	private routeProcessor: IRouteProcessorService;
+  private requestParamsExtractor: IRequestParamsExtractorService;
+  private router: IRouter;
+  private routeProcessor: IRouteProcessorService;
 
   constructor() {
     this.initializeServices();
@@ -92,15 +92,15 @@ export class SwiftFactory implements ISwiftFactory {
     return this;
   }
 
-	public get Parser(): IParserService {
-		return this.parser;
-	}
+  public get Parser(): IParserService {
+    return this.parser;
+  }
 
-	public get RequestParamsExtractor(): IRequestParamsExtractorService {
-		return this.requestParamsExtractor;
-	}
+  public get RequestParamsExtractor(): IRequestParamsExtractorService {
+    return this.requestParamsExtractor;
+  }
 
-	public get Router(): IRouter {
-		return this.router;
-	}
+  public get Router(): IRouter {
+    return this.router;
+  }
 }

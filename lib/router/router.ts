@@ -6,17 +6,15 @@ import { IRequestParamsExtractorService } from "../request";
 
 export class Router implements IRouter {
   private routes: TRouteDefinition = {};
-	private static instance: Router;
+  private static instance: Router;
 
   constructor(private requestParamsExtractor: IRequestParamsExtractorService) {}
 
-	public static getInstance(
+  public static getInstance(
     requestParamsExtractor: IRequestParamsExtractorService,
   ): Router {
     if (!Router.instance) {
-      Router.instance = new Router(
-        requestParamsExtractor
-      );
+      Router.instance = new Router(requestParamsExtractor);
     }
 
     return Router.instance;
@@ -31,7 +29,7 @@ export class Router implements IRouter {
   }
 
   public get(path: string, handler: TRequestHandler): void {
-		this.addRoute(HttpMethods.GET, path, handler);
+    this.addRoute(HttpMethods.GET, path, handler);
   }
 
   public post(path: string, handler: TRequestHandler): void {
@@ -68,23 +66,23 @@ export class Router implements IRouter {
     this.routes[path][method] = handler;
   }
 
-	private ensureHandlerIsValid(handler: TRequestHandler) {
-		if (!handler) {
-			throw new Error("Handler must be a function");
-		}
-	}
+  private ensureHandlerIsValid(handler: TRequestHandler) {
+    if (!handler) {
+      throw new Error("Handler must be a function");
+    }
+  }
 
-	private ensureNonEmptyPath(path: string) {
-		if (!path || path === "") {
-			throw new Error("Path must be a non-empty string");
-		}
-	}
+  private ensureNonEmptyPath(path: string) {
+    if (!path || path === "") {
+      throw new Error("Path must be a non-empty string");
+    }
+  }
 
-	private ensureMethodIsValid(method: HttpMethods) {
-		if (!method) {
-			throw new Error("Method must be a non-empty string");
-		}
-	}
+  private ensureMethodIsValid(method: HttpMethods) {
+    if (!method) {
+      throw new Error("Method must be a non-empty string");
+    }
+  }
 
   public resolveRoute(
     req: IHttpRequest,
@@ -98,10 +96,10 @@ export class Router implements IRouter {
       this.comparePaths(pathname, route),
     );
 
-		if (!registeredPath) {
-			this.handleNotFound(res, method, path);
-			return;
-		}
+    if (!registeredPath) {
+      this.handleNotFound(res, method, path);
+      return;
+    }
 
     if (!handler) {
       this.handleNotFound(res, method, path);
@@ -110,10 +108,11 @@ export class Router implements IRouter {
 
     req.queryParams =
       this.requestParamsExtractor.extractQueryParamsFromURL(searchParams) || {};
-    req.pathVariables = this.requestParamsExtractor.extractPathVariablesFromURL(
-      pathname,
-      registeredPath,
-    ) || {};
+    req.pathVariables =
+      this.requestParamsExtractor.extractPathVariablesFromURL(
+        pathname,
+        registeredPath,
+      ) || {};
 
     handler(req, res);
   }
@@ -137,17 +136,17 @@ export class Router implements IRouter {
   }
 
   private comparePaths(pathname: string, registeredPath: string): boolean {
-		const pathParts = pathname.split('/');
-		const registeredParts = registeredPath.split('/');
-	
-		if (pathParts.length !== registeredParts.length) {
-			return false;
-		}
-	
-		return registeredParts.every((part, index) =>
-			part.startsWith(':') || part === pathParts[index]
-		);
-	}
+    const pathParts = pathname.split("/");
+    const registeredParts = registeredPath.split("/");
+
+    if (pathParts.length !== registeredParts.length) {
+      return false;
+    }
+
+    return registeredParts.every(
+      (part, index) => part.startsWith(":") || part === pathParts[index],
+    );
+  }
 
   private handleNotFound(
     res: IHttpResponse,

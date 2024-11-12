@@ -7,7 +7,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-		"strictNullChecks": true,
+    "strictNullChecks": true,
     "typeRoots": [
       "lib/config/config.d.ts",
       "lib/parser/parse-params.interface.ts",

@@ -1,11 +1,14 @@
 import dotenv from "dotenv";
-import { IEnvironmentConfiguration, IEnvironmentVariables } from './environment-config.interface';
+import {
+  IEnvironmentConfiguration,
+  IEnvironmentVariables,
+} from "./environment-config.interface";
 
 dotenv.config();
 
 class EnvironmentConfiguration {
   private static instance: EnvironmentConfiguration;
-	private environmentConfiguration: IEnvironmentVariables;
+  private environmentConfiguration: IEnvironmentVariables;
   private validatedEnvironmentConfiguration: IEnvironmentConfiguration;
 
   private constructor() {
@@ -30,20 +33,20 @@ class EnvironmentConfiguration {
   private validateEnvironmentConfiguration(): IEnvironmentConfiguration {
     const { NODE_ENV, PORT } = this.environmentConfiguration;
 
-		if (NODE_ENV === undefined) {
-			throw new Error(`Missing key NODE_ENV in config.env`);
-		}
-	
-		if (PORT === undefined) {
-			throw new Error(`Missing key PORT in config.env`);
-		}
-	
-		this.validatedEnvironmentConfiguration = {
-			NODE_ENV: NODE_ENV as string,
-			PORT: Number(PORT),
-		};
-	
-		return this.validatedEnvironmentConfiguration;
+    if (NODE_ENV === undefined) {
+      throw new Error(`Missing key NODE_ENV in config.env`);
+    }
+
+    if (PORT === undefined) {
+      throw new Error(`Missing key PORT in config.env`);
+    }
+
+    this.validatedEnvironmentConfiguration = {
+      NODE_ENV: NODE_ENV as string,
+      PORT: Number(PORT),
+    };
+
+    return this.validatedEnvironmentConfiguration;
   }
 
   public getConfiguration(): IEnvironmentConfiguration {

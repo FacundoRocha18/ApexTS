@@ -2,7 +2,11 @@ import { IHttpRequest } from "../../lib/types/request";
 import { IHttpResponse } from "../../lib/types/response";
 
 type NextFunction = () => void;
-type AuthMiddlewareArgs = [req: IHttpRequest, res: IHttpResponse, next: NextFunction];
+type AuthMiddlewareArgs = [
+  req: IHttpRequest,
+  res: IHttpResponse,
+  next: NextFunction,
+];
 type AuthMiddleware = (...args: AuthMiddlewareArgs) => void;
 
 const authMiddleware: AuthMiddleware = (
