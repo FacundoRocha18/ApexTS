@@ -31,6 +31,12 @@ export class SwiftApplication implements ISwiftApplication {
     this.middlewareManager.use(middleware);
   }
 
+	public useModule(module: any): void {
+		module.routes.forEach(route => {
+			this.useRoute(route.method, route.path, route.handler);
+		});
+	};
+
   public useRoute(
     method: HttpMethods,
     path: string,

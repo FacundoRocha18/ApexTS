@@ -17,13 +17,13 @@ app.useMiddleware(authMiddleware);
 app.useMiddleware(errorHandlingMiddleware);
 
 const home = homeModule;
-const users = usersModule;
 const tests = testsModule;
 const products = productsModule;
 
 home.routes(app.router);
-users.routes(app.router);
 tests.routes(app.router);
 products.routes(app.router);
+
+app.useModule(usersModule);
 
 app.listen(PORT, NODE_ENV);
