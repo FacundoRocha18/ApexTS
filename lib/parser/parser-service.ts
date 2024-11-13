@@ -1,6 +1,8 @@
 import { TQueryParams, TPathVariables } from "../types/request";
 import { IParseArgs, IParserService } from "../parser";
+import { autoInjectable } from 'tsyringe';
 
+@autoInjectable()
 export class ParserService implements IParserService {
   constructor() {}
 

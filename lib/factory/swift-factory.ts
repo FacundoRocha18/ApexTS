@@ -17,6 +17,7 @@ import {
 } from "../request";
 import { ISwiftFactory, ServiceFactory } from ".";
 import { environmentConfiguration, IEnvironmentConfiguration } from "../config";
+import { container } from 'tsyringe';
 
 /**
  * SwiftFactory creates a new instance of a Framework with the provided services.
@@ -41,7 +42,7 @@ export class SwiftFactory implements ISwiftFactory {
   private initializeServices() {
     const serviceFactory = new ServiceFactory();
 
-    this.parser = serviceFactory.create(ParserService);
+    this.parser = container.resolve(ParserService);
     this.requestParamsExtractor = serviceFactory.create(
       RequestParamsExtractorService,
       [this.parser],
