@@ -1,8 +1,8 @@
 import { HttpMethods } from '../../lib/http';
 import { TRequestHandler } from '../../lib/types';
 import { UserController } from './users-controller';
-import { users } from './users-data';
-import { UserService } from './users-provider';
+import { UsersRepository } from './users-repository';
+import { UsersService } from './users-provider';
 
 type Route = {
 	method: HttpMethods;
@@ -10,14 +10,15 @@ type Route = {
 	handler: TRequestHandler;
 }
 
-const usersService = new UserService(users);
+const usersRepository = new UsersRepository();
+const usersService = new UsersService(usersRepository);
 const usersController = new UserController(usersService);
 
 export const usersRoutes: Route[] = [
 	{
 		method: HttpMethods.GET,
 		path: "/users",
-		handler: usersController.listAll
+		handler: usersController.findAll
 	},
 	{
 		method: HttpMethods.GET,

@@ -1,8 +1,8 @@
 import { IHttpRequest, IHttpResponse } from "../../lib";
-import { UserService } from './users-provider';
+import { UsersService } from './users-provider';
 
 export class UserController {
-	constructor (private readonly service: UserService) {}
+	constructor (private readonly service: UsersService) {}
 
 	public find = (req: IHttpRequest, res: IHttpResponse) => {
 		const { id } = req.pathVariables as { id: string };
@@ -17,12 +17,12 @@ export class UserController {
 		});
 	};
 
-	public listAll = (req: IHttpRequest, res: IHttpResponse) => {
+	public findAll = (req: IHttpRequest, res: IHttpResponse) => {
 		res.statusCode = 200;
 		res.json({
 			status: "success",
 			message: "Users retrieved successfully",
-			data: this.service.listAll(),
+			data: this.service.findAll(),
 		});
 	}
 

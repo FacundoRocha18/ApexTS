@@ -1,6 +1,5 @@
 import { UserController } from './users-controller';
-import { users } from './users-data';
-import { UserService } from './users-provider';
+import { UsersService } from './users-provider';
 import { usersRoutes } from './users-routes';
 
 interface Module {
@@ -9,11 +8,8 @@ interface Module {
 	providers: any[];
 }
 
-const usersService = new UserService(users);
-const usersController = new UserController(usersService);
-
 export const usersModule: Module = {
 	routes: usersRoutes,
 	controllers: [UserController],
-	providers: [UserService]
+	providers: [UsersService]
 }
