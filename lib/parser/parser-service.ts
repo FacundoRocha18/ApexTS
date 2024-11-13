@@ -1,13 +1,13 @@
 import { TQueryParams, TPathVariables } from "../types/request";
 import { IParseArgs, IParserService } from "../parser";
-import { injectable } from 'tsyringe';
+import { injectable } from "tsyringe";
 
 @injectable()
 export class ParserService implements IParserService {
   constructor() {}
 
   public convertRequestBodyToJson(params: IParseArgs): void {
-    const { req, res, path, method, callback } = params;
+    const { req, res, url, method, callback } = params;
     let parsedBody: string = "";
 
     req.on("data", (chunk) => {
@@ -23,7 +23,7 @@ export class ParserService implements IParserService {
         res.statusMessage = "Invalid JSON";
       }
 
-      callback(req, res, path, method);
+      callback(req, res, url, method);
     });
   }
 

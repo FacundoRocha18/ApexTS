@@ -1,4 +1,4 @@
-import { Router, IRouter, TRouteDefinition } from "../../lib/router";
+import { Router, IRouter, Route } from "../../lib/router";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";
@@ -38,7 +38,7 @@ describe("Router", () => {
     method = HttpMethods.GET;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.use(method, path, mockHandler);
@@ -51,7 +51,7 @@ describe("Router", () => {
     method = HttpMethods.GET;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.get(path, mockHandler);
@@ -64,7 +64,7 @@ describe("Router", () => {
     method = HttpMethods.POST;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.post(path, mockHandler);
@@ -77,7 +77,7 @@ describe("Router", () => {
     method = HttpMethods.DELETE;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.del(path, mockHandler);
@@ -90,7 +90,7 @@ describe("Router", () => {
     method = HttpMethods.PUT;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.put(path, mockHandler);
@@ -103,7 +103,7 @@ describe("Router", () => {
     method = HttpMethods.PATCH;
 
     expect(Reflect.has(routerInstance, "routes")).toBe(true);
-    const routes: TRouteDefinition = Reflect.get(routerInstance, "routes");
+    const routes: Route = Reflect.get(routerInstance, "routes");
     expect(routes[path]).toBeUndefined();
 
     routerInstance.patch(path, mockHandler);

@@ -1,13 +1,17 @@
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
-import { IRouteProcessorService } from "../router";
+import { IRouteProcessorService, IRouter, Router } from "../router";
 import { IMiddlewareError, MiddlewareError } from "../errors";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: Middleware[] = [];
   private errorMiddlewares: ErrorMiddleware[] = [];
 
-  constructor(private routeProcessorService: IRouteProcessorService) {}
+  constructor(@inject(Router) private router: IRouter) {
+    console.log(this.router);
+  }
 
   public use(middleware: Middleware | ErrorMiddleware): void {
     if (!this.isErrorMiddleware(middleware)) {
@@ -26,13 +30,16 @@ export class MiddlewareManager implements IMiddlewareManager {
 
   public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
     const execute = (index: number): void => {
+      if (!req.url) {
+        throw new Error("Request URL is missing");
+      }
+
+      if (!req.method) {
+        throw new Error("Request method is missing");
+      }
+
       if (index >= this.middlewares.length) {
-        this.routeProcessorService.processRoute(
-          req,
-          res,
-          req.url || "",
-          req.method || "",
-        );
+        this.router.processRoute(req, res, req.url, req.method);
         return;
       }
 

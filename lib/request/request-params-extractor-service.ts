@@ -1,7 +1,7 @@
 import { IRequestParamsExtractorService } from "../request";
 import { TPathVariables, TQueryParams } from "../types";
 import { IParserService, ParserService } from "../parser";
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class RequestParamsExtractorService

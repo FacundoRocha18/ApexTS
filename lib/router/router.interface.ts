@@ -1,5 +1,4 @@
-import { IHttpRequest, IHttpResponse } from "../types";
-import { TRequestHandler } from "../router";
+import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
 import { HttpMethods } from "../http";
 
 export interface IRouter {
@@ -14,6 +13,13 @@ export interface IRouter {
     req: IHttpRequest,
     res: IHttpResponse,
     path: string,
+    method: string,
+  ): void;
+
+  processRoute(
+    req: IHttpRequest,
+    res: IHttpResponse,
+    url: string,
     method: string,
   ): void;
 }

@@ -1,7 +1,7 @@
 import { IRouteProcessorService, IRouter, Router } from "../router";
 import { IHttpRequest, IHttpResponse } from "../types";
 import { IParserService, ParserService } from "../parser";
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class RouteProcessorService implements IRouteProcessorService {

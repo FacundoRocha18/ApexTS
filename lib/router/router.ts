@@ -1,24 +1,19 @@
 import { IHttpRequest, TRequestHandler } from "../types";
-import { TRouteDefinition, IRouter } from "../router";
+import { Route, IRouter } from "../router";
 import { IHttpResponse } from "../types";
 import { HttpMethods } from "../http";
-import { IRequestParamsExtractorService } from "../request";
+import { inject, injectable, singleton } from "tsyringe";
+import { IParserService, ParserService } from "../parser";
 
+@singleton()
+@injectable()
 export class Router implements IRouter {
-  private routes: TRouteDefinition = {};
-  private static instance: Router;
+  private routes: Route = {};
 
-  constructor(private requestParamsExtractor: IRequestParamsExtractorService) {}
-
-  public static getInstance(
-    requestParamsExtractor: IRequestParamsExtractorService,
-  ): Router {
-    if (!Router.instance) {
-      Router.instance = new Router(requestParamsExtractor);
-    }
-
-    return Router.instance;
-  }
+  constructor(
+    @inject(ParserService)
+    private parser: IParserService,
+  ) {}
 
   public use(
     method: HttpMethods,
@@ -92,6 +87,7 @@ export class Router implements IRouter {
   ): void {
     const { pathname, searchParams } = new URL(path, "http://localhost");
     const handler = this.findRouteHandler(pathname, method);
+
     const registeredPath = Object.keys(this.routes).find((route) =>
       this.comparePaths(pathname, route),
     );
@@ -106,33 +102,96 @@ export class Router implements IRouter {
       return;
     }
 
-    req.queryParams =
-      this.requestParamsExtractor.extractQueryParamsFromURL(searchParams) || {};
-    req.pathVariables =
-      this.requestParamsExtractor.extractPathVariablesFromURL(
-        pathname,
-        registeredPath,
-      ) || {};
+    const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+
+    if (!queryParams) {
+      console.log("No query params found");
+      return;
+    }
+
+    req.queryParams = queryParams;
+
+    const pathVariables = this.parser.extractPathVariablesFromURL(
+      pathname,
+      registeredPath,
+    );
+
+    if (!pathVariables) {
+      console.log("No path variables found");
+      return;
+    }
+
+    req.pathVariables = pathVariables;
 
     handler(req, res);
+  }
+
+  private ensureIsValidUrl(url: string) {
+    if (url !== undefined || url !== "" || url !== null) {
+      return true;
+    }
+  }
+
+  private ensureIsValidMethod(method: string) {
+    if (method !== undefined || method !== "" || method !== null) {
+      return true;
+    }
+  }
+
+  public processRoute(
+    req: IHttpRequest,
+    res: IHttpResponse,
+    url: string,
+    method: string,
+  ): void {
+    if (!this.ensureIsValidUrl(url)) {
+      res.statusCode = 404;
+      res.statusMessage = "Not Found";
+      res.write("Error: Invalid URL");
+      res.end();
+      return;
+    }
+
+    if (!this.ensureIsValidMethod(method)) {
+      res.statusCode = 404;
+      res.statusMessage = "Not Found";
+      res.write("Error: Invalid Method");
+      res.end();
+      return;
+    }
+
+    if (method !== "POST" && method !== "PUT") {
+      this.resolveRoute(req, res, url, method);
+      return;
+    }
+
+    this.parser.convertRequestBodyToJson({
+      req,
+      res,
+      url,
+      method,
+      callback: () => this.resolveRoute(req, res, url, method),
+    });
   }
 
   private findRouteHandler(
     pathname: string,
     method: string,
   ): TRequestHandler | undefined {
-    for (const registeredPath in this.routes) {
-      if (!this.comparePaths(pathname, registeredPath)) {
-        continue;
-      }
+    const normalizedMethod = method.toUpperCase();
 
-      const handler: TRequestHandler = this.routes[registeredPath]?.[method];
-      if (!handler) {
-        continue;
-      }
+    for (const registeredPath of Object.keys(this.routes)) {
+      if (this.comparePaths(pathname, registeredPath)) {
+        const handlers = this.routes[registeredPath];
+        const handler = handlers?.[normalizedMethod];
 
-      return handler;
+        if (handler) {
+          return handler;
+        }
+      }
     }
+
+    return undefined;
   }
 
   private comparePaths(pathname: string, registeredPath: string): boolean {
