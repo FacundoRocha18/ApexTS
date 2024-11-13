@@ -3,9 +3,9 @@ import { ISwiftApplication, SwiftFactory, jsonMiddleware } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { errorHandlingMiddleware } from "../lib/middleware";
-import { usersModule } from './users/users-module';
-import { productsModule } from './products/products-module';
-import { homeModule } from './home/home-module';
+import { usersModule } from "./users/users-module";
+import { productsModule } from "./products/products-module";
+import { homeModule } from "./home/home-module";
 
 const factory = new SwiftFactory();
 const { PORT, NODE_ENV } = factory.EnvironmentConfiguration;
@@ -17,11 +17,9 @@ app.useMiddleware(authMiddleware);
 app.useMiddleware(errorHandlingMiddleware);
 
 const home = homeModule;
-const products = productsModule;
-
 home.routes(app.router);
-products.routes(app.router);
 
+app.useModule(productsModule);
 app.useModule(usersModule);
 
 app.listen(PORT, NODE_ENV);

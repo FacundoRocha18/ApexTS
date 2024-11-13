@@ -1,35 +1,24 @@
-interface IProduct {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
+import { autoInjectable } from "tsyringe";
+import { ProductsRepository } from "./products-repository";
+import { CreateProduct, IProduct } from "./products-types";
+
+@autoInjectable()
+export class ProductsService {
+  constructor(private readonly repository: ProductsRepository) {}
+
+  public findAll = (): IProduct[] => {
+    return this.repository.findAll();
+  };
+
+  public findByCategory = (category: string): IProduct[] => {
+    return this.repository.findByCategory(category);
+  };
+
+  public findById = (id: string): IProduct | undefined => {
+    return this.repository.findById(id);
+  };
+
+  public create = (product: CreateProduct): IProduct => {
+    return this.repository.create(product);
+  };
 }
-
-const products: IProduct[] = [
-  {
-    id: "1",
-    name: "Product 1",
-    price: 100,
-    category: "Laptops",
-  },
-  {
-    id: "2",
-    name: "Product 2",
-    price: 200,
-    category: "Laptops",
-  },
-  {
-    id: "3",
-    name: "Product 3",
-    price: 300,
-    category: "Phones",
-  },
-];
-
-export const getProductsService = (): IProduct[] => {
-  return products;
-};
-
-export const getProductsByCategoryService = (category: string): IProduct[] => {
-  return products.filter((product) => product.category === category);
-};

@@ -10,7 +10,7 @@ export interface ISwiftApplication {
   router: IRouter;
 
   useMiddleware(middleware: Middleware | ErrorMiddleware): void;
-	useModule(module: any): void;
+  useModule(module: any): void;
   useRoute(method: HttpMethods, path: string, handler: TRequestHandler): void;
   get(path: string, handler: TRequestHandler): void;
   post(path: string, handler: TRequestHandler): void;
