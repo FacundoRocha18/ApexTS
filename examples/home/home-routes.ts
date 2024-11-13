@@ -1,6 +1,13 @@
-import { IRouter } from "../../lib/router/router.interface";
-import { homeController } from "../home/home-controller";
+import { container } from 'tsyringe';
+import { Route } from '../types';
+import { HomeController } from './home-controller';
 
-export const homeRoutes = (router: IRouter) => {
-  router.get("/", homeController);
-};
+const homeController = container.resolve(HomeController);
+
+export const homeRoutes: Route[] = [
+	{
+		method: 'GET',
+		path: '/',
+		handler: homeController.sayHello
+	}
+]

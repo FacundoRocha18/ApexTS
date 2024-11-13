@@ -16,9 +16,7 @@ app.useMiddleware(loggerMiddleware);
 app.useMiddleware(authMiddleware);
 app.useMiddleware(errorHandlingMiddleware);
 
-const home = homeModule;
-home.routes(app.router);
-
+app.useModule(homeModule);
 app.useModule(productsModule);
 app.useModule(usersModule);
 
