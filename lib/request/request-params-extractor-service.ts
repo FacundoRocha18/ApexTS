@@ -1,11 +1,13 @@
 import { IRequestParamsExtractorService } from "../request";
 import { TPathVariables, TQueryParams } from "../types";
-import { IParserService } from "../parser";
+import { IParserService, ParserService } from "../parser";
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class RequestParamsExtractorService
   implements IRequestParamsExtractorService
 {
-  constructor(private parser: IParserService) {}
+  constructor(@inject(ParserService) private parser: IParserService) {}
 
   public extractQueryParamsFromURL(
     searchParams: URLSearchParams,
