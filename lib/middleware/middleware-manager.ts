@@ -1,7 +1,7 @@
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
-import { IRouteProcessorService, IRouter, Router } from "../router";
-import { IMiddlewareError, MiddlewareError } from "../errors";
+import { IRouter, Router } from "../router";
+import { IMiddlewareError } from "../errors";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

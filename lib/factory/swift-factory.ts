@@ -1,11 +1,7 @@
 import { IMiddlewareManager, MiddlewareManager } from "../middleware";
-import { IRouteProcessorService, IRouter, Router } from "../router";
+import { IRouter, Router } from "../router";
 import { IParserService, ParserService } from "../parser";
 import { ISwiftApplication, SwiftApplication } from "../application";
-import {
-  IRequestParamsExtractorService,
-  RequestParamsExtractorService,
-} from "../request";
 import { IFactory } from "../factory";
 import { environmentConfiguration, IEnvironmentConfiguration } from "../config";
 import { container } from "tsyringe";
@@ -20,9 +16,7 @@ export class SwiftFactory implements IFactory {
   private middlewareManager: IMiddlewareManager;
   private parser: IParserService;
   private environmentConfiguration = environmentConfiguration;
-  private requestParamsExtractor: IRequestParamsExtractorService;
   private router: IRouter;
-  private routeProcessor: IRouteProcessorService;
 
   constructor() {
     this.initializeServices();
@@ -30,9 +24,6 @@ export class SwiftFactory implements IFactory {
 
   private initializeServices() {
     this.parser = container.resolve(ParserService);
-    this.requestParamsExtractor = container.resolve(
-      RequestParamsExtractorService,
-    );
     this.router = container.resolve(Router);
     this.middlewareManager = container.resolve(MiddlewareManager);
   }
