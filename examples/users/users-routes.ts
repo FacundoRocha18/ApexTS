@@ -1,8 +1,23 @@
-import { IRouter } from "../../lib/router";
-import { usersModule } from './users-module';
+import { container } from "tsyringe";
+import { UserController } from "./users-controller";
+import { Route } from "../types";
 
-export const usersRoutes = (router: IRouter) => {
-  router.get("/users", usersModule.controllers.getUsersController);
+const usersController = container.resolve(UserController);
 
-  router.post("/users", usersModule.controllers.createUserController);
-};
+export const usersRoutes: Route[] = [
+  {
+    method: "GET",
+    path: "/users",
+    handler: usersController.findAll,
+  },
+  {
+    method: "GET",
+    path: "/users/:id",
+    handler: usersController.find,
+  },
+  {
+    method: "POST",
+    path: "/users",
+    handler: usersController.create,
+  },
+];

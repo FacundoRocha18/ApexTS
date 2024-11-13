@@ -1,72 +1,50 @@
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
+import { autoInjectable } from "tsyringe";
+import { UsersRepository } from "./users-repository";
+import { CreateUser, PublicUser } from "./users-types";
 
-type PublicUser = Omit<IUser, "password">;
+@autoInjectable()
+export class UsersService {
+  constructor(private repository: UsersRepository) {}
 
-type CreateUser = Omit<IUser, "id">;
+  public findById = (id: string): PublicUser => {
+    let foundUser: PublicUser | undefined;
 
-const users: IUser[] = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "",
-    password: "",
-  },
-  {
-    id: "2",
-    name: "Jane Doe",
-    email: "",
-    password: "",
-  },
-  {
-    id: "3",
-    name: "John Smith",
-    email: "",
-    password: "",
-  },
-  {
-    id: "4",
-    name: "Jane Smith",
-    email: "",
-    password: "",
-  },
-];
+    const user = this.repository.findById(id);
 
-export const getUserService = (id: string): PublicUser => {
-  let foundUser: PublicUser | undefined;
-
-  users.forEach((user) => {
-    if (user.id === id) {
+    if (user) {
       foundUser = {
         id: user.id,
         name: user.name,
         email: user.email,
       };
     }
-  });
 
-  if (!foundUser) {
-    throw new Error("User not found");
-  }
+    if (!foundUser) {
+      throw new Error("User not found");
+    }
 
-  return foundUser;
-};
+    return foundUser;
+  };
 
-export const createUserService = (user: CreateUser) => {
-  let id: string = (users.length + 1).toString();
+  public findAll = (): PublicUser[] => {
+    const users = this.repository.findAll();
 
-  users.push({
-    id: id,
-    name: user.name,
-    email: user.email,
-    password: user.password,
-  });
+    return users.map((user) => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+    });
+  };
 
-  const createdUser = getUserService(id);
+  public create = (userData: CreateUser) => {
+    const createdUser = this.repository.create({
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+    });
 
-  return createdUser;
-};
+    return createdUser;
+  };
+}

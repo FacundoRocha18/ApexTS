@@ -1,11 +1,9 @@
-import { IRouter } from '../../lib/router';
-import { homeController } from './home-controller';
-import { homeRoutes } from './home-routes';
+import { Module } from '../types';
+import { HomeController } from './home-controller';
+import { homeRoutes } from "./home-routes";
 
-export const homeModule = {
-	routes: (router: IRouter) => homeRoutes(router),
-	controllers: {
-		homeController
-	},
-	providers: {}
-}
+export const homeModule: Module = {
+  routes: homeRoutes,
+	controllers: [HomeController],
+	providers: [],
+};

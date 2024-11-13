@@ -5,3 +5,4 @@ export type {
   TQueryParams,
   IHttpRequest,
 } from "./request";
+export type { HttpMethod } from "./http-method";

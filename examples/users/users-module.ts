@@ -1,10 +1,10 @@
-import { IRouter } from '../../lib/router';
-import { createUserController, getUsersController } from './users-controller';
-import { createUserService, getUserService } from './users-provider';
-import { usersRoutes } from './users-routes';
+import { UserController } from "./users-controller";
+import { UsersService } from "./users-provider";
+import { usersRoutes } from "./users-routes";
+import { Module } from "../types";
 
-export const usersModule = {
-	routes: (router: IRouter) => usersRoutes(router),
-	controllers: { getUsersController, createUserController },
-	providers: { getUserService, createUserService }
-}
+export const usersModule: Module = {
+  routes: usersRoutes,
+  controllers: [UserController],
+  providers: [UsersService],
+};
