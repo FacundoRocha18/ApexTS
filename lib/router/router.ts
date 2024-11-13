@@ -12,14 +12,10 @@ export class Router implements IRouter {
 
   constructor(
     @inject(ParserService)
-    private parser: IParserService,
+    private parser: IParserService
   ) {}
 
-  public use(
-    method: HttpMethods,
-    path: string,
-    handler: TRequestHandler,
-  ): void {
+  public use(method: HttpMethods, path: string, handler: TRequestHandler): void {
     this.addRoute(method, path, handler);
   }
 
@@ -43,11 +39,7 @@ export class Router implements IRouter {
     this.addRoute(HttpMethods.PATCH, path, handler);
   }
 
-  private addRoute(
-    method: HttpMethods,
-    path: string,
-    handler: TRequestHandler,
-  ): void {
+  private addRoute(method: HttpMethods, path: string, handler: TRequestHandler): void {
     this.ensureMethodIsValid(method);
 
     this.ensureNonEmptyPath(path);
@@ -79,18 +71,11 @@ export class Router implements IRouter {
     }
   }
 
-  public resolveRoute(
-    req: IHttpRequest,
-    res: IHttpResponse,
-    path: string,
-    method: string,
-  ): void {
+  public resolveRoute(req: IHttpRequest, res: IHttpResponse, path: string, method: string): void {
     const { pathname, searchParams } = new URL(path, "http://localhost");
     const handler = this.findRouteHandler(pathname, method);
 
-    const registeredPath = Object.keys(this.routes).find((route) =>
-      this.comparePaths(pathname, route),
-    );
+    const registeredPath = Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
 
     if (!registeredPath) {
       this.handleNotFound(res, method, path);
@@ -111,10 +96,7 @@ export class Router implements IRouter {
 
     req.queryParams = queryParams;
 
-    const pathVariables = this.parser.extractPathVariablesFromURL(
-      pathname,
-      registeredPath,
-    );
+    const pathVariables = this.parser.extractPathVariablesFromURL(pathname, registeredPath);
 
     if (!pathVariables) {
       console.log("No path variables found");
@@ -138,12 +120,7 @@ export class Router implements IRouter {
     }
   }
 
-  public processRoute(
-    req: IHttpRequest,
-    res: IHttpResponse,
-    url: string,
-    method: string,
-  ): void {
+  public processRoute(req: IHttpRequest, res: IHttpResponse, url: string, method: string): void {
     if (!this.ensureIsValidUrl(url)) {
       res.statusCode = 404;
       res.statusMessage = "Not Found";
@@ -174,10 +151,7 @@ export class Router implements IRouter {
     });
   }
 
-  private findRouteHandler(
-    pathname: string,
-    method: string,
-  ): TRequestHandler | undefined {
+  private findRouteHandler(pathname: string, method: string): TRequestHandler | undefined {
     const normalizedMethod = method.toUpperCase();
 
     for (const registeredPath of Object.keys(this.routes)) {
@@ -202,16 +176,10 @@ export class Router implements IRouter {
       return false;
     }
 
-    return registeredParts.every(
-      (part, index) => part.startsWith(":") || part === pathParts[index],
-    );
+    return registeredParts.every((part, index) => part.startsWith(":") || part === pathParts[index]);
   }
 
-  private handleNotFound(
-    res: IHttpResponse,
-    method: string,
-    path: string,
-  ): void {
+  private handleNotFound(res: IHttpResponse, method: string, path: string): void {
     console.error(`No handler found for ${method} ${path}`);
     res.statusCode = 404;
     res.end("Not Found");

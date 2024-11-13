@@ -9,17 +9,7 @@ export interface IRouter {
   del(path: string, handler: TRequestHandler): void;
   patch(path: string, handler: TRequestHandler): void;
 
-  resolveRoute(
-    req: IHttpRequest,
-    res: IHttpResponse,
-    path: string,
-    method: string,
-  ): void;
+  resolveRoute(req: IHttpRequest, res: IHttpResponse, path: string, method: string): void;
 
-  processRoute(
-    req: IHttpRequest,
-    res: IHttpResponse,
-    url: string,
-    method: string,
-  ): void;
+  processRoute(req: IHttpRequest, res: IHttpResponse, url: string, method: string): void;
 }

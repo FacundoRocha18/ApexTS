@@ -33,10 +33,7 @@ export class SwiftFactory implements IFactory {
    * @returns A new instance of a Framework
    */
   public create(): ISwiftApplication {
-    const framework = SwiftApplication.getInstance(
-      this.router,
-      this.middlewareManager,
-    );
+    const framework = SwiftApplication.getInstance(this.router, this.middlewareManager);
 
     return framework;
   }

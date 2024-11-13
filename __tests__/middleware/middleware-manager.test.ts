@@ -1,8 +1,4 @@
-import {
-  MiddlewareManager,
-  IMiddlewareManager,
-  Middleware,
-} from "../../lib/middleware";
+import { MiddlewareManager, IMiddlewareManager, Middleware } from "../../lib/middleware";
 import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { IRouteProcessorService } from "../../lib/router";
 
@@ -44,9 +40,7 @@ describe("MiddlewareManager", () => {
 
     expect(mockMiddleware1).toHaveBeenCalled();
     expect(mockMiddleware2).toHaveBeenCalled();
-    expect(mockMiddleware1.mock.invocationCallOrder[0]).toBeLessThan(
-      mockMiddleware2.mock.invocationCallOrder[0],
-    );
+    expect(mockMiddleware1.mock.invocationCallOrder[0]).toBeLessThan(mockMiddleware2.mock.invocationCallOrder[0]);
   });
 
   it("should handle errors in middleware and return 500 status", () => {
@@ -77,12 +71,7 @@ describe("MiddlewareManager", () => {
 
     middlewareManager.executeMiddlewares(req, res);
 
-    expect(mockRouteProcessorService.processRoute).toHaveBeenCalledWith(
-      req,
-      res,
-      "/",
-      "GET",
-    );
+    expect(mockRouteProcessorService.processRoute).toHaveBeenCalledWith(req, res, "/", "GET");
   });
 
   it("should call processRoute after all middlewares are executed", () => {
@@ -96,12 +85,7 @@ describe("MiddlewareManager", () => {
 
     middlewareManager.executeMiddlewares(req, res);
 
-    expect(mockRouteProcessorService.processRoute).toHaveBeenCalledWith(
-      req,
-      res,
-      "/",
-      "GET",
-    );
+    expect(mockRouteProcessorService.processRoute).toHaveBeenCalledWith(req, res, "/", "GET");
   });
 
   it("should stop execution if a middleware does not call next", () => {

@@ -1,8 +1,5 @@
 import dotenv from "dotenv";
-import {
-  IEnvironmentConfiguration,
-  IEnvironmentVariables,
-} from "./environment-config.interface";
+import { IEnvironmentConfiguration, IEnvironmentVariables } from "./environment-config.interface";
 
 dotenv.config();
 

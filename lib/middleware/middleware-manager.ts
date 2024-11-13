@@ -22,9 +22,7 @@ export class MiddlewareManager implements IMiddlewareManager {
     this.errorMiddlewares.push(middleware as ErrorMiddleware);
   }
 
-  private isErrorMiddleware(
-    middleware: Middleware | ErrorMiddleware,
-  ): middleware is ErrorMiddleware {
+  private isErrorMiddleware(middleware: Middleware | ErrorMiddleware): middleware is ErrorMiddleware {
     return middleware.length === 4;
   }
 
@@ -56,10 +54,7 @@ export class MiddlewareManager implements IMiddlewareManager {
     execute(0);
   }
 
-  private handleMiddlewareError(
-    error: IMiddlewareError,
-    res: IHttpResponse,
-  ): void {
+  private handleMiddlewareError(error: IMiddlewareError, res: IHttpResponse): void {
     console.error(error.stack);
 
     res.statusCode = 500;

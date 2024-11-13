@@ -8,11 +8,9 @@ describe("Router", () => {
   let routerInstance: IRouter;
   let method: HttpMethods;
   const path: string = "/test";
-  const mockHandler: TRequestHandler = jest.fn(
-    (req: IHttpRequest, res: IHttpResponse) => {
-      res.end();
-    },
-  );
+  const mockHandler: TRequestHandler = jest.fn((req: IHttpRequest, res: IHttpResponse) => {
+    res.end();
+  });
 
   jest.mock("../../lib/parser/parser-service", () => {
     return {
@@ -122,12 +120,7 @@ describe("Router", () => {
     };
 
     routerInstance.get("/test", mockHandler);
-    routerInstance.resolveRoute(
-      req as IHttpRequest,
-      res as IHttpResponse,
-      "/test",
-      HttpMethods.GET,
-    );
+    routerInstance.resolveRoute(req as IHttpRequest, res as IHttpResponse, "/test", HttpMethods.GET);
 
     expect(mockHandler).toHaveBeenCalled();
     expect(mockHandler).toHaveBeenCalledWith(req, res);
@@ -143,12 +136,7 @@ describe("Router", () => {
     expect(req.pathVariables).toBeUndefined();
 
     routerInstance.get(path, mockHandler);
-    routerInstance.resolveRoute(
-      req as IHttpRequest,
-      res as IHttpResponse,
-      "/test/1",
-      HttpMethods.GET,
-    );
+    routerInstance.resolveRoute(req as IHttpRequest, res as IHttpResponse, "/test/1", HttpMethods.GET);
 
     expect(req.pathVariables).toBeDefined();
     expect(req.pathVariables).toEqual({ number: "1" });
@@ -168,7 +156,7 @@ describe("Router", () => {
       req as IHttpRequest,
       res as IHttpResponse,
       path + "?number=1&name=John",
-      HttpMethods.GET,
+      HttpMethods.GET
     );
 
     console.log(req.queryParams);
@@ -179,22 +167,14 @@ describe("Router", () => {
   it("should throw an exception if the method parameter is an empty string or null value", () => {
     const emptyMethod = "" as HttpMethods;
 
-    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(
-      Error,
-    );
-    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(
-      "Method must be a non-empty string",
-    );
+    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(Error);
+    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow("Method must be a non-empty string");
   });
 
   it("should throw an exception if the path parameter is an invalid string or null value", () => {
     const emptyPath = "";
 
-    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(
-      Error,
-    );
-    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(
-      "Path must be a non-empty string",
-    );
+    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(Error);
+    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow("Path must be a non-empty string");
   });
 });

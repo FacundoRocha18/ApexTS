@@ -28,17 +28,15 @@ describe("ParserService", () => {
 
   it("should parse the JSON body and then call the callback", (done) => {
     // Simulate the events 'data' & 'end'
-    (req.on as jest.Mock).mockImplementation(
-      (event: string, listener: (Buffer) => void) => {
-        if (event === "data") {
-          // Simulate the passing of a data chunk
-          process.nextTick(() => listener(Buffer.from('{"key":"value"}')));
-        } else if (event === "end") {
-          // Simulate the data stream end
-          process.nextTick(listener);
-        }
-      },
-    );
+    (req.on as jest.Mock).mockImplementation((event: string, listener: (Buffer) => void) => {
+      if (event === "data") {
+        // Simulate the passing of a data chunk
+        process.nextTick(() => listener(Buffer.from('{"key":"value"}')));
+      } else if (event === "end") {
+        // Simulate the data stream end
+        process.nextTick(listener);
+      }
+    });
 
     parser.convertRequestBodyToJson({
       req: req as IHttpRequest,
@@ -58,15 +56,13 @@ describe("ParserService", () => {
 
   it("should handle the request body as text if it is not a valid JSON", (done) => {
     // Simulate an unvalid body
-    (req.on as jest.Mock).mockImplementation(
-      (event: string, listener: (Buffer) => void) => {
-        if (event === "data") {
-          process.nextTick(() => listener(Buffer.from("invalid JSON")));
-        } else if (event === "end") {
-          process.nextTick(listener);
-        }
-      },
-    );
+    (req.on as jest.Mock).mockImplementation((event: string, listener: (Buffer) => void) => {
+      if (event === "data") {
+        process.nextTick(() => listener(Buffer.from("invalid JSON")));
+      } else if (event === "end") {
+        process.nextTick(listener);
+      }
+    });
 
     // Call the parseBody method
     parser.convertRequestBodyToJson({

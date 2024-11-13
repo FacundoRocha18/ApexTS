@@ -10,18 +10,12 @@ export class SwiftApplication implements ISwiftApplication {
 
   private constructor(
     public router: IRouter,
-    private middlewareManager: IMiddlewareManager,
+    private middlewareManager: IMiddlewareManager
   ) {}
 
-  public static getInstance(
-    router: IRouter,
-    middlewareManager: IMiddlewareManager,
-  ): SwiftApplication {
+  public static getInstance(router: IRouter, middlewareManager: IMiddlewareManager): SwiftApplication {
     if (!SwiftApplication.instance) {
-      SwiftApplication.instance = new SwiftApplication(
-        router,
-        middlewareManager,
-      );
+      SwiftApplication.instance = new SwiftApplication(router, middlewareManager);
     }
 
     return SwiftApplication.instance;
@@ -37,11 +31,7 @@ export class SwiftApplication implements ISwiftApplication {
     });
   }
 
-  public useRoute(
-    method: HttpMethods,
-    path: string,
-    handler: TRequestHandler,
-  ): void {
+  public useRoute(method: HttpMethods, path: string, handler: TRequestHandler): void {
     this.router.use(method, path, handler);
   }
 
@@ -66,16 +56,14 @@ export class SwiftApplication implements ISwiftApplication {
   }
 
   private startHttpServer(): http.Server {
-    const server = http.createServer(
-      (req: IHttpRequest, res: IHttpResponse) => {
-        const path: string = req.url || "/";
-        const method: string = req.method || "GET";
+    const server = http.createServer((req: IHttpRequest, res: IHttpResponse) => {
+      const path: string = req.url || "/";
+      const method: string = req.method || "GET";
 
-        this.middlewareManager.executeMiddlewares(req, res, () => {
-          this.router.resolveRoute(req, res, path, method);
-        });
-      },
-    );
+      this.middlewareManager.executeMiddlewares(req, res, () => {
+        this.router.resolveRoute(req, res, path, method);
+      });
+    });
 
     return server;
   }

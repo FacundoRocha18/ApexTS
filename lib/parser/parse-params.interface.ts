@@ -5,10 +5,5 @@ export interface IParseArgs {
   res: IHttpResponse;
   url: string;
   method: string;
-  callback: (
-    req: IHttpRequest,
-    res: IHttpResponse,
-    url: string,
-    method: string,
-  ) => void;
+  callback: (req: IHttpRequest, res: IHttpResponse, url: string, method: string) => void;
 }

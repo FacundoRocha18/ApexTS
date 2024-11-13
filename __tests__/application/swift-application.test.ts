@@ -27,20 +27,14 @@ describe("Swift application", () => {
     mockedMiddlewareManager = {
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
-
     (SwiftApplication as any).instance = null;
-    framework = SwiftApplication.getInstance(
-      mockedRouter,
-      mockedMiddlewareManager,
-    );
+    framework = SwiftApplication.getInstance(mockedRouter, mockedMiddlewareManager);
 
     mockedServer = {
       listen: jest.fn(),
     };
 
-    jest
-      .spyOn(http, "createServer")
-      .mockReturnValue(mockedServer as unknown as http.Server);
+    jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
   });
 
   afterEach(() => {
@@ -129,9 +123,6 @@ describe("Swift application", () => {
 
     expect(http.createServer).toHaveBeenCalledTimes(1);
 
-    expect(mockedServer.listen).toHaveBeenCalledWith(
-      port,
-      expect.any(Function),
-    );
+    expect(mockedServer.listen).toHaveBeenCalledWith(port, expect.any(Function));
   });
 });

@@ -27,9 +27,7 @@ export class ParserService implements IParserService {
     });
   }
 
-  public extractQueryParamsFromURL(
-    searchParams: URLSearchParams,
-  ): TQueryParams {
+  public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
     const queryParams: TQueryParams = {};
 
     searchParams.forEach((value, key) => {
@@ -39,10 +37,7 @@ export class ParserService implements IParserService {
     return queryParams;
   }
 
-  public extractPathVariablesFromURL(
-    requestPath: string,
-    registeredPath: string,
-  ): TPathVariables {
+  public extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables {
     const registeredPathSegments: string[] = registeredPath.split("/");
     const requestPathSegments: string[] = requestPath.split("/");
     const pathVariables: TPathVariables = {};
