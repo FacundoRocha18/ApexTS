@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { IncomingMessage } from "http";
 import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
@@ -55,7 +56,6 @@ describe("ParserService", () => {
   });
 
   it("should handle the request body as text if it is not a valid JSON", (done) => {
-    // Simulate an unvalid body
     (req.on as jest.Mock).mockImplementation((event: string, listener: (Buffer) => void) => {
       if (event === "data") {
         process.nextTick(() => listener(Buffer.from("invalid JSON")));
@@ -64,7 +64,6 @@ describe("ParserService", () => {
       }
     });
 
-    // Call the parseBody method
     parser.convertRequestBodyToJson({
       req: req as IncomingMessage,
       res,
@@ -73,7 +72,6 @@ describe("ParserService", () => {
       callback,
     });
 
-    // Verify the async behavior
     process.nextTick(() => {
       expect(req.body).toBe("invalid JSON");
       expect(callback).toHaveBeenCalledWith(req, res, "/test", "POST");

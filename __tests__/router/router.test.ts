@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Router, IRouter, Route } from "../../lib/router";
 import { IHttpRequest, IHttpResponse, TRequestHandler } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
@@ -7,6 +8,7 @@ describe("Router", () => {
   let mockedParserService: jest.Mocked<IParserService>;
   let routerInstance: IRouter;
   let method: HttpMethods;
+
   const path: string = "/test";
   const mockHandler: TRequestHandler = jest.fn((req: IHttpRequest, res: IHttpResponse) => {
     res.end();
