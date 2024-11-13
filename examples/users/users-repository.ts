@@ -1,9 +1,4 @@
-import { IUser } from './user-entity';
-
-export type CreateUser = Omit<IUser, "id">;
-
-export type PublicUser = Omit<IUser, "password">;
-
+import { CreateUser, IUser, PublicUser } from './types';
 
 export class UsersRepository {
 	private users: IUser[] = [

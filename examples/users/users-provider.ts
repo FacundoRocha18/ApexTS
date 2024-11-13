@@ -1,6 +1,8 @@
-import { IUser } from './user-entity';
-import { CreateUser, PublicUser, UsersRepository } from './users-repository';
+import { autoInjectable } from 'tsyringe';
+import { UsersRepository } from './users-repository';
+import { CreateUser, PublicUser } from './types';
 
+@autoInjectable()
 export class UsersService {
 	constructor(private repository: UsersRepository) {}
 

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { ISwiftApplication, SwiftFactory, jsonMiddleware } from "../lib";
 import { loggerMiddleware } from "./middlewares/logger-middleware";
 import { authMiddleware } from "./middlewares/auth-middleware";

@@ -1,32 +1,22 @@
-import { HttpMethods } from '../../lib/http';
-import { TRequestHandler } from '../../lib/types';
+import { container } from 'tsyringe';
 import { UserController } from './users-controller';
-import { UsersRepository } from './users-repository';
-import { UsersService } from './users-provider';
+import { Route } from '../types';
 
-type Route = {
-	method: HttpMethods;
-	path: string;
-	handler: TRequestHandler;
-}
-
-const usersRepository = new UsersRepository();
-const usersService = new UsersService(usersRepository);
-const usersController = new UserController(usersService);
+const usersController = container.resolve(UserController);
 
 export const usersRoutes: Route[] = [
 	{
-		method: HttpMethods.GET,
+		method: "GET",
 		path: "/users",
 		handler: usersController.findAll
 	},
 	{
-		method: HttpMethods.GET,
+		method: "GET",
 		path: "/users/:id",
 		handler: usersController.find
 	},
 	{
-		method: HttpMethods.POST,
+		method: "POST",
 		path: "/users",
 		handler: usersController.create
 	}

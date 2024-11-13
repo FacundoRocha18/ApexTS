@@ -1,6 +1,8 @@
+import { autoInjectable } from 'tsyringe';
 import { IHttpRequest, IHttpResponse } from "../../lib";
 import { UsersService } from './users-provider';
 
+@autoInjectable()
 export class UserController {
 	constructor (private readonly service: UsersService) {}
 
