@@ -45,10 +45,7 @@ export class SwiftFactory implements ISwiftFactory {
     this.parser = container.resolve(ParserService);
     this.requestParamsExtractor = container.resolve(RequestParamsExtractorService);
     this.router = serviceFactory.create(Router, [this.requestParamsExtractor]);
-    this.routeProcessor = serviceFactory.create(RouteProcessorService, [
-      this.router,
-      this.parser,
-    ]);
+    this.routeProcessor = container.resolve(RouteProcessorService);
     this.middlewareManager = serviceFactory.create(MiddlewareManager, [
       this.routeProcessor,
     ]);

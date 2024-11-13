@@ -1,11 +1,13 @@
-import { IRouteProcessorService, IRouter } from "../router";
+import { IRouteProcessorService, IRouter, Router } from "../router";
 import { IHttpRequest, IHttpResponse } from "../types";
-import { IParserService } from "../parser";
+import { IParserService, ParserService } from "../parser";
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class RouteProcessorService implements IRouteProcessorService {
   constructor(
-    private router: IRouter,
-    private parserService: IParserService,
+    @inject(Router) private router: IRouter,
+    @inject(ParserService) private parserService: IParserService,
   ) {}
 
   private ensureIsValidUrl(url: string) {
