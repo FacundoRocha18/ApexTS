@@ -4,8 +4,7 @@ import { injectable } from "tsyringe";
 
 @injectable()
 export class ParserService implements IParserService {
-  constructor() {}
-
+	
   public async convertRequestBodyToJson(params: IParseArgs): Promise<void> {
     const { req, res, url, method, callback } = params;
     
