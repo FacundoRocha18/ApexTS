@@ -5,7 +5,7 @@ import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";
 
 describe("Router", () => {
-  let mockedParserService: jest.Mocked<IParserService>;
+  let mockedParserService: Partial<IParserService>;
   let routerInstance: IRouter;
   let method: HttpMethods;
 
@@ -14,20 +14,21 @@ describe("Router", () => {
     res.end();
   });
 
+
   jest.mock("../../lib/parser/parser-service", () => {
-    return {
-      ParserService: jest.fn().mockImplementation(() => ({
-        parseBody: jest.fn().mockReturnValue({ key: "mockedValue" }),
-        extractPathVariables: jest.fn().mockReturnValue({ id: "123" }),
-        extractQueryParams: jest.fn().mockReturnValue({ search: "mockQuery" }),
-      })),
-    };
-  });
+		return {
+			ParserService: jest.fn().mockImplementation(() => ({
+				convertRequestBodyToJson: jest.fn().mockReturnValue({ key: "mockedValue" }),
+				extractQueryParamsFromURL: jest.fn().mockReturnValue({ number: "1", name: "John" }),
+				extractPathVariablesFromURL: jest.fn().mockReturnValue({ number: "1" }),
+			})),
+		};
+	});
 
   beforeEach(() => {
-    mockedParserService = new ParserService() as jest.Mocked<IParserService>;
+    mockedParserService = new ParserService();
 
-    routerInstance = new Router(mockedParserService);
+    routerInstance = new Router(mockedParserService as IParserService);
   });
 
   afterEach(() => {
@@ -145,38 +146,35 @@ describe("Router", () => {
   });
 
   it("should assign the URL query params to the req.queryParams object", () => {
-    const path = "/test";
-    const req: Partial<IHttpRequest> = {};
-    const res: Partial<IHttpResponse> = {
-      end: jest.fn(),
-    };
-
-    expect(req.queryParams).toBeUndefined();
-
-    routerInstance.get(path, mockHandler);
-    routerInstance.resolveRoute(
-      req as IHttpRequest,
-      res as IHttpResponse,
-      path + "?number=1&name=John",
-      HttpMethods.GET
-    );
-
-    console.log(req.queryParams);
-    expect(req.queryParams).toBeDefined();
-    expect(req.queryParams).toEqual({ number: "1", name: "John" });
-  });
+		const path = "/test";
+		const req: Partial<IHttpRequest> = {};
+		const res: Partial<IHttpResponse> = {
+			end: jest.fn(),
+		};
+	
+		routerInstance.get(path, mockHandler);
+		routerInstance.resolveRoute(
+			req as IHttpRequest,
+			res as IHttpResponse,
+			path + "?number=1&name=John",
+			HttpMethods.GET
+		);
+	
+		expect(req.queryParams).toBeDefined();
+		expect(req.queryParams).toEqual({ number: "1", name: "John" });
+	});
 
   it("should throw an exception if the method parameter is an empty string or null value", () => {
     const emptyMethod = "" as HttpMethods;
 
     expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow(Error);
-    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow("Method must be a non-empty string");
+    expect(() => routerInstance.use(emptyMethod, path, mockHandler)).toThrow("Invalid parameters: method, path, and handler are required.");
   });
 
   it("should throw an exception if the path parameter is an invalid string or null value", () => {
     const emptyPath = "";
 
     expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow(Error);
-    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow("Path must be a non-empty string");
+    expect(() => routerInstance.use(method, emptyPath, mockHandler)).toThrow("Invalid parameters: method, path, and handler are required.");
   });
 });
