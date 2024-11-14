@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import { IncomingMessage } from "http";
 import { IHttpRequest, IHttpResponse } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 
