@@ -1,4 +1,4 @@
-import { TQueryParams, TPathVariables } from "../types/request";
+import { TQueryParams, TPathVariables, IHttpRequest } from "../types/request";
 import { IParseArgs, IParserService } from "../parser";
 import { injectable } from "tsyringe";
 
@@ -6,26 +6,38 @@ import { injectable } from "tsyringe";
 export class ParserService implements IParserService {
   constructor() {}
 
-  public convertRequestBodyToJson(params: IParseArgs): void {
+  public async convertRequestBodyToJson(params: IParseArgs): Promise<void> {
     const { req, res, url, method, callback } = params;
-    let parsedBody: string = "";
+    
+		try {
+			const parsedBody = await this.getRequestBody(req);
+			req.body = JSON.parse(parsedBody);
+		} catch (error) {
+			req.body = await this.getRequestBody(req);
+			res.statusCode = 400;
+			res.statusMessage = "Invalid JSON";
+		}
 
-    req.on("data", (chunk) => {
-      parsedBody += chunk.toString();
-    });
-
-    req.on("end", () => {
-      try {
-        req.body = JSON.parse(parsedBody);
-      } catch (error) {
-        req.body = parsedBody;
-        res.statusCode = 400;
-        res.statusMessage = "Invalid JSON";
-      }
-
-      callback(req, res, url, method);
-    });
+		callback(req, res, url, method);
   }
+
+	private getRequestBody(req: IHttpRequest): Promise<string> {
+		return new Promise((resolve, reject) => {
+			let parsedBody = "";
+
+			req.on("data", (chunk) => {
+				parsedBody += chunk.toString();
+			});
+
+			req.on("end", () => {
+				resolve(parsedBody);
+			});
+
+			req.on("error", (error) => {
+				reject(error);
+			});
+		})
+	}
 
   public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
     const queryParams: TQueryParams = {};
