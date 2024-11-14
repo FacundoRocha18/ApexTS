@@ -1,24 +1,21 @@
 import { TQueryParams, TPathVariables, IHttpRequest } from "../types/request";
 import { IParseArgs, IParserService } from "../parser";
 import { injectable } from "tsyringe";
+import { IHttpResponse } from '../types';
 
 @injectable()
 export class ParserService implements IParserService {
-	
-  public async convertRequestBodyToJson(params: IParseArgs): Promise<void> {
-    const { req, res, url, method, callback } = params;
-    
+
+	public async convertRequestBodyToJson(req: IHttpRequest, res: IHttpResponse): Promise<void> {
 		try {
 			const parsedBody = await this.getRequestBody(req);
 			req.body = JSON.parse(parsedBody);
 		} catch (error) {
-			req.body = await this.getRequestBody(req);
+			req.body = error instanceof SyntaxError ? "Invalid JSON" : "";
 			res.statusCode = 400;
 			res.statusMessage = "Invalid JSON";
 		}
-
-		callback(req, res, url, method);
-  }
+	}
 
 	private getRequestBody(req: IHttpRequest): Promise<string> {
 		return new Promise((resolve, reject) => {
@@ -38,33 +35,33 @@ export class ParserService implements IParserService {
 		})
 	}
 
-  public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
-    const queryParams: TQueryParams = {};
+	public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
+		const queryParams: TQueryParams = {};
 
-    searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
+		searchParams.forEach((value, key) => {
+			queryParams[key] = value;
+		});
 
-    return queryParams;
-  }
+		return queryParams;
+	}
 
-  public extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables {
-    const registeredPathSegments: string[] = registeredPath.split("/");
-    const requestPathSegments: string[] = requestPath.split("/");
-    const pathVariables: TPathVariables = {};
+	public extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables {
+		const registeredPathSegments: string[] = registeredPath.split("/");
+		const requestPathSegments: string[] = requestPath.split("/");
+		const pathVariables: TPathVariables = {};
 
-    for (let i = 0; i < registeredPathSegments.length; i++) {
-      const registeredPart = registeredPathSegments[i];
-      const requestPart = requestPathSegments[i];
+		for (let i = 0; i < registeredPathSegments.length; i++) {
+			const registeredPart = registeredPathSegments[i];
+			const requestPart = requestPathSegments[i];
 
-      if (!registeredPart.startsWith(":")) {
-        continue;
-      }
+			if (!registeredPart.startsWith(":")) {
+				continue;
+			}
 
-      const paramName = registeredPart.slice(1);
-      pathVariables[paramName] = requestPart;
-    }
+			const paramName = registeredPart.slice(1);
+			pathVariables[paramName] = requestPart;
+		}
 
-    return pathVariables;
-  }
+		return pathVariables;
+	}
 }

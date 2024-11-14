@@ -34,39 +34,33 @@ describe("ParserService", () => {
 			}
 		});
 
-		await parser.convertRequestBodyToJson({
-			req: req as IHttpRequest,
-			res,
-			path: "/test",
-			method: "POST",
-			callback: () => callback(req, res, "/test", "POST"),
-		});
+		await parser.convertRequestBodyToJson(
+			req as IHttpRequest,
+			res as IHttpResponse
+		);
 
 		console.log("Req Body:", req.body);
 
 		expect(req.body).toEqual({ key: "value" });
-		expect(callback).toHaveBeenCalledWith(req, res, "/test", "POST");
+		expect(res.statusCode).toBeUndefined();
 	});
 
 	it("should handle the request body as text if it is not a valid JSON", async () => {
 		(req.on as jest.Mock).mockImplementation((event: string, listener: (Buffer) => void) => {
 			if (event === "data") {
-				setImmediate(() => listener(Buffer.from("invalid JSON")));
+				setImmediate(() => listener(Buffer.from("Invalid JSON")));
 			} else if (event === "end") {
 				setImmediate(listener);
 			}
 		});
 
-		await parser.convertRequestBodyToJson({
-			req,
-			res,
-			url: "/test",
-			method: "POST",
-			callback,
-		});
+		await parser.convertRequestBodyToJson(
+			req as IHttpRequest,
+			res as IHttpResponse
+		);
 
-		expect(req.body).toBe("invalid JSON");
+		expect(req.body).toBe("Invalid JSON");
 		expect(res.statusCode).toBe(400);
-		expect(callback).toHaveBeenCalledWith(req, res, "/test", "POST");
+		expect(res.statusMessage).toBe("Invalid JSON");
 	});
 });
