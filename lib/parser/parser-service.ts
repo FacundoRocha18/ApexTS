@@ -1,62 +1,67 @@
-import { TQueryParams, TPathVariables } from "../types/request";
-import { IParseArgs, IParserService } from "../parser";
+import { TQueryParams, TPathVariables, IHttpRequest } from "../types/request";
+import { IParserService } from "../parser";
+import { IHttpResponse } from '../types';
+import { injectable } from "tsyringe";
 
+@injectable()
 export class ParserService implements IParserService {
-  constructor() {}
 
-  public convertRequestBodyToJson(params: IParseArgs): void {
-    const { req, res, path, method, callback } = params;
-    let parsedBody: string = "";
+	public async convertRequestBodyToJson(req: IHttpRequest, res: IHttpResponse): Promise<void> {
+		try {
+			const parsedBody = await this.getRequestBody(req);
+			req.body = JSON.parse(parsedBody);
+		} catch (error) {
+			req.body = error instanceof SyntaxError ? "Invalid JSON" : "";
+			res.statusCode = 400;
+			res.statusMessage = "Invalid JSON";
+		}
+	}
 
-    req.on("data", (chunk) => {
-      parsedBody += chunk.toString();
-    });
+	private getRequestBody(req: IHttpRequest): Promise<string> {
+		return new Promise((resolve, reject) => {
+			let parsedBody = "";
 
-    req.on("end", () => {
-      try {
-        req.body = JSON.parse(parsedBody);
-      } catch (error) {
-        req.body = parsedBody;
-        res.statusCode = 400;
-        res.statusMessage = "Invalid JSON";
-      }
+			req.on("data", (chunk) => {
+				parsedBody += chunk.toString();
+			});
 
-      callback(req, res, path, method);
-    });
-  }
+			req.on("end", () => {
+				resolve(parsedBody);
+			});
 
-  public extractQueryParamsFromURL(
-    searchParams: URLSearchParams,
-  ): TQueryParams {
-    const queryParams: TQueryParams = {};
+			req.on("error", (error) => {
+				reject(error);
+			});
+		})
+	}
 
-    searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
+	public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
+		const queryParams: TQueryParams = {};
 
-    return queryParams;
-  }
+		searchParams.forEach((value, key) => {
+			queryParams[key] = value;
+		});
 
-  public extractPathVariablesFromURL(
-    requestPath: string,
-    registeredPath: string,
-  ): TPathVariables {
-    const registeredPathSegments: string[] = registeredPath.split("/");
-    const requestPathSegments: string[] = requestPath.split("/");
-    const pathVariables: TPathVariables = {};
+		return queryParams;
+	}
 
-    for (let i = 0; i < registeredPathSegments.length; i++) {
-      const registeredPart = registeredPathSegments[i];
-      const requestPart = requestPathSegments[i];
+	public extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables {
+		const registeredPathSegments: string[] = registeredPath.split("/");
+		const requestPathSegments: string[] = requestPath.split("/");
+		const pathVariables: TPathVariables = {};
 
-      if (!registeredPart.startsWith(":")) {
-        continue;
-      }
+		for (let i = 0; i < registeredPathSegments.length; i++) {
+			const registeredPart = registeredPathSegments[i];
+			const requestPart = requestPathSegments[i];
 
-      const paramName = registeredPart.slice(1);
-      pathVariables[paramName] = requestPart;
-    }
+			if (!registeredPart.startsWith(":")) {
+				continue;
+			}
 
-    return pathVariables;
-  }
+			const paramName = registeredPart.slice(1);
+			pathVariables[paramName] = requestPart;
+		}
+
+		return pathVariables;
+	}
 }

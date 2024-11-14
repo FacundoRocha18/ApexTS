@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon exec",
-    "test": "jest --watch",
+    "test": "jest --watch --runInBand",
     "build": "tsc",
     "lint": "npx eslint . --fix",
     "format": "npx prettier --write ."

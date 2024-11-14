@@ -1,63 +1,63 @@
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from ".";
 import { IHttpRequest, IHttpResponse } from "../types";
-import { IRouteProcessorService } from "../router";
-import { IMiddlewareError, MiddlewareError } from "../errors";
+import { IRouter, Router } from "../router";
+import { IMiddlewareError } from "../errors";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export class MiddlewareManager implements IMiddlewareManager {
-  private middlewares: Middleware[] = [];
-  private errorMiddlewares: ErrorMiddleware[] = [];
+	private middlewares: Middleware[] = [];
+	private errorMiddlewares: ErrorMiddleware[] = [];
 
-  constructor(private routeProcessorService: IRouteProcessorService) {}
+	constructor(@inject(Router) private router: IRouter) { }
 
-  public use(middleware: Middleware | ErrorMiddleware): void {
-    if (!this.isErrorMiddleware(middleware)) {
-      this.middlewares.push(middleware as Middleware);
-      return;
-    }
+	public use(middleware: Middleware | ErrorMiddleware): void {
+		if (!this.isErrorMiddleware(middleware)) {
+			this.middlewares.push(middleware as Middleware);
+			return;
+		}
 
-    this.errorMiddlewares.push(middleware as ErrorMiddleware);
-  }
+		this.errorMiddlewares.push(middleware as ErrorMiddleware);
+	}
 
-  private isErrorMiddleware(
-    middleware: Middleware | ErrorMiddleware,
-  ): middleware is ErrorMiddleware {
-    return middleware.length === 4;
-  }
+	private isErrorMiddleware(middleware: Middleware | ErrorMiddleware): middleware is ErrorMiddleware {
+		return middleware.length === 4;
+	}
 
-  public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
-    const execute = (index: number): void => {
-      if (index >= this.middlewares.length) {
-        this.routeProcessorService.processRoute(
-          req,
-          res,
-          req.url || "",
-          req.method || "",
-        );
-        return;
-      }
+	public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
+		const execute = (index: number): void => {
+			if (!req.url) {
+				throw new Error("Request URL is missing");
+			}
 
-      const middleware = this.middlewares[index];
-      const next = () => execute(index + 1);
+			if (!req.method) {
+				throw new Error("Request method is missing");
+			}
 
-      try {
-        middleware(req, res, next);
-      } catch (error) {
-        this.handleMiddlewareError(error, res);
-      }
-    };
+			if (index >= this.middlewares.length) {
+				this.router.processRoute(req, res, req.url, req.method);
+				return;
+			}
 
-    execute(0);
-  }
+			const middleware = this.middlewares[index];
+			const next = () => execute(index + 1);
 
-  private handleMiddlewareError(
-    error: IMiddlewareError,
-    res: IHttpResponse,
-  ): void {
-    console.error(error.stack);
+			try {
+				middleware(req, res, next);
+			} catch (error) {
+				this.handleMiddlewareError(error, res);
+			}
+		};
 
-    res.statusCode = 500;
-    res.statusMessage = "Internal Server Error";
-    res.write("Error: " + error.message);
-    res.end();
-  }
+		execute(0);
+	}
+
+	private handleMiddlewareError(error: IMiddlewareError, res: IHttpResponse): void {
+		console.error(error.stack);
+
+		res.statusCode = 500;
+		res.statusMessage = "Internal Server Error";
+		res.write("Error: " + error.message);
+		res.end();
+	}
 }
