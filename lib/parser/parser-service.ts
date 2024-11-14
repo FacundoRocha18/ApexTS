@@ -1,7 +1,7 @@
 import { TQueryParams, TPathVariables, IHttpRequest } from "../types/request";
-import { IParseArgs, IParserService } from "../parser";
-import { injectable } from "tsyringe";
+import { IParserService } from "../parser";
 import { IHttpResponse } from '../types';
+import { injectable } from "tsyringe";
 
 @injectable()
 export class ParserService implements IParserService {
