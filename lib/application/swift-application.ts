@@ -1,7 +1,7 @@
 import http from "http";
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from "../middleware";
 import { ISwiftApplication } from ".";
-import { IHttpRequest, IHttpResponse, TRequestHandler } from "../types";
+import { IHttpRequest, IHttpResponse, RequestHandler } from "../types";
 import { IRouter } from "../router";
 import { HttpMethods } from "../http";
 
@@ -31,27 +31,27 @@ export class SwiftApplication implements ISwiftApplication {
     });
   }
 
-  public useRoute(method: HttpMethods, path: string, handler: TRequestHandler): void {
+  public useRoute(method: HttpMethods, path: string, handler: RequestHandler): void {
     this.router.use(method, path, handler);
   }
 
-  public get(path: string, handler: TRequestHandler): void {
+  public get(path: string, handler: RequestHandler): void {
     this.router.get(path, handler);
   }
 
-  public post(path: string, handler: TRequestHandler): void {
+  public post(path: string, handler: RequestHandler): void {
     this.router.post(path, handler);
   }
 
-  public put(path: string, handler: TRequestHandler): void {
+  public put(path: string, handler: RequestHandler): void {
     this.router.put(path, handler);
   }
 
-  public del(path: string, handler: TRequestHandler): void {
+  public del(path: string, handler: RequestHandler): void {
     this.router.del(path, handler);
   }
 
-  public patch(path: string, handler: TRequestHandler): void {
+  public patch(path: string, handler: RequestHandler): void {
     this.router.patch(path, handler);
   }
 

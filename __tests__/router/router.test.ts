@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Router, IRouter, Route } from "../../lib/router";
-import { IHttpRequest, IHttpResponse, TRequestHandler } from "../../lib/types";
+import { IHttpRequest, IHttpResponse, RequestHandler } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 import { HttpMethods } from "../../lib/http";
 
@@ -10,7 +10,7 @@ describe("Router", () => {
   let method: HttpMethods;
 
   const path: string = "/test";
-  const mockHandler: TRequestHandler = jest.fn((req: IHttpRequest, res: IHttpResponse) => {
+  const mockHandler: RequestHandler = jest.fn((req: IHttpRequest, res: IHttpResponse) => {
     res.end();
   });
 

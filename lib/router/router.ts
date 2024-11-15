@@ -1,4 +1,4 @@
-import { IHttpRequest, TRequestHandler } from "../types";
+import { IHttpRequest, RequestHandler } from "../types";
 import { Route, IRouter } from "../router";
 import { IHttpResponse } from "../types";
 import { HttpMethods } from "../http";
@@ -16,7 +16,7 @@ export class Router implements IRouter {
 		private parser: IParserService
 	) { }
 
-	public use(method: HttpMethods, path: string, handler: TRequestHandler): void {
+	public use(method: HttpMethods, path: string, handler: RequestHandler): void {
 		this.addRoute(method, path, handler);
 	}
 
@@ -26,13 +26,13 @@ export class Router implements IRouter {
 	public put = this.addRoute.bind(this, HttpMethods.PUT);
 	public patch = this.addRoute.bind(this, HttpMethods.PATCH);
 
-	private validateRouteParams(method: HttpMethods, path: string, handler: TRequestHandler): void {
+	private validateRouteParams(method: HttpMethods, path: string, handler: RequestHandler): void {
 		if (!method || !path || !handler) {
 			throw new Error("Invalid parameters: method, path, and handler are required.");
 		}
 	}
 
-	private addRoute(method: HttpMethods, path: string, handler: TRequestHandler): void {
+	private addRoute(method: HttpMethods, path: string, handler: RequestHandler): void {
 		this.validateRouteParams(method, path, handler);
 
 		if (!this.routes[path]) {
@@ -110,7 +110,7 @@ export class Router implements IRouter {
 		this.resolveRoute(req, res, url, method);
 	}
 
-	private findRouteHandler(pathname: string, method: string): TRequestHandler | undefined {
+	private findRouteHandler(pathname: string, method: string): RequestHandler | undefined {
 		const normalizedMethod = method.toUpperCase();
 		const registeredPath = Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
 		

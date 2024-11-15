@@ -1,10 +1,10 @@
-import { TRequestHandler } from "../lib/types";
+import { RequestHandler } from "../lib/types";
 import { HttpMethod } from "../lib/types";
 
 export type Route = {
   method: HttpMethod;
   path: string;
-  handler: TRequestHandler;
+  handler: RequestHandler;
 };
 
 export interface Module {
