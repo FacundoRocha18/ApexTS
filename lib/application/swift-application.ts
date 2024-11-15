@@ -1,7 +1,7 @@
 import http from "http";
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from "../middleware";
 import { ISwiftApplication } from ".";
-import { IHttpRequest, IHttpResponse, RequestHandler } from "../types";
+import { HttpRequest, HttpResponse, Controller } from "../types";
 import { IRouter } from "../router";
 import { HttpMethods } from "../http";
 
@@ -31,32 +31,32 @@ export class SwiftApplication implements ISwiftApplication {
     });
   }
 
-  public useRoute(method: HttpMethods, path: string, handler: RequestHandler): void {
+  public useRoute(method: HttpMethods, path: string, handler: Controller): void {
     this.router.use(method, path, handler);
   }
 
-  public get(path: string, handler: RequestHandler): void {
+  public get(path: string, handler: Controller): void {
     this.router.get(path, handler);
   }
 
-  public post(path: string, handler: RequestHandler): void {
+  public post(path: string, handler: Controller): void {
     this.router.post(path, handler);
   }
 
-  public put(path: string, handler: RequestHandler): void {
+  public put(path: string, handler: Controller): void {
     this.router.put(path, handler);
   }
 
-  public del(path: string, handler: RequestHandler): void {
+  public del(path: string, handler: Controller): void {
     this.router.del(path, handler);
   }
 
-  public patch(path: string, handler: RequestHandler): void {
+  public patch(path: string, handler: Controller): void {
     this.router.patch(path, handler);
   }
 
   private startHttpServer(): http.Server {
-    const server = http.createServer((req: IHttpRequest, res: IHttpResponse) => {
+    const server = http.createServer((req: HttpRequest, res: HttpResponse) => {
       const path: string = req.url || "/";
       const method: string = req.method || "GET";
 

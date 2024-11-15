@@ -1,12 +1,12 @@
-import { TQueryParams, TPathVariables, IHttpRequest } from "../types/request";
+import { QueryParams, PathVariables, HttpRequest } from "../types/request";
 import { IParserService } from "../parser";
-import { IHttpResponse } from '../types';
+import { HttpResponse } from '../types';
 import { injectable } from "tsyringe";
 
 @injectable()
 export class ParserService implements IParserService {
 
-	public async convertRequestBodyToJson(req: IHttpRequest, res: IHttpResponse): Promise<void> {
+	public async convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): Promise<void> {
 		try {
 			const parsedBody = await this.getRequestBody(req);
 			req.body = JSON.parse(parsedBody);
@@ -17,7 +17,7 @@ export class ParserService implements IParserService {
 		}
 	}
 
-	private getRequestBody(req: IHttpRequest): Promise<string> {
+	private getRequestBody(req: HttpRequest): Promise<string> {
 		return new Promise((resolve, reject) => {
 			let parsedBody = "";
 
@@ -35,8 +35,8 @@ export class ParserService implements IParserService {
 		})
 	}
 
-	public extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams {
-		const queryParams: TQueryParams = {};
+	public extractQueryParamsFromURL(searchParams: URLSearchParams): QueryParams {
+		const queryParams: QueryParams = {};
 
 		searchParams.forEach((value, key) => {
 			queryParams[key] = value;
@@ -45,10 +45,10 @@ export class ParserService implements IParserService {
 		return queryParams;
 	}
 
-	public extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables {
+	public extractPathVariablesFromURL(requestPath: string, registeredPath: string): PathVariables {
 		const registeredPathSegments: string[] = registeredPath.split("/");
 		const requestPathSegments: string[] = requestPath.split("/");
-		const pathVariables: TPathVariables = {};
+		const pathVariables: PathVariables = {};
 
 		for (let i = 0; i < registeredPathSegments.length; i++) {
 			const registeredPart = registeredPathSegments[i];

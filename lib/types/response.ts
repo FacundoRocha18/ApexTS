@@ -1,5 +1,5 @@
 import { ServerResponse } from "http";
 
-export interface IHttpResponse extends ServerResponse {
+export interface HttpResponse extends ServerResponse {
   json: (obj: any) => void;
 }

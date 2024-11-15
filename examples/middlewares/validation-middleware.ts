@@ -1,4 +1,4 @@
-import { IHttpRequest, IHttpResponse } from "../../lib/types";
+import { HttpRequest, HttpResponse } from "../../lib/types";
 import { ValidationService } from '../../lib/validation/validation-service';
 import { Middleware } from '../../lib/middleware/middleware.types';
 import { CreateUser } from '../users/users-types';
@@ -6,7 +6,7 @@ import { userSchema } from '../users/user-schema';
 
 const validationService = new ValidationService();
 
-export const validateUserBody: Middleware = (req: IHttpRequest, res: IHttpResponse, next) => {
+export const validateUserBody: Middleware = (req: HttpRequest, res: HttpResponse, next) => {
   try {
     req.body = validationService.validate<CreateUser>(userSchema, req.body);
     next();

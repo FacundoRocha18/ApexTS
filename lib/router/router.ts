@@ -1,6 +1,6 @@
-import { IHttpRequest, RequestHandler } from "../types";
+import { HttpRequest, Controller } from "../types";
 import { Route, IRouter } from "../router";
-import { IHttpResponse } from "../types";
+import { HttpResponse } from "../types";
 import { HttpMethods } from "../http";
 import { inject, injectable, singleton } from "tsyringe";
 import { IParserService, ParserService } from "../parser";
@@ -16,8 +16,8 @@ export class Router implements IRouter {
 		private parser: IParserService
 	) { }
 
-	public use(method: HttpMethods, path: string, handler: RequestHandler): void {
-		this.addRoute(method, path, handler);
+	public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
+		this.addRoute(httpMethod, url, controller);
 	}
 
 	public get = this.addRoute.bind(this, HttpMethods.GET);
@@ -26,35 +26,30 @@ export class Router implements IRouter {
 	public put = this.addRoute.bind(this, HttpMethods.PUT);
 	public patch = this.addRoute.bind(this, HttpMethods.PATCH);
 
-	private validateRouteParams(method: HttpMethods, path: string, handler: RequestHandler): void {
-		if (!method || !path || !handler) {
-			throw new Error("Invalid parameters: method, path, and handler are required.");
-		}
-	}
+	private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
+		this.validateRouteParams(httpMethod, url, controller);
 
-	private addRoute(method: HttpMethods, path: string, handler: RequestHandler): void {
-		this.validateRouteParams(method, path, handler);
-
-		if (!this.routes[path]) {
-			this.routes[path] = {};
+		if (!this.routes[url]) {
+			this.routes[url] = {};
 		}
 
-		this.routes[path][method] = handler;
+		this.routes[url][httpMethod] = controller;
 	}
 
-	public resolveRoute(req: IHttpRequest, res: IHttpResponse, path: string, method: string): void {
-		const { pathname, searchParams } = new URL(path, "http://localhost");
-		const handler = this.findRouteHandler(pathname, method);
+	public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: string): void {
+		const { pathname, searchParams } = new URL(url, "http://localhost");
 
-		const registeredPath = Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
+		const registeredPath = this.findMatchingPath(pathname);
 
 		if (!registeredPath) {
-			this.handleNotFound(res, method, path);
+			this.handleNotFound(res, httpMethod, url);
 			return;
 		}
 
+		const handler = this.findRouteHandler(pathname, httpMethod);
+
 		if (!handler) {
-			this.handleNotFound(res, method, path);
+			this.handleNotFound(res, httpMethod, url);
 			return;
 		}
 
@@ -79,25 +74,11 @@ export class Router implements IRouter {
 		handler(req, res);
 	}
 
-	private ensureIsValidUrl(url: string) {
-		if (url !== undefined || url !== "" || url !== null) {
-			return true;
-		}
+	private findMatchingPath(pathname: string): string | undefined {
+		return Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
 	}
 
-	private ensureIsValidMethod(method: string) {
-		if (method !== undefined || method !== "" || method !== null) {
-			return true;
-		}
-	}
-
-	private handleInvalidRequest(res: IHttpResponse, message: string): void {
-		res.statusCode = 400;
-		res.statusMessage = message;
-		res.end(message);
-	}
-
-	public async processRoute(req: IHttpRequest, res: IHttpResponse, url: string, method: string): Promise<void> {
+	public async processRoute(req: HttpRequest, res: HttpResponse, url: string, method: string): Promise<void> {
 		if (!url || !method) {
 			this.handleInvalidRequest(res, "Invalid request");
 			return;
@@ -110,10 +91,10 @@ export class Router implements IRouter {
 		this.resolveRoute(req, res, url, method);
 	}
 
-	private findRouteHandler(pathname: string, method: string): RequestHandler | undefined {
+	private findRouteHandler(pathname: string, method: string): Controller | undefined {
 		const normalizedMethod = method.toUpperCase();
 		const registeredPath = Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
-		
+
 		if (!registeredPath) {
 			return undefined;
 		}
@@ -132,10 +113,16 @@ export class Router implements IRouter {
 		return this.partsMatch(requestParts, registeredParts);
 	}
 
+	private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
+		if (!httpMethod || !url || !controller) {
+			throw new Error("Invalid parameters: method, path, and handler are required.");
+		}
+	}
+
 	private lengthsMatch(requestParts: string[], registeredParts: string[]): boolean {
 		return requestParts.length === registeredParts.length;
 	}
-	
+
 	private partsMatch(requestParts: string[], registeredParts: string[]): boolean {
 		for (let i = 0; i < registeredParts.length; i++) {
 			if (!this.isPartMatching(requestParts[i], registeredParts[i])) {
@@ -144,14 +131,25 @@ export class Router implements IRouter {
 		}
 		return true;
 	}
-	
+
 	private isPartMatching(requestPart: string, registeredPart: string): boolean {
 		return registeredPart.startsWith(":") || registeredPart === requestPart;
 	}
 
-	private handleNotFound(res: IHttpResponse, method: string, path: string): void {
-    console.error(`[Router] No handler found for ${method} ${path}`);
-    res.statusCode = 404;
-    res.end("Not Found");
-}
+	private handleInvalidRequest(res: HttpResponse, message: string): void {
+		res.statusCode = 400;
+		res.statusMessage = message;
+		res.end(message);
+	}
+
+	private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
+		console.error(`[Router] No handler found for ${httpMethod} ${url}`);
+		res.statusCode = 404;
+		res.json({
+			statusCode: 404,
+			message: "Not found",
+			method: httpMethod,
+			url,
+		});
+	}
 }

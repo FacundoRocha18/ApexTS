@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import { IHttpRequest, IHttpResponse } from "../../lib/types";
+import { HttpRequest, HttpResponse } from "../../lib/types";
 import { ParserService, IParserService } from "../../lib/parser";
 
 describe("ParserService", () => {
 	let parser: IParserService;
-	let req: Partial<IHttpRequest>;
-	let res: Partial<IHttpResponse>;
+	let req: Partial<HttpRequest>;
+	let res: Partial<HttpResponse>;
 	let callback: jest.Mock;
 
 	beforeEach(() => {
@@ -14,11 +14,11 @@ describe("ParserService", () => {
 		req = {
 			on: jest.fn(),
 			body: undefined,
-		} as Partial<IHttpRequest>;
+		} as Partial<HttpRequest>;
 
 		res = {
 			json: jest.fn(),
-		} as Partial<IHttpResponse>;
+		} as Partial<HttpResponse>;
 
 		callback = jest.fn();
 
@@ -35,8 +35,8 @@ describe("ParserService", () => {
 		});
 
 		await parser.convertRequestBodyToJson(
-			req as IHttpRequest,
-			res as IHttpResponse
+			req as HttpRequest,
+			res as HttpResponse
 		);
 
 		expect(req.body).toEqual({ key: "value" });
@@ -53,8 +53,8 @@ describe("ParserService", () => {
 		});
 
 		await parser.convertRequestBodyToJson(
-			req as IHttpRequest,
-			res as IHttpResponse
+			req as HttpRequest,
+			res as HttpResponse
 		);
 
 		expect(req.body).toBe("Invalid JSON");

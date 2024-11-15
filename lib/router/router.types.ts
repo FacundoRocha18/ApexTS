@@ -1,5 +1,5 @@
-import type { RequestHandler } from "../types";
+import type { Controller } from "../types";
 
 export type Route = {
-  [path: string]: { [method: string]: RequestHandler };
+  [path: string]: { [method: string]: Controller };
 };

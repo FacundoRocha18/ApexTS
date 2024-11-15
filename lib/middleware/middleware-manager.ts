@@ -1,5 +1,5 @@
 import { ErrorMiddleware, IMiddlewareManager, Middleware } from ".";
-import { IHttpRequest, IHttpResponse } from "../types";
+import { HttpRequest, HttpResponse } from "../types";
 import { IRouter, Router } from "../router";
 import { IMiddlewareError } from "../errors";
 import { inject, injectable } from "tsyringe";
@@ -24,7 +24,7 @@ export class MiddlewareManager implements IMiddlewareManager {
 		return middleware.length === 4;
 	}
 
-	public executeMiddlewares(req: IHttpRequest, res: IHttpResponse): void {
+	public executeMiddlewares(req: HttpRequest, res: HttpResponse): void {
 		const execute = (index: number): void => {
 			if (!req.url) {
 				throw new Error("Request URL is missing");
@@ -52,7 +52,7 @@ export class MiddlewareManager implements IMiddlewareManager {
 		execute(0);
 	}
 
-	private handleMiddlewareError(error: IMiddlewareError, res: IHttpResponse): void {
+	private handleMiddlewareError(error: IMiddlewareError, res: HttpResponse): void {
 		console.error(error.stack);
 
 		res.statusCode = 500;

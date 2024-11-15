@@ -1,10 +1,10 @@
-import { IHttpRequest, IHttpResponse } from "../types";
+import { HttpRequest, HttpResponse } from "../types";
 
-export type Middleware = (req: IHttpRequest, res: IHttpResponse, next: (err?: any) => void) => void | Promise<void>;
+export type Middleware = (req: HttpRequest, res: HttpResponse, next: (err?: any) => void) => void | Promise<void>;
 
 export type ErrorMiddleware = (
   err: Error,
-  req: IHttpRequest,
-  res: IHttpResponse,
+  req: HttpRequest,
+  res: HttpResponse,
   next: (err?: any) => void
 ) => void | Promise<void>;

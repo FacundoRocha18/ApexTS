@@ -2,7 +2,7 @@ import * as http from "http";
 import { SwiftApplication, ISwiftApplication } from "../../lib/application";
 import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middleware";
-import { RequestHandler } from "../../lib/types";
+import { Controller } from "../../lib/types";
 
 jest.mock("http");
 
@@ -11,7 +11,7 @@ describe("Swift application", () => {
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
-  let handler: RequestHandler;
+  let handler: Controller;
 
   const PATH = "/users";
 

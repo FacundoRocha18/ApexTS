@@ -1,10 +1,10 @@
-import { RequestHandler } from "../lib/types";
+import { Controller } from "../lib/types";
 import { HttpMethod } from "../lib/types";
 
 export type Route = {
   method: HttpMethod;
   path: string;
-  handler: RequestHandler;
+  handler: Controller;
 };
 
 export interface Module {

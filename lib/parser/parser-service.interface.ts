@@ -1,7 +1,7 @@
-import { TQueryParams, TPathVariables, IHttpRequest, IHttpResponse } from "../types";
+import { QueryParams, PathVariables, HttpRequest, HttpResponse } from "../types";
 
 export interface IParserService {
-  convertRequestBodyToJson(req: IHttpRequest, res: IHttpResponse): void;
-  extractQueryParamsFromURL(searchParams: URLSearchParams): TQueryParams;
-  extractPathVariablesFromURL(requestPath: string, registeredPath: string): TPathVariables;
+  convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): void;
+  extractQueryParamsFromURL(searchParams: URLSearchParams): QueryParams;
+  extractPathVariablesFromURL(requestPath: string, registeredPath: string): PathVariables;
 }

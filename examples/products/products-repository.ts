@@ -6,13 +6,13 @@ export class ProductsRepository {
       id: "1",
       name: "Product 1",
       price: 100,
-      category: "Laptops",
+      category: "laptops",
     },
     {
       id: "2",
       name: "Product 2",
       price: 200,
-      category: "Laptops",
+      category: "laptops",
     },
   ];
 
@@ -21,7 +21,7 @@ export class ProductsRepository {
   };
 
   public findByCategory = (category: string): IProduct[] => {
-    return this.products.filter((product) => product.category === category);
+    return this.products.filter((product) => product.category === category.toLowerCase());
   };
 
   public findById = (id: string): IProduct | undefined => {

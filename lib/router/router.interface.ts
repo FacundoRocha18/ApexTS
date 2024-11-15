@@ -1,15 +1,15 @@
-import { IHttpRequest, IHttpResponse, RequestHandler } from "../types";
+import { HttpRequest, HttpResponse, Controller } from "../types";
 import { HttpMethods } from "../http";
 
 export interface IRouter {
-  use(method: HttpMethods, path: string, handler: RequestHandler): void;
-  get(path: string, handler: RequestHandler): void;
-  post(path: string, handler: RequestHandler): void;
-  put(path: string, handler: RequestHandler): void;
-  del(path: string, handler: RequestHandler): void;
-  patch(path: string, handler: RequestHandler): void;
+  use(method: HttpMethods, path: string, controller: Controller): void;
+  get(path: string, handler: Controller): void;
+  post(path: string, handler: Controller): void;
+  put(path: string, handler: Controller): void;
+  del(path: string, handler: Controller): void;
+  patch(path: string, handler: Controller): void;
 
-  resolveRoute(req: IHttpRequest, res: IHttpResponse, path: string, method: string): void;
+  resolveRoute(req: HttpRequest, res: HttpResponse, path: string, method: string): void;
 
-  processRoute(req: IHttpRequest, res: IHttpResponse, url: string, method: string): void;
+  processRoute(req: HttpRequest, res: HttpResponse, url: string, method: string): void;
 }
