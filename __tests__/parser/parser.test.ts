@@ -39,8 +39,6 @@ describe("ParserService", () => {
 			res as IHttpResponse
 		);
 
-		console.log("Req Body:", req.body);
-
 		expect(req.body).toEqual({ key: "value" });
 		expect(res.statusCode).toBeUndefined();
 	});
