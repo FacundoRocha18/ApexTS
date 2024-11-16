@@ -41,4 +41,64 @@ describe("Route", () => {
 	it("should return the URL", () => {
 		expect(route.URL).toEqual(URL);
 	});
+
+	it("should return undefined if the HTTP method is not registered", () => {
+		expect(route.getController(HttpMethods.POST)).toBeUndefined();
+	});
+
+	it("should return true for a URL with dynamic parameters", () => {
+		const dynamicRoute = new Route("/users/:id");
+
+		expect(dynamicRoute.isUrlRegistered("/users/123")).toBe(true);
+		expect(dynamicRoute.isUrlRegistered("/users/abc")).toBe(true);
+		expect(dynamicRoute.isUrlRegistered("/users/")).toBe(false);
+	});
+
+	it("should add controllers for different HTTP methods", () => {
+		route.addController(HttpMethods.GET, mockController);
+		route.addController(HttpMethods.POST, mockController);
+	
+		expect(route.getController(HttpMethods.GET)).toEqual(mockController);
+		expect(route.getController(HttpMethods.POST)).toEqual(mockController);
+	});
+
+	it("should overwrite the existing controller for the same HTTP method", () => {
+		const newMockController = jest.fn();
+		route.addController(HttpMethods.GET, mockController);
+		route.addController(HttpMethods.GET, newMockController);
+	
+		expect(route.getController(HttpMethods.GET)).toEqual(newMockController);
+	});
+
+	it("should return false for a malformed URL", () => {
+		expect(route.isUrlRegistered("invalid/url")).toBe(false);
+	});
+
+	it("should throw an error if a controller is added for an already registered HTTP method", () => {
+		route.addController(HttpMethods.GET, mockController);
+		expect(() => route.addController(HttpMethods.GET, mockController)).toThrow("Controller already registered for this HTTP method: GET");
+	});
+
+	it("should return false for a URL with an extra trailing slash", () => {
+		const dynamicRoute = new Route("/users/:id");
+		expect(dynamicRoute.isUrlRegistered("/users/123/")).toBe(false);
+		expect(dynamicRoute.isUrlRegistered("/users/")).toBe(false);
+	});
+	
+	it("should return true for a dynamic URL without trailing slash", () => {
+		const dynamicRoute = new Route("/users/:id");
+		expect(dynamicRoute.isUrlRegistered("/users/123")).toBe(true);
+	});
+	
+	it("should return false for a URL missing a required segment", () => {
+		const dynamicRoute = new Route("/users/:id");
+		expect(dynamicRoute.isUrlRegistered("/users")).toBe(false);
+	});
+
+	it("should return a list of registered HTTP methods", () => {
+		route.addController(HttpMethods.GET, mockController);
+		route.addController(HttpMethods.POST, mockController);
+	
+		expect(route.getRegisteredMethods()).toEqual([HttpMethods.GET, HttpMethods.POST]);
+	});
 });
