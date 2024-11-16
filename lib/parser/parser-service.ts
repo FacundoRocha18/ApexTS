@@ -7,8 +7,9 @@ import { injectable } from "tsyringe";
 export class ParserService implements IParserService {
   public async convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): Promise<void> {
     try {
-      const parsedBody = await this.getRequestBody(req);
-      req.body = JSON.parse(parsedBody);
+      const requestBody = await this.getRequestBody(req);
+			const parsedBody = JSON.parse(requestBody);
+      req.body = parsedBody;
     } catch (error) {
       req.body = error instanceof SyntaxError ? "Invalid JSON" : "";
       res.statusCode = 400;
