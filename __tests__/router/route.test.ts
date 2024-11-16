@@ -57,7 +57,7 @@ describe("Route", () => {
 	it("should add controllers for different HTTP methods", () => {
 		route.addController(HttpMethods.GET, mockController);
 		route.addController(HttpMethods.POST, mockController);
-	
+
 		expect(route.getController(HttpMethods.GET)).toEqual(mockController);
 		expect(route.getController(HttpMethods.POST)).toEqual(mockController);
 	});
@@ -66,12 +66,14 @@ describe("Route", () => {
 		const newMockController = jest.fn();
 		route.addController(HttpMethods.GET, mockController);
 		route.addController(HttpMethods.GET, newMockController);
-	
+
 		expect(route.getController(HttpMethods.GET)).toEqual(newMockController);
 	});
 
 	it("should return false for a malformed URL", () => {
-		expect(route.isUrlRegistered("invalid/url")).toBe(false);
+		expect(route.isUrlRegistered("/test//")).toBe(false);
+		expect(route.isUrlRegistered("//test")).toBe(false);
+		expect(route.isUrlRegistered("/test//details")).toBe(false);
 	});
 
 	it("should throw an error if a controller is added for an already registered HTTP method", () => {
@@ -84,16 +86,35 @@ describe("Route", () => {
 		expect(staticRoute.isUrlRegistered("/users")).toBe(true);
 		expect(staticRoute.isUrlRegistered("/users/")).toBe(true);
 	});
-	
+
 	it("should return false for a URL missing a required segment", () => {
 		const dynamicRoute = new Route("/users/:id");
 		expect(dynamicRoute.isUrlRegistered("/users")).toBe(false);
 	});
 
+	it("should return true for a URL with multiple dynamic parameters", () => {
+		const dynamicRoute = new Route("/users/:id/posts/:postId");
+	
+		expect(dynamicRoute.isUrlRegistered("/users/123/posts/456")).toBe(true);
+		expect(dynamicRoute.isUrlRegistered("/users/abc/posts/xyz")).toBe(true);
+		expect(dynamicRoute.isUrlRegistered("/users/123/posts/")).toBe(false);
+		expect(dynamicRoute.isUrlRegistered("/users/123/")).toBe(false);
+	});
+
+	it("should throw an error for an unsupported HTTP method", () => {
+		expect(() => route.addController("INVALID" as HttpMethods, mockController)).toThrow("Unsupported HTTP method: INVALID");
+	});
+
 	it("should return a list of registered HTTP methods", () => {
 		route.addController(HttpMethods.GET, mockController);
 		route.addController(HttpMethods.POST, mockController);
-	
+
 		expect(route.getRegisteredMethods()).toEqual([HttpMethods.GET, HttpMethods.POST]);
+	});
+
+	it("should return registered methods regardless of trailing slash in URL", () => {
+		const routeWithSlash = new Route("/test/");
+		routeWithSlash.addController(HttpMethods.GET, mockController);
+		expect(routeWithSlash.getRegisteredMethods()).toEqual([HttpMethods.GET]);
 	});
 });
