@@ -4,7 +4,6 @@ import { HttpResponse } from "../types";
 import { HttpMethods } from "../http";
 import { inject, injectable, singleton } from "tsyringe";
 import { IParserService, ParserService } from "../parser";
-import { request } from 'http';
 
 @singleton()
 @injectable()
