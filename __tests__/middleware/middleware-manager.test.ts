@@ -28,7 +28,7 @@ describe("MiddlewareManager", () => {
   });
 
   it("should execute middlewares in sequence", () => {
-		const req = { url: "/", method: "GET" } as HttpRequest;
+    const req = { url: "/", method: "GET" } as HttpRequest;
     const res = {} as HttpResponse;
     const mockMiddleware1 = jest.fn((_req, _res, next) => next());
     const mockMiddleware2 = jest.fn((_req, _res, next) => next());
@@ -44,7 +44,7 @@ describe("MiddlewareManager", () => {
   });
 
   it("should handle errors in middleware and return 500 status", () => {
-		const req = { url: "/", method: "GET" } as HttpRequest;
+    const req = { url: "/", method: "GET" } as HttpRequest;
     const res = {
       statusCode: 200,
       end: jest.fn(),
