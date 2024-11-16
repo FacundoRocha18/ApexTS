@@ -8,7 +8,7 @@ import { IParserService, ParserService } from "../parser";
 @singleton()
 @injectable()
 export class Router implements IRouter {
-  private routes: { [path: string]: Route } = {};
+  private routes: { [url: string]: Route } = {};
 
   constructor(
     @inject(ParserService)
@@ -37,8 +37,7 @@ export class Router implements IRouter {
 
   public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
     const { pathname, searchParams } = new URL(url, "http://localhost");
-
-    const route = this.findMatchingRoute(pathname);
+		const route = this.findMatchingRoute(pathname);
 
     if (!route) {
       this.handleNotFound(res, httpMethod, url);
@@ -52,12 +51,8 @@ export class Router implements IRouter {
       return;
     }
 
-    const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
-    req.queryParams = queryParams;
-
-    const pathVariables = this.parser.extractPathVariablesFromURL(pathname, route.URL);
-
-    req.pathVariables = pathVariables;
+    req.queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+    req.pathVariables = this.parser.extractPathVariablesFromURL(pathname, route.URL);
 
     controller(req, res);
   }
