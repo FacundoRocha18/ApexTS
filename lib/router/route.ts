@@ -34,25 +34,29 @@ export class Route {
 		return Object.keys(this.controllers);
 	}
 
-	private normalizeUrl(url: string): string[] {
-		return url
-			.replace(/\/+$/, "")
-			.split("/")
-			.filter(Boolean);
+	private normalizeUrl(url: string): string {
+		if (url.length > 1 && url.endsWith("/")) {
+			return url.slice(0, -1);
+		};
+		
+		return url;
 	}
 
 	public isUrlRegistered(url: string): boolean {
-		const requestParts = this.normalizeUrl(url);
-  const registeredParts = this.normalizeUrl(this.url);
+		const normalizedUrl = this.normalizeUrl(url);
+		const normalizedRoute = this.normalizeUrl(this.url);
 
-  if (requestParts.length !== registeredParts.length) {
-    return false;
-  }
+		const requestParts = normalizedUrl.split("/");
+		const registeredParts = normalizedRoute.split("/");
 
-  return requestParts.every((part, index) => {
-    const registeredPart = registeredParts[index];
-    return registeredPart.startsWith(":") || registeredPart === part;
-  });
+		if (requestParts.length !== registeredParts.length) {
+			return false;
+		}
+
+		return registeredParts.every((part, index) => {
+			const requestPart = requestParts[index];
+			return part.startsWith(":") || part === requestPart;
+		});
 	}
 
 	public get URL(): string {

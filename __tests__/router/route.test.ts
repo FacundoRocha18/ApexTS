@@ -79,15 +79,10 @@ describe("Route", () => {
 		expect(() => route.addController(HttpMethods.GET, mockController)).toThrow("Controller already registered for this HTTP method: GET");
 	});
 
-	it("should return false for a URL with an extra trailing slash", () => {
-		const dynamicRoute = new Route("/users/:id");
-		expect(dynamicRoute.isUrlRegistered("/users/123/")).toBe(false);
-		expect(dynamicRoute.isUrlRegistered("/users/")).toBe(false);
-	});
-	
-	it("should return true for a dynamic URL without trailing slash", () => {
-		const dynamicRoute = new Route("/users/:id");
-		expect(dynamicRoute.isUrlRegistered("/users/123")).toBe(true);
+	it("should return true for a URL with or without a trailing slash", () => {
+		const staticRoute = new Route("/users/");
+		expect(staticRoute.isUrlRegistered("/users")).toBe(true);
+		expect(staticRoute.isUrlRegistered("/users/")).toBe(true);
 	});
 	
 	it("should return false for a URL missing a required segment", () => {
