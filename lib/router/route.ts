@@ -9,11 +9,19 @@ export class Route {
 	public addController(httpMethod: HttpMethods, controller: Controller): void {
 		this.validateRouteParams(httpMethod, controller);
 
+		this.handleUnsupportedHttpMethod(httpMethod);
+		
 		if (this.isControllerAleadyRegistered(httpMethod, controller)) {
 			throw new Error(`Controller already registered for this HTTP method: ${httpMethod}`);
 		};
 
 		this.controllers[httpMethod] = controller;
+	}
+
+	private handleUnsupportedHttpMethod(httpMethod: HttpMethods) {
+		if (!Object.values(HttpMethods).includes(httpMethod)) {
+			throw new Error(`Unsupported HTTP method: ${httpMethod}`);
+		};
 	}
 
 	private isControllerAleadyRegistered(httpMethod: HttpMethods, controller: Controller): boolean {
@@ -38,7 +46,7 @@ export class Route {
 		if (url.length > 1 && url.endsWith("/")) {
 			return url.slice(0, -1);
 		};
-		
+
 		return url;
 	}
 
