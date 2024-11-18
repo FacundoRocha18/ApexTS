@@ -8,6 +8,7 @@ export interface IRouter {
   put(url: string, controller: Controller): void;
   del(url: string, controller: Controller): void;
   patch(url: string, controller: Controller): void;
+	options(url: string, controller: Controller): void;
 
   resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: string): void;
   processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: string): void;
