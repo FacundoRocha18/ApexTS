@@ -8,147 +8,93 @@ import { IParserService, ParserService } from "../parser";
 @singleton()
 @injectable()
 export class Router implements IRouter {
-	private routes: Route = {};
+  private routes: { [url: string]: Route } = {};
 
-	constructor(
-		@inject(ParserService)
-		private parser: IParserService
-	) { }
+  constructor(
+    @inject(ParserService)
+    private parser: IParserService
+  ) {}
 
-	public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		this.addRoute(httpMethod, url, controller);
-	}
+  public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    this.addRoute(httpMethod, url, controller);
+  }
 
-	public get = this.addRoute.bind(this, HttpMethods.GET);
-	public post = this.addRoute.bind(this, HttpMethods.POST);
-	public del = this.addRoute.bind(this, HttpMethods.DELETE);
-	public put = this.addRoute.bind(this, HttpMethods.PUT);
-	public patch = this.addRoute.bind(this, HttpMethods.PATCH);
+  public get = this.addRoute.bind(this, HttpMethods.GET);
+  public post = this.addRoute.bind(this, HttpMethods.POST);
+  public del = this.addRoute.bind(this, HttpMethods.DELETE);
+  public put = this.addRoute.bind(this, HttpMethods.PUT);
+  public patch = this.addRoute.bind(this, HttpMethods.PATCH);
+  public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
 
-	private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		this.validateRouteParams(httpMethod, url, controller);
+  private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    this.validateRouteParams(httpMethod, url, controller);
 
-		if (!this.routes[url]) {
-			this.routes[url] = {};
-		}
+    if (!this.routes[url]) {
+      this.routes[url] = new Route(url);
+    }
 
-		this.routes[url][httpMethod] = controller;
-	}
+    this.routes[url].addController(httpMethod, controller);
+  }
 
-	public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: string): void {
-		const { pathname, searchParams } = new URL(url, "http://localhost");
+  public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
+    const { pathname, searchParams } = new URL(url, "http://localhost");
+    const route = this.findMatchingRoute(pathname);
 
-		const registeredPath = this.findMatchingPath(pathname);
+    if (!route) {
+      this.handleNotFound(res, httpMethod, url);
+      return;
+    }
 
-		if (!registeredPath) {
-			this.handleNotFound(res, httpMethod, url);
-			return;
-		}
+    const controller = route.getController(httpMethod);
 
-		const handler = this.findRouteHandler(pathname, httpMethod);
+    if (!controller) {
+      this.handleNotFound(res, httpMethod, url);
+      return;
+    }
 
-		if (!handler) {
-			this.handleNotFound(res, httpMethod, url);
-			return;
-		}
+    req.queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+    req.pathVariables = this.parser.extractPathVariablesFromURL(pathname, route.URL);
 
-		const queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+    controller(req, res);
+  }
 
-		if (!queryParams) {
-			console.log("No query params found");
-			return;
-		}
+  private findMatchingRoute(pathname: string): Route | undefined {
+    return Object.values(this.routes).find((route) => route.isUrlRegistered(pathname));
+  }
 
-		req.queryParams = queryParams;
+  public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
+    if (!url || !httpMethod) {
+      this.handleInvalidRequest(res, "Invalid request");
+      return;
+    }
 
-		const pathVariables = this.parser.extractPathVariablesFromURL(pathname, registeredPath);
+    if (["POST", "PUT"].includes(httpMethod.toUpperCase())) {
+      await this.parser.convertRequestBodyToJson(req, res);
+    }
 
-		if (!pathVariables) {
-			console.log("No path variables found");
-			return;
-		}
+    this.resolveRoute(req, res, url, httpMethod);
+  }
 
-		req.pathVariables = pathVariables;
+  private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    if (!httpMethod || !url || !controller) {
+      throw new Error("Invalid parameters: method, path, and handler are required.");
+    }
+  }
 
-		handler(req, res);
-	}
+  private handleInvalidRequest(res: HttpResponse, message: string): void {
+    res.statusCode = 400;
+    res.statusMessage = message;
+    res.end(message);
+  }
 
-	private findMatchingPath(pathname: string): string | undefined {
-		return Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
-	}
-
-	public async processRoute(req: HttpRequest, res: HttpResponse, url: string, method: string): Promise<void> {
-		if (!url || !method) {
-			this.handleInvalidRequest(res, "Invalid request");
-			return;
-		}
-
-		if (["POST", "PUT"].includes(method.toUpperCase())) {
-			await this.parser.convertRequestBodyToJson(req, res);
-		}
-
-		this.resolveRoute(req, res, url, method);
-	}
-
-	private findRouteHandler(pathname: string, method: string): Controller | undefined {
-		const normalizedMethod = method.toUpperCase();
-		const registeredPath = Object.keys(this.routes).find((route) => this.comparePaths(pathname, route));
-
-		if (!registeredPath) {
-			return undefined;
-		}
-
-		return this.routes[registeredPath]?.[normalizedMethod];
-	}
-
-	private comparePaths(pathname: string, registeredPath: string): boolean {
-		const requestParts = pathname.split("/");
-		const registeredParts = registeredPath.split("/");
-
-		if (!this.lengthsMatch(requestParts, registeredParts)) {
-			return false;
-		}
-
-		return this.partsMatch(requestParts, registeredParts);
-	}
-
-	private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		if (!httpMethod || !url || !controller) {
-			throw new Error("Invalid parameters: method, path, and handler are required.");
-		}
-	}
-
-	private lengthsMatch(requestParts: string[], registeredParts: string[]): boolean {
-		return requestParts.length === registeredParts.length;
-	}
-
-	private partsMatch(requestParts: string[], registeredParts: string[]): boolean {
-		for (let i = 0; i < registeredParts.length; i++) {
-			if (!this.isPartMatching(requestParts[i], registeredParts[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private isPartMatching(requestPart: string, registeredPart: string): boolean {
-		return registeredPart.startsWith(":") || registeredPart === requestPart;
-	}
-
-	private handleInvalidRequest(res: HttpResponse, message: string): void {
-		res.statusCode = 400;
-		res.statusMessage = message;
-		res.end(message);
-	}
-
-	private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
-		console.error(`[Router] No handler found for ${httpMethod} ${url}`);
-		res.statusCode = 404;
-		res.json({
-			statusCode: 404,
-			message: "Not found",
-			method: httpMethod,
-			url,
-		});
-	}
+  private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
+    console.error(`[Router] No handler found for ${httpMethod} ${url}`);
+    res.statusCode = 404;
+    res.json({
+      statusCode: 404,
+      message: "Not found",
+      method: httpMethod,
+      url,
+    });
+  }
 }

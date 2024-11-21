@@ -1,8 +1,8 @@
 import { HttpRequest, HttpResponse } from "../../lib/types";
-import { ValidationService } from '../../lib/validation/validation-service';
-import { Middleware } from '../../lib/middleware/middleware.types';
-import { CreateUser } from '../users/users-types';
-import { userSchema } from '../users/user-schema';
+import { ValidationService } from "../../lib/validation/validation-service";
+import { Middleware } from "../../lib/middleware/middleware.types";
+import { CreateUser } from "../users/users-types";
+import { userSchema } from "../users/user-schema";
 
 const validationService = new ValidationService();
 

@@ -55,6 +55,10 @@ export class SwiftApplication implements ISwiftApplication {
     this.router.patch(path, handler);
   }
 
+  public options(path: string, handler: Controller): void {
+    this.router.options(path, handler);
+  }
+
   private startHttpServer(): http.Server {
     const server = http.createServer((req: HttpRequest, res: HttpResponse) => {
       const path: string = req.url || "/";

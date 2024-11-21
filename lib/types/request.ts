@@ -10,4 +10,3 @@ export interface HttpRequest extends IncomingMessage {
   pathVariables?: PathVariables;
   queryParams?: QueryParams;
 }
-
