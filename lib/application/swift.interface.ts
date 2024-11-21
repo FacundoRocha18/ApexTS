@@ -11,14 +11,14 @@ export interface ISwiftApplication {
 
   useMiddleware(middleware: Middleware | ErrorMiddleware): void;
   useModule(module: any): void;
-	useRoute(method: HttpMethods, path: string, handler: Controller): void;
-  
-	get(path: string, handler: Controller): void;
+  useRoute(method: HttpMethods, path: string, handler: Controller): void;
+
+  get(path: string, handler: Controller): void;
   post(path: string, handler: Controller): void;
   put(path: string, handler: Controller): void;
   del(path: string, handler: Controller): void;
   patch(path: string, handler: Controller): void;
-	options(path: string, handler: Controller): void;
+  options(path: string, handler: Controller): void;
 
   listen(port: number, node_env: string): void;
 }

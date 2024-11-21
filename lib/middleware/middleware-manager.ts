@@ -54,7 +54,7 @@ export class MiddlewareManager implements IMiddlewareManager {
 
   private handleMiddlewareError(error: IMiddlewareError, res: HttpResponse): void {
     console.log(error.message);
-		console.log(error.stack);
+    console.log(error.stack);
 
     res.statusCode = 500;
     res.statusMessage = "Internal Server Error";

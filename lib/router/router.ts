@@ -24,7 +24,7 @@ export class Router implements IRouter {
   public del = this.addRoute.bind(this, HttpMethods.DELETE);
   public put = this.addRoute.bind(this, HttpMethods.PUT);
   public patch = this.addRoute.bind(this, HttpMethods.PATCH);
-	public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
+  public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
 
   private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
     this.validateRouteParams(httpMethod, url, controller);
@@ -38,7 +38,7 @@ export class Router implements IRouter {
 
   public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
     const { pathname, searchParams } = new URL(url, "http://localhost");
-		const route = this.findMatchingRoute(pathname);
+    const route = this.findMatchingRoute(pathname);
 
     if (!route) {
       this.handleNotFound(res, httpMethod, url);

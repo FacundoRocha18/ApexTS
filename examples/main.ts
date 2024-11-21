@@ -22,12 +22,12 @@ app.useModule(homeModule);
 app.useModule(productsModule);
 app.useModule(usersModule);
 
-app.options('*', (req: IHttpRequest, res: IHttpResponse) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-	res.status(204);
-	res.end();
+app.options("*", (req: IHttpRequest, res: IHttpResponse) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.status(204);
+  res.end();
 });
 
 app.listen(PORT, NODE_ENV);
