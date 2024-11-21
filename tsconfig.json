@@ -7,11 +7,8 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [
-      "lib/config/config.d.ts",
-      "lib/parser/parse-params.interface.ts",
-      "./node_modules/@types"
-    ],
+    "strictNullChecks": true,
+    "typeRoots": ["lib/config/config.d.ts", "lib/parser/parse-params.interface.ts", "./node_modules/@types"],
     "paths": {
       "@src/*": ["./lib/*"],
       "@tests/*": ["./__tests__/*"]

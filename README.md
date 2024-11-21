@@ -37,12 +37,7 @@ npm install swiftts
 ### Crear un Servidor Básico
 
 ```typescript
-import {
-  MyFramework,
-  Router,
-  MiddlewareManager,
-  RequestHandlerService,
-} from "myframework";
+import { MyFramework, Router, MiddlewareManager, RequestHandlerService } from "myframework";
 
 const app = new MyFramework();
 const router = new Router();
@@ -163,11 +158,7 @@ Para soportar varias carpetas raíz y el uso de TypeScript, configura tu tsconfi
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [
-      "./global.d.ts",
-      "lib/Types/Utils.d.ts",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./global.d.ts", "lib/Types/Utils.d.ts", "./node_modules/@types"],
     "paths": {
       "@src/*": ["./lib/*"],
       "@tests/*": ["./tests/*"]

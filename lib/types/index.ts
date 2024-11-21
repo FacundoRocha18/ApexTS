@@ -1,7 +1,2 @@
-export type { IHttpResponse } from "./response";
-export type {
-  TPathVariables,
-  TRequestHandler,
-  TQueryParams,
-  IHttpRequest,
-} from "./request";
+export type { HttpResponse } from "./response";
+export type { PathVariables, Controller, QueryParams, HttpRequest } from "./request";

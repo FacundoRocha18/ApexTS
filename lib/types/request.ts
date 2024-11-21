@@ -1,16 +1,12 @@
 import { IncomingMessage } from "http";
-import { IHttpResponse } from ".";
+import { HttpResponse } from ".";
 
-export type TPathVariables = { [key: string]: string };
-export type TQueryParams = { [key: string]: string | string[] };
+export type PathVariables = { [key: string]: string };
+export type QueryParams = { [key: string]: string | string[] };
+export type Controller = (req: HttpRequest, res: HttpResponse) => void | Promise<void>;
 
-export interface IHttpRequest extends IncomingMessage {
+export interface HttpRequest extends IncomingMessage {
   body?: any;
-  pathVariables?: TPathVariables;
-  queryParams?: TQueryParams;
+  pathVariables?: PathVariables;
+  queryParams?: QueryParams;
 }
-
-export type TRequestHandler = (
-  req: IHttpRequest,
-  res: IHttpResponse,
-) => void | Promise<void>;
