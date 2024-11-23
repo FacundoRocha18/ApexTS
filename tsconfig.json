@@ -8,11 +8,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
-    "typeRoots": ["lib/config/config.d.ts", "lib/parser/parse-params.interface.ts", "./node_modules/@types"],
-    "paths": {
-      "@src/*": ["./lib/*"],
-      "@tests/*": ["./__tests__/*"]
-    }
   },
-  "include": ["lib/**/*", "examples/**/*", "__tests__/**/*"]
+  "include": ["lib/**/*"],
+	"exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
 }

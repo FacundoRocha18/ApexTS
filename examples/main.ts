@@ -6,7 +6,6 @@ import { errorHandlingMiddleware } from "../lib/middleware";
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
-import cors from "cors";
 
 const factory = new SwiftFactory();
 const { PORT, NODE_ENV } = factory.EnvironmentConfiguration;
@@ -16,7 +15,6 @@ app.useMiddleware(jsonMiddleware);
 app.useMiddleware(loggerMiddleware);
 app.useMiddleware(authMiddleware);
 app.useMiddleware(errorHandlingMiddleware);
-app.useMiddleware(cors({ origin: "*" }));
 
 app.useModule(homeModule);
 app.useModule(productsModule);
