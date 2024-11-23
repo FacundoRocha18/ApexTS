@@ -10,7 +10,7 @@
     "nodejs",
     "typescript"
   ],
-  "author": "underctrl",
+  "author": "Facundo Rocha",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon exec",
