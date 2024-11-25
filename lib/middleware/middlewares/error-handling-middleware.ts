@@ -1,4 +1,4 @@
-import { ErrorMiddleware } from "../../middleware";
+import { ErrorMiddleware } from "../../middleware/middleware.types";
 
 export const errorHandlingMiddleware: ErrorMiddleware = (err, req, res, next) => {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
