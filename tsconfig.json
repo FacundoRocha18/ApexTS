@@ -3,6 +3,8 @@
     "outDir": "./dist",
     "target": "ES6",
     "module": "commonjs",
+		"declaration": true,
+		"declarationDir": "./dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
