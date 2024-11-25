@@ -1,5 +1,5 @@
 import { autoInjectable } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../lib";
+import { IHttpRequest, IHttpResponse } from "../../src";
 import { productsModule } from "./products-module";
 import { ProductsService } from "./products-provider";
 

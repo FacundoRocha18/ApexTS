@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { IHttpRequest, IHttpResponse, ISwiftApplication, SwiftFactory, jsonMiddleware } from "../lib";
-import { loggerMiddleware } from "./middlewares/logger-middleware";
-import { authMiddleware } from "./middlewares/auth-middleware";
-import { errorHandlingMiddleware } from "../lib/middleware";
+import { IHttpRequest, IHttpResponse, ISwiftApplication, SwiftFactory, jsonMiddleware } from "../src";
+import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
+import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
+import { errorHandlingMiddleware } from "../src/middleware/middlewares/error-handling-middleware";
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";

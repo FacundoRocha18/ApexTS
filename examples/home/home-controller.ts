@@ -1,5 +1,5 @@
 import { autoInjectable } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../lib";
+import { IHttpRequest, IHttpResponse } from "../../src";
 
 @autoInjectable()
 export class HomeController {
