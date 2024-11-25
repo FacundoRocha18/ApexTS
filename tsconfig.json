@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./lib",
     "target": "ES6",
     "module": "commonjs",
 		"declaration": true,
-		"declarationDir": "./dist",
+		"declarationDir": "./lib",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
