@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { HttpRequest, HttpResponse, ISwiftApplication, SwiftFactory, jsonMiddleware } from "../src";
+import { HttpRequest, HttpResponse, ISwiftApplication, SwiftFactory, environmentConfiguration, jsonMiddleware } from "../src";
 import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
 import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
 import { errorHandlingMiddleware } from "../src/middleware/middlewares/error-handling-middleware";
@@ -8,7 +8,7 @@ import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
 const factory = new SwiftFactory();
-const { PORT, NODE_ENV } = factory.EnvironmentConfiguration;
+const { PORT, NODE_ENV } = environmentConfiguration;
 const app: ISwiftApplication = factory.create();
 
 app.useMiddleware(jsonMiddleware);
