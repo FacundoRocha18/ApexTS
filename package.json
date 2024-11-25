@@ -25,6 +25,7 @@
     "dotenv": "^16.4.5",
     "jiti": "^2.3.3",
     "reflect-metadata": "^0.2.2",
+    "swc": "^1.0.11",
     "tsyringe": "^4.8.0"
   },
   "devDependencies": {

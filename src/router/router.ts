@@ -1,9 +1,13 @@
-import { HttpRequest, Controller } from "../types";
-import { Route, IRouter } from ".";
-import { HttpResponse } from "../types";
-import { HttpMethods } from "../http";
 import { inject, injectable, singleton } from "tsyringe";
-import { IParserService, ParserService } from "../parser";
+
+import type { IParserService } from "../parser/parser-service.interface.ts";
+import type { IRouter } from "./router.interface";
+
+import { ParserService } from "../parser/parser-service";
+import { HttpMethods } from "../http/http-methods.enum";
+import { HttpResponse } from "../types/response";
+import { Controller, HttpRequest } from "../types/request";
+import { Route } from "./route";
 
 @singleton()
 @injectable()

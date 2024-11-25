@@ -1,5 +1,5 @@
 import { autoInjectable } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../src";
+import { HttpRequest, HttpResponse } from "../../src";
 import { productsModule } from "./products-module";
 import { ProductsService } from "./products-provider";
 
@@ -7,7 +7,7 @@ import { ProductsService } from "./products-provider";
 export class ProductsController {
   constructor(private readonly service: ProductsService) {}
 
-  public findAll = (req: IHttpRequest, res: IHttpResponse) => {
+	public findAll = (req: HttpRequest, res: HttpResponse) => {
     const products = this.service.findAll();
 
     res.statusCode = 200;
@@ -18,7 +18,7 @@ export class ProductsController {
     });
   };
 
-  public findByCategory = (req: IHttpRequest, res: IHttpResponse) => {
+	public findByCategory = (req: HttpRequest, res: HttpResponse) => {
     const { category } = req.pathVariables as {
       category: string;
     };
@@ -33,7 +33,7 @@ export class ProductsController {
     });
   };
 
-  public findById = (req: IHttpRequest, res: IHttpResponse) => {
+	public findById = (req: HttpRequest, res: HttpResponse) => {
     const { id } = req.pathVariables as { id: string };
 
     const product = this.service.findById(id);
@@ -56,7 +56,7 @@ export class ProductsController {
     });
   };
 
-  public create = (req: IHttpRequest, res: IHttpResponse) => {
+	public create = (req: HttpRequest, res: HttpResponse) => {
     const { data } = req.body as {
       data: {
         name: string;

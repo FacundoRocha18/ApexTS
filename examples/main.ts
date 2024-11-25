@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { IHttpRequest, IHttpResponse, ISwiftApplication, SwiftFactory, jsonMiddleware } from "../src";
+import { HttpRequest, HttpResponse, ISwiftApplication, SwiftFactory, jsonMiddleware } from "../src";
 import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
 import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
 import { errorHandlingMiddleware } from "../src/middleware/middlewares/error-handling-middleware";
@@ -20,7 +20,7 @@ app.useModule(homeModule);
 app.useModule(productsModule);
 app.useModule(usersModule);
 
-app.options("*", (req: IHttpRequest, res: IHttpResponse) => {
+app.options("*", (req: HttpRequest, res: HttpResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");

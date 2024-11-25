@@ -1,11 +1,11 @@
 import { autoInjectable } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../src";
+import { HttpRequest, HttpResponse } from "../../src";
 
 @autoInjectable()
 export class HomeController {
   constructor() {}
 
-  public sayHello = (req: IHttpRequest, res: IHttpResponse) => {
+	public sayHello = (req: HttpRequest, res: HttpResponse) => {
     const { name } = req.queryParams as { name: string };
     res.setHeader("Access-Control-Allow-Origin", "*");
 
