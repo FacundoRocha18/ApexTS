@@ -8,15 +8,13 @@ import type { HttpRequest } from '../types/request';
 import type { HttpResponse } from '../types/response';
 
 import { MiddlewareManager } from "../middleware/middleware-manager";
-import { HttpServer } from '../http/http-server';
 import { Router } from "../router/router";
 
 @injectable()
 export class SwiftApplication implements ISwiftApplication {
 	constructor(
 		@inject(Router) public router: IRouter,
-		@inject(MiddlewareManager) private middlewareManager: IMiddlewareManager,
-		@inject(HttpServer) private server: HttpServer,
+		@inject(MiddlewareManager) private middlewareManager: IMiddlewareManager
   ) {}
 	
   public useModule(module: any): void {
