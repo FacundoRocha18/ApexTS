@@ -6,8 +6,6 @@ import { IMiddlewareManager } from "../../lib/middleware";
 import { Controller } from "../../lib/types";
 import { HttpServer } from '../../lib/http/http-server';
 
-jest.mock("http");
-
 describe("Swift application", () => {
   let framework: ISwiftApplication;
 	let mockedHttpServer: jest.Mocked<HttpServer>;
