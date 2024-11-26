@@ -1,5 +1,8 @@
 import { autoInjectable } from "tsyringe";
-import { HttpRequest, HttpResponse } from "../../src";
+
+import type { HttpRequest } from "../../src/types/request";
+import type { HttpResponse } from "../../src/types/response";
+
 import { UsersService } from "./users-provider";
 
 @autoInjectable()
