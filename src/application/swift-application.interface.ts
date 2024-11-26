@@ -9,9 +9,9 @@ import { HttpMethods } from "../http";
 export interface ISwiftApplication {
   router: IRouter;
 
-  useRoute(method: HttpMethods, path: string, handler: Controller): void;
   useMiddleware(middleware: Middleware | ErrorMiddleware): void;
   useModule(module: any): void;
+  useRoute(method: HttpMethods, path: string, handler: Controller): void;
 	
   get(path: string, handler: Controller): void;
   post(path: string, handler: Controller): void;
