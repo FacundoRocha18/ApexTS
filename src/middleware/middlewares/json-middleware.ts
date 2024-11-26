@@ -1,6 +1,6 @@
-import { Middleware } from "..";
-import { SerializationError, MiddlewareError } from "../../errors";
-import { HttpRequest, HttpResponse } from "../../types";
+import { Middleware } from "../middleware.types";
+import { SerializationError } from "../../errors/serialization/serialization-error";
+import { MiddlewareError } from "../../errors/middleware/middleware-error";
 
 const safeStringify = (obj: any): string => {
   try {

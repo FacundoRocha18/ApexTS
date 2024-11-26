@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./lib",
     "target": "ES6",
     "module": "commonjs",
+		"declaration": true,
+		"declarationDir": "./lib",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
-    "typeRoots": ["lib/config/config.d.ts", "lib/parser/parse-params.interface.ts", "./node_modules/@types"],
-    "paths": {
-      "@src/*": ["./lib/*"],
-      "@tests/*": ["./__tests__/*"]
-    }
   },
-  "include": ["lib/**/*", "examples/**/*", "__tests__/**/*"]
+	"include": [
+		"src/**/*"
+	],
+	"exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
 }

@@ -1,12 +1,12 @@
 import { autoInjectable } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../lib";
+import { HttpRequest, HttpResponse } from "../../src";
 import { UsersService } from "./users-provider";
 
 @autoInjectable()
 export class UserController {
   constructor(private readonly service: UsersService) {}
 
-  public find = (req: IHttpRequest, res: IHttpResponse) => {
+	public find = (req: HttpRequest, res: HttpResponse) => {
     const { id } = req.pathVariables as { id: string };
 
     const user = this.service.findById(id);
@@ -19,7 +19,7 @@ export class UserController {
     });
   };
 
-  public findAll = (req: IHttpRequest, res: IHttpResponse) => {
+	public findAll = (req: HttpRequest, res: HttpResponse) => {
     res.statusCode = 200;
     res.json({
       status: "success",
@@ -28,7 +28,7 @@ export class UserController {
     });
   };
 
-  public create = (req: IHttpRequest, res: IHttpResponse) => {
+	public create = (req: HttpRequest, res: HttpResponse) => {
     const { data } = req.body as {
       data: {
         name: string;
