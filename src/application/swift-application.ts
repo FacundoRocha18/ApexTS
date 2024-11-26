@@ -1,82 +1,40 @@
-import http from "http";
-import { ErrorMiddleware, IMiddlewareManager, Middleware } from "../middleware";
-import { ISwiftApplication } from ".";
-import { HttpRequest, HttpResponse, Controller } from "../types";
-import { IRouter } from "../router";
-import { HttpMethods } from "../http";
+import { inject, injectable } from 'tsyringe';
 
+import type { ErrorMiddleware, Middleware } from "../middleware/middleware.types";
+import type { IMiddlewareManager } from "../middleware/middleware-manager.interface";
+import type { ISwiftApplication } from "./swift-application.interface";
+import type { IRouter } from "../router/router.interface";
+
+import { MiddlewareManager } from "../middleware/middleware-manager";
+
+import { Router } from "../router/router";
+import { HttpServer } from '../http/http-server';
+
+@injectable()
 export class SwiftApplication implements ISwiftApplication {
-  private static instance: SwiftApplication;
-
-  private constructor(
-    public router: IRouter,
-    private middlewareManager: IMiddlewareManager
+	constructor(
+		@inject(Router) public router: IRouter,
+		@inject(MiddlewareManager) private middlewareManager: IMiddlewareManager,
+		@inject(HttpServer) private server: HttpServer,
   ) {}
-
-  public static getInstance(router: IRouter, middlewareManager: IMiddlewareManager): SwiftApplication {
-    if (!SwiftApplication.instance) {
-      SwiftApplication.instance = new SwiftApplication(router, middlewareManager);
-    }
-
-    return SwiftApplication.instance;
-  }
-
-  public useMiddleware(middleware: Middleware | ErrorMiddleware): void {
-    this.middlewareManager.use(middleware);
-  }
-
+	
   public useModule(module: any): void {
-    module.routes.forEach((route) => {
-      this.useRoute(route.method, route.path, route.handler);
+		module.routes.forEach((route) => {
+			this.useRoute(route.method, route.path, route.handler);
     });
   }
+	
+	public useMiddleware = this.middlewareManager.use.bind(this.middlewareManager);
+	public useRoute = this.router.use.bind(this.router);
 
-  public useRoute(method: HttpMethods, path: string, handler: Controller): void {
-    this.router.use(method, path, handler);
-  }
+	public get = this.router.get.bind(this.router);
+	public post = this.router.post.bind(this.router);
+	public put = this.router.put.bind(this.router);
+	public del = this.router.del.bind(this.router);
+	public patch = this.router.patch.bind(this.router);
+	public options = this.router.options.bind(this.router);
 
-  public get(path: string, handler: Controller): void {
-    this.router.get(path, handler);
-  }
-
-  public post(path: string, handler: Controller): void {
-    this.router.post(path, handler);
-  }
-
-  public put(path: string, handler: Controller): void {
-    this.router.put(path, handler);
-  }
-
-  public del(path: string, handler: Controller): void {
-    this.router.del(path, handler);
-  }
-
-  public patch(path: string, handler: Controller): void {
-    this.router.patch(path, handler);
-  }
-
-  public options(path: string, handler: Controller): void {
-    this.router.options(path, handler);
-  }
-
-  private startHttpServer(): http.Server {
-    const server = http.createServer((req: HttpRequest, res: HttpResponse) => {
-      const path: string = req.url || "/";
-      const method: string = req.method || "GET";
-
-      this.middlewareManager.executeMiddlewares(req, res, () => {
-        this.router.resolveRoute(req, res, path, method);
-      });
-    });
-
-    return server;
-  }
-
-  public listen(port: number, node_env: string): void {
-    const server = this.startHttpServer();
-
-    server.listen(port, () => {
-      console.log(`Server running on port: ${port} on ${node_env} mode`);
-    });
-  }
+	public listen(port: number, node_env: string): void {
+		this.server.listen(port, node_env);
+	}
 }

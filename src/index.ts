@@ -6,4 +6,4 @@ export { SwiftFactory } from "./factory/swift-factory";
 // Exporting types
 export type { HttpResponse } from "./types/response.ts";
 export type { HttpRequest } from "./types/request.ts";
-export type { ISwiftApplication } from "./application/swift.interface.ts";
+export type { ISwiftApplication } from "./application/swift-application.interface";
