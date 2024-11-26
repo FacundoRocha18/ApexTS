@@ -1,8 +1,11 @@
 import "reflect-metadata";
+
 import { HttpRequest, HttpResponse, ISwiftApplication, SwiftFactory, environmentConfiguration, jsonMiddleware } from "../src";
+
 import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
 import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
 import { errorHandlingMiddleware } from "../src/middleware/middlewares/error-handling-middleware";
+
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
