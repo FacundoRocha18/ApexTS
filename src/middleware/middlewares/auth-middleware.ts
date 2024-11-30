@@ -1,18 +1,18 @@
-import { HttpRequest } from "../../http/request";
-import { HttpResponse } from "../../http/response";
+import { MiddlewareException } from '@exceptions';
+import { Middleware } from '@middleware';
 
-type NextFunction = () => void;
-type AuthMiddlewareArgs = [req: HttpRequest, res: HttpResponse, next: NextFunction];
-type AuthMiddleware = (...args: AuthMiddlewareArgs) => void;
+export const authMiddleware: Middleware = (req, res, next): void => {
+	try {
+		const authHeader = req.headers["authorization"];
 
-export const authMiddleware: AuthMiddleware = (req: HttpRequest, res: HttpResponse, next: () => void): void => {
-  const authHeader = req.headers["authorization"];
+		if (authHeader !== "Bearer valid-token") {
+			res.statusCode = 401;
+			res.end("Unauthorized");
+			return;
+		}
 
-  if (authHeader !== "Bearer valid-token") {
-    res.statusCode = 401;
-    res.end("Unauthorized");
-    return;
-  }
-
-  next();
+		next();
+	} catch (error) {
+		next(new MiddlewareException(error.message, 500, error.stack));
+	}
 };
