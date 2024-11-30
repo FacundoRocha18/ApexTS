@@ -1,13 +1,13 @@
 import { container } from "tsyringe";
 
-import type { IFactory } from "@factory";
+import type { Factory } from "@factory";
 
 import { ISwiftApplication, SwiftApplication } from "@application";
 import { MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
 import { Router } from "@router";
 
-export class SwiftFactory implements IFactory {
+export class SwiftFactory implements Factory {
   constructor() {
     this.resolveDependencies();
   }
