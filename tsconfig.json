@@ -3,16 +3,44 @@
     "outDir": "./lib",
     "target": "ES6",
     "module": "commonjs",
-		"declaration": true,
-		"declarationDir": "./lib",
+    "declaration": true,
+    "declarationDir": "./lib",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
+		"baseUrl": "./",
+    "paths": {
+			"@swift-ts/core": [
+				"src/index"
+			],
+			"@application": [
+				"src/application/index"
+			],
+			"@config": [
+				"src/config/index"
+			],
+			"@errors": [
+				"src/errors/index"
+			],
+			"@factory": [
+				"src/factory/index"
+			],
+			"@http": [
+				"src/http/index"
+			],
+			"@middleware": [
+				"src/middleware/index"
+			],
+			"@parser": [
+				"src/parser/index"
+			],
+			"@router": [
+				"src/router/index"
+			]
+    }
   },
-	"include": [
-		"src/**/*"
-	],
-	"exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
 }

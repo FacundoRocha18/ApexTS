@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { IEnvironmentConfiguration, IEnvironmentVariables } from "./environment-config.interface";
+import { IEnvironmentConfiguration, IEnvironmentVariables } from "@config";
 
 dotenv.config();
 
@@ -51,7 +51,5 @@ class EnvironmentConfiguration {
   }
 }
 
-const validatedEnvironmentConfiguration: IEnvironmentConfiguration =
+export const TsEnvironmentConfiguration: IEnvironmentConfiguration =
   EnvironmentConfiguration.getInstance().getConfiguration();
-
-export { validatedEnvironmentConfiguration as environmentConfiguration };

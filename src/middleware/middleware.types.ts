@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse } from "../types";
+import { HttpRequest, HttpResponse } from "@http";
 
 export type Middleware = (req: HttpRequest, res: HttpResponse, next: (err?: any) => void) => void | Promise<void>;
 

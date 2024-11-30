@@ -1,7 +1,6 @@
 import "reflect-metadata";
-import { HttpMethods } from "../../lib/http";
-import { Route } from "../../lib/router";
-import { Controller } from "../../lib/types";
+import { HttpMethods, Controller } from "@http";
+import { Route } from "@router";
 
 describe("Route", () => {
   let route: Route;

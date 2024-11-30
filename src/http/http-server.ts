@@ -1,22 +1,19 @@
-import { inject, injectable } from 'tsyringe'
+import { inject, injectable } from "tsyringe";
 import http from "http";
 
-import type { IMiddlewareManager } from '../middleware/middleware-manager.interface';
-import type { IRouter } from '../router/router.interface';
-import type { HttpResponse } from '../types/response';
-import type { HttpRequest } from '../types/request';
+import type { HttpRequest, HttpResponse } from "@http";
 
-import { MiddlewareManager } from '../middleware/middleware-manager';
-import { Router } from '../router/router';
+import { IMiddlewareManager, MiddlewareManager } from "@middleware";
+import { IRouter, Router } from "@router";
 
 @injectable()
 export class HttpServer {
-	constructor(
-		@inject(MiddlewareManager) private middlewareManager: IMiddlewareManager,
-		@inject(Router) public router: IRouter,
-	) {}
+  constructor(
+    @inject(MiddlewareManager) private middlewareManager: IMiddlewareManager,
+    @inject(Router) public router: IRouter
+  ) {}
 
-	private startHttpServer(): http.Server {
+  private startHttpServer(): http.Server {
     const server = http.createServer((req: HttpRequest, res: HttpResponse) => {
       const path: string = req.url || "/";
       const method: string = req.method || "GET";

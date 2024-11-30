@@ -1,4 +1,4 @@
-import { QueryParams, PathVariables, HttpRequest, HttpResponse } from "../types";
+import type { HttpRequest, HttpResponse, PathVariables, QueryParams } from "@http";
 
 export interface IParserService {
   convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): void;

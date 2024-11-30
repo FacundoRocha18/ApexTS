@@ -1,12 +1,16 @@
 import { autoInjectable } from "tsyringe";
-import { HttpRequest, HttpResponse } from "../../src";
+
+import type { HttpRequest } from "../../src/http/request";
+import type { HttpResponse } from "../../src/http/response";
+
 import { UsersService } from "./users-provider";
+import { CreateUser } from "./users-types";
 
 @autoInjectable()
 export class UserController {
   constructor(private readonly service: UsersService) {}
 
-	public find = (req: HttpRequest, res: HttpResponse) => {
+  public find = (req: HttpRequest, res: HttpResponse) => {
     const { id } = req.pathVariables as { id: string };
 
     const user = this.service.findById(id);
@@ -19,7 +23,7 @@ export class UserController {
     });
   };
 
-	public findAll = (req: HttpRequest, res: HttpResponse) => {
+  public findAll = (req: HttpRequest, res: HttpResponse) => {
     res.statusCode = 200;
     res.json({
       status: "success",
@@ -28,14 +32,8 @@ export class UserController {
     });
   };
 
-	public create = (req: HttpRequest, res: HttpResponse) => {
-    const { data } = req.body as {
-      data: {
-        name: string;
-        email: string;
-        password: string;
-      };
-    };
+  public create = (req: HttpRequest, res: HttpResponse) => {
+    const data = req.body as CreateUser;
 
     const createdUser = this.service.create(data);
 
@@ -43,7 +41,7 @@ export class UserController {
     res.json({
       status: "success",
       message: "User created successfully",
-      data: createdUser,
+      user: createdUser,
     });
   };
 }

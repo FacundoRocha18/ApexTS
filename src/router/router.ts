@@ -1,104 +1,99 @@
 import { inject, injectable, singleton } from "tsyringe";
 
-import type { IParserService } from "../parser/parser-service.interface.ts";
-import type { IRouter } from "./router.interface";
-
-import { ParserService } from "../parser/parser-service";
-import { HttpMethods } from "../http/http-methods.enum";
-import { HttpResponse } from "../types/response";
-import { Controller, HttpRequest } from "../types/request";
-import { Route } from "./route";
+import { HttpRequest, HttpResponse, Controller, HttpMethods } from "@http";
+import { IParserService, ParserService } from "@parser";
+import { IRouter, Route } from "@router";
 
 @singleton()
 @injectable()
 export class Router implements IRouter {
-	private routes: { [url: string]: Route } = {};
+  private routes: { [url: string]: Route } = {};
 
-	constructor(
-		@inject(ParserService)
-		private parser: IParserService
-	) { }
+  constructor(
+    @inject(ParserService)
+    private parser: IParserService
+  ) {}
 
-	public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		this.addRoute(httpMethod, url, controller);
-	}
+  public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    this.addRoute(httpMethod, url, controller);
+  }
 
-	public get = this.addRoute.bind(this, HttpMethods.GET);
-	public post = this.addRoute.bind(this, HttpMethods.POST);
-	public del = this.addRoute.bind(this, HttpMethods.DELETE);
-	public put = this.addRoute.bind(this, HttpMethods.PUT);
-	public patch = this.addRoute.bind(this, HttpMethods.PATCH);
-	public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
+  public get = this.addRoute.bind(this, HttpMethods.GET);
+  public post = this.addRoute.bind(this, HttpMethods.POST);
+  public del = this.addRoute.bind(this, HttpMethods.DELETE);
+  public put = this.addRoute.bind(this, HttpMethods.PUT);
+  public patch = this.addRoute.bind(this, HttpMethods.PATCH);
+  public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
 
-	private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		this.validateRouteParams(httpMethod, url, controller);
+  public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
+    if (!url || !httpMethod) {
+      this.handleInvalidRequest(res, "Invalid request");
+      return;
+    }
 
-		if (!this.routes[url]) {
-			this.routes[url] = new Route(url);
-		}
+    if (["POST", "PUT"].includes(httpMethod.toUpperCase())) {
+      await this.parser.convertRequestBodyToJson(req, res);
+    }
 
-		this.routes[url].addController(httpMethod, controller);
-	}
+    this.resolveRoute(req, res, url, httpMethod);
+  }
 
-	public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
-		const { pathname, searchParams } = new URL(url, "http://localhost");
-		const route = this.findMatchingRoute(pathname);
+  public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
+    const { pathname, searchParams } = new URL(url, "http://localhost");
+    const route = this.findMatchingRoute(pathname);
 
-		if (!route) {
-			this.handleNotFound(res, httpMethod, url);
-			return;
-		}
+    if (!route) {
+      this.handleNotFound(res, httpMethod, url);
+      return;
+    }
 
-		const controller = route.getController(httpMethod);
+    const controller = route.getController(httpMethod);
 
-		if (!controller) {
-			this.handleNotFound(res, httpMethod, url);
-			return;
-		}
+    if (!controller) {
+      this.handleNotFound(res, httpMethod, url);
+      return;
+    }
 
-		req.queryParams = this.parser.extractQueryParamsFromURL(searchParams);
-		req.pathVariables = this.parser.extractPathVariablesFromURL(pathname, route.URL);
+    req.queryParams = this.parser.extractQueryParamsFromURL(searchParams);
+    req.pathVariables = this.parser.extractPathVariablesFromURL(pathname, route.URL);
 
-		controller(req, res);
-	}
+    controller(req, res);
+  }
 
-	private findMatchingRoute(pathname: string): Route | undefined {
-		return Object.values(this.routes).find((route) => route.isUrlRegistered(pathname));
-	}
+  private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    this.validateRouteParams(httpMethod, url, controller);
 
-	public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
-		if (!url || !httpMethod) {
-			this.handleInvalidRequest(res, "Invalid request");
-			return;
-		}
+    if (!this.routes[url]) {
+      this.routes[url] = new Route(url);
+    }
 
-		if (["POST", "PUT"].includes(httpMethod.toUpperCase())) {
-			await this.parser.convertRequestBodyToJson(req, res);
-		}
+    this.routes[url].addController(httpMethod, controller);
+  }
 
-		this.resolveRoute(req, res, url, httpMethod);
-	}
+  private findMatchingRoute(pathname: string): Route | undefined {
+    return Object.values(this.routes).find((route) => route.isUrlRegistered(pathname));
+  }
 
-	private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
-		if (!httpMethod || !url || !controller) {
-			throw new Error("Invalid parameters: method, path, and handler are required.");
-		}
-	}
+  private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    if (!httpMethod || !url || !controller) {
+      throw new Error("Invalid parameters: method, path, and handler are required.");
+    }
+  }
 
-	private handleInvalidRequest(res: HttpResponse, message: string): void {
-		res.statusCode = 400;
-		res.statusMessage = message;
-		res.end(message);
-	}
+  private handleInvalidRequest(res: HttpResponse, message: string): void {
+    res.statusCode = 400;
+    res.statusMessage = message;
+    res.end(message);
+  }
 
-	private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
-		console.error(`[Router] No handler found for ${httpMethod} ${url}`);
-		res.statusCode = 404;
-		res.json({
-			statusCode: 404,
-			message: "Not found",
-			method: httpMethod,
-			url,
-		});
-	}
+  private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
+    console.error(`[Router] No handler found for ${httpMethod} ${url}`);
+    res.statusCode = 404;
+    res.json({
+      statusCode: 404,
+      message: "Not found",
+      method: httpMethod,
+      url,
+    });
+  }
 }

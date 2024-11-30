@@ -1,13 +1,10 @@
 import { inject, injectable } from "tsyringe";
 
-import type { IRouter } from "../router/router.interface";
-import type { IMiddlewareManager } from './middleware-manager.interface';
-import type { ErrorMiddleware, Middleware } from './middleware.types';
-import type { IMiddlewareError } from "../errors";
+import type { IMiddlewareManager, ErrorMiddleware, Middleware } from "@middleware";
+import type { HttpRequest, HttpResponse } from "@http";
+import type { IMiddlewareError } from "@errors";
 
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
-import { Router } from "../router/router";
+import { IRouter, Router } from "@router";
 
 @injectable()
 export class MiddlewareManager implements IMiddlewareManager {

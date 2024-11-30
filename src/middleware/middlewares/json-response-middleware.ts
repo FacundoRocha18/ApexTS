@@ -10,7 +10,7 @@ const safeStringify = (obj: any): string => {
   }
 };
 
-export const jsonMiddleware: Middleware = (req, res, next) => {
+export const jsonResponseMiddleware: Middleware = (req, res, next) => {
   try {
     res.json = (obj: any) => {
       const json = safeStringify(obj);

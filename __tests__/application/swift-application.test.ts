@@ -1,8 +1,10 @@
-import * as http from "http";
-import { SwiftApplication, ISwiftApplication } from "../../lib/application";
-import { IRouter } from "../../lib/router";
-import { IMiddlewareManager } from "../../lib/middleware";
-import { Controller } from "../../lib/types";
+import "reflect-metadata";
+import http from "http";
+
+import { ISwiftApplication, SwiftApplication } from "@application";
+import { IMiddlewareManager } from "@middleware";
+import { Controller } from "@http";
+import { IRouter } from "@router";
 
 jest.mock("http");
 
@@ -17,24 +19,27 @@ describe("Swift application", () => {
 
   beforeEach(() => {
     mockedRouter = {
+      use: jest.fn(),
       get: jest.fn(),
       post: jest.fn(),
       del: jest.fn(),
       put: jest.fn(),
       patch: jest.fn(),
+      options: jest.fn(),
     } as Partial<IRouter> as jest.Mocked<IRouter>;
 
     mockedMiddlewareManager = {
+      use: jest.fn(),
       executeMiddlewares: jest.fn(),
     } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
-    (SwiftApplication as any).instance = null;
-    framework = SwiftApplication.getInstance(mockedRouter, mockedMiddlewareManager);
 
     mockedServer = {
       listen: jest.fn(),
     };
 
     jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
+
+    framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager);
   });
 
   afterEach(() => {
@@ -115,13 +120,9 @@ describe("Swift application", () => {
 
   it("should create an HTTP server and listen on the specified port", () => {
     const port = 3000;
-    const node_env = "development";
-    const reqMock = {};
-    const resMock = {};
+    const node_env = "DEVELOPMENT";
 
     framework.listen(port, node_env);
-
-    expect(http.createServer).toHaveBeenCalledTimes(1);
 
     expect(mockedServer.listen).toHaveBeenCalledWith(port, expect.any(Function));
   });
