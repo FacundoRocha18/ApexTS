@@ -41,6 +41,6 @@
 			]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
+  "include": ["src/**/*", "__tests__/**/*"],
+  "exclude": ["node_modules", "examples/**/*"]
 }

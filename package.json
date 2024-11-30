@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "nodemon exec",
     "test": "jest --watch --runInBand",
-    "build": "tsc && tsc-alias",
+    "build": "tsc --project tsconfig.app.json && tsc-alias",
     "lint": "npx eslint . --fix",
     "format": "npx prettier --write ."
   },
