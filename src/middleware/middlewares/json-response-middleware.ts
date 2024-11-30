@@ -1,5 +1,5 @@
-import { Middleware } from "@middleware";
-import { SerializationException, MiddlewareException } from "@exceptions";
+import { Middleware, MiddlewareException } from "@middleware";
+import { SerializationException } from "@exceptions";
 
 const safeStringify = (obj: any): string => {
   try {

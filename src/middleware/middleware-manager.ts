@@ -1,9 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
-import type { IMiddlewareManager, ErrorMiddleware, Middleware } from "@middleware";
+import type { IMiddlewareManager, ErrorMiddleware, Middleware, MiddlewareException } from "@middleware";
 import type { HttpRequest, HttpResponse } from "@http";
 
-import { MiddlewareException } from '@exceptions';
 import { IRouter, Router } from "@router";
 
 @injectable()

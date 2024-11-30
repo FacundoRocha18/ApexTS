@@ -1,5 +1,4 @@
-import { MiddlewareException } from '@exceptions';
-import { Middleware } from '@middleware';
+import { Middleware, MiddlewareException } from '@middleware';
 
 export const authMiddleware: Middleware = (req, res, next): void => {
 	try {

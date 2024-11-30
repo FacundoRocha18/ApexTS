@@ -3,7 +3,6 @@ import { inject, injectable, singleton } from "tsyringe";
 import { HttpRequest, HttpResponse, Controller, HttpMethods } from "@http";
 import { IParserService, ParserService } from "@parser";
 import { IRouter, Route } from "@router";
-import { HttpNotFoundError } from '../exceptions';
 
 @singleton()
 @injectable()
