@@ -44,15 +44,13 @@ export class Router implements IRouter {
     const route = this.findMatchingRoute(pathname);
 
     if (!route) {
-      this.handleNotFound(res, httpMethod, url);
-      return;
+      return this.handleNotFound(res, httpMethod, url);
     }
 
     const controller = route.getController(httpMethod);
 
     if (!controller) {
-      this.handleNotFound(res, httpMethod, url);
-      return;
+      return this.handleNotFound(res, httpMethod, url);
     }
 
     req.queryParams = this.parser.extractQueryParamsFromURL(searchParams);
