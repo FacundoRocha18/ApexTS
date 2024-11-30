@@ -1,2 +1,2 @@
-export { environmentConfiguration } from "./environment-config";
-export type { IEnvironmentConfiguration } from "./environment-config.interface";
+export { environmentConfiguration } from "./ts-environment-config";
+export type { IEnvironmentConfiguration } from "./ts-environment-config.interface";

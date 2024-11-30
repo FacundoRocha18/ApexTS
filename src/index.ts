@@ -1,6 +1,6 @@
 // Exporting the modules from the library
-export { environmentConfiguration } from "./config/environment-config";
-export { jsonMiddleware } from "./middleware/middlewares/json-middleware";
+export { TsEnvironmentConfiguration } from "./config/ts-environment-config";
+export { jsonResponseMiddleware } from "./middleware/middlewares/json-response-middleware";
 export { SwiftFactory } from "./factory/swift-factory";
 
 // Exporting types

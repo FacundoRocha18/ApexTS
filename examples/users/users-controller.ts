@@ -4,6 +4,7 @@ import type { HttpRequest } from "../../src/types/request";
 import type { HttpResponse } from "../../src/types/response";
 
 import { UsersService } from "./users-provider";
+import { CreateUser } from './users-types';
 
 @autoInjectable()
 export class UserController {
@@ -32,13 +33,7 @@ export class UserController {
   };
 
   public create = (req: HttpRequest, res: HttpResponse) => {
-    const { data } = req.body as {
-      data: {
-        name: string;
-        email: string;
-        password: string;
-      };
-    };
+    const data = req.body as CreateUser;
 
     const createdUser = this.service.create(data);
 
@@ -46,7 +41,7 @@ export class UserController {
     res.json({
       status: "success",
       message: "User created successfully",
-      data: createdUser,
+      user: createdUser,
     });
   };
 }
