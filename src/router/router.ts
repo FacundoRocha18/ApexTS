@@ -3,6 +3,7 @@ import { inject, injectable, singleton } from "tsyringe";
 import { HttpRequest, HttpResponse, Controller, HttpMethods } from "@http";
 import { IParserService, ParserService } from "@parser";
 import { IRouter, Route } from "@router";
+import { HttpNotFoundError } from '../errors';
 
 @singleton()
 @injectable()
@@ -87,7 +88,6 @@ export class Router implements IRouter {
   }
 
   private handleNotFound(res: HttpResponse, httpMethod: string, url: string): void {
-    console.error(`[Router] No handler found for ${httpMethod} ${url}`);
     res.statusCode = 404;
     res.json({
       statusCode: 404,

@@ -14,7 +14,7 @@ export class SwiftApplication implements ISwiftApplication {
   ) {}
 
   public useModule(module: any): void {
-    module.routes.forEach(({ method, url, controller }: CreateRoute) => {
+		module.routes.forEach(({ httpMethod: method, url, controller }: CreateRoute) => {
       this.useRoute(method, url, controller);
     });
   }

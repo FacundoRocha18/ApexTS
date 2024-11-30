@@ -8,17 +8,17 @@ const productsController = container.resolve(ProductsController);
 
 export const productsRoutes: CreateRoute[] = [
   {
-    method: HttpMethods.GET,
+		httpMethod: HttpMethods.GET,
     url: "/products",
     controller: productsController.findAll,
   },
   {
-    method: HttpMethods.GET,
+		httpMethod: HttpMethods.GET,
     url: "/products/:category",
     controller: productsController.findByCategory,
   },
   {
-    method: HttpMethods.POST,
+		httpMethod: HttpMethods.POST,
     url: "/products",
     controller: productsController.create,
   },
