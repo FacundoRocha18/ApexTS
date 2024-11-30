@@ -1,5 +1,5 @@
 {
 	"extends": "./tsconfig.json", // Path to base configuration file to inherit from.
-  "include": ["src/**/*.ts", "examples/**/*"], // Include all TypeScript files in the src, and examples directory.
+  "include": ["src/**/*.ts"], // Include all TypeScript files in the src directory.
   "exclude": ["node_modules", "__tests__/**/*"] // Exclude node_modules, examples, and __tests__ directories.
 }

@@ -2,8 +2,8 @@
   "name": "swift-ts",
   "version": "0.0.2",
   "description": "",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
   "files": [
     "lib/**/*"
   ],
@@ -15,9 +15,11 @@
   "author": "Facundo Rocha",
   "license": "MIT",
   "scripts": {
+		"start": "node ./lib/examples/main.js",
     "dev": "nodemon exec",
     "test": "jest --watch --runInBand",
-    "build": "tsc --project tsconfig.app.json && tsc-alias",
+    "build": "tsc --project tsconfig.build.json && tsc-alias",
+    "build:app": "tsc --project tsconfig.app.json && tsc-alias",
     "lint": "npx eslint . --fix",
     "format": "npx prettier --write ."
   },

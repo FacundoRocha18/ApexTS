@@ -2,6 +2,7 @@ __tests__/
 examples/
 src/
 coverage/
+.vscode/
 
 .env
 .env.example
@@ -14,6 +15,9 @@ eslint.config.ts
 jest.config.ts
 tsconfig.json
 tsconfig.build.json
+tsconfig.app.json
+tsconfig.test.json
+tsconfig.dev.json
 .prettierrc
 .prettierignore
 
