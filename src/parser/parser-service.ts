@@ -1,8 +1,7 @@
 import { injectable } from "tsyringe";
 
-import { QueryParams, PathVariables, HttpRequest } from "../http/request";
-import { HttpResponse } from "../http/response";
-import { IParserService } from "./parser-service.interface";
+import type { HttpRequest, HttpResponse, QueryParams, PathVariables } from "@http";
+import type { IParserService } from "@parser";
 
 @injectable()
 export class ParserService implements IParserService {
