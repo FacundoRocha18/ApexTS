@@ -35,7 +35,6 @@ describe("ValidationService", () => {
 		);
 		mockAjv.compile.mockReturnValue(validateMock as ValidateFunction);
 
-
 		expect(validationService.validate(schema, rightData)).toEqual(rightData);
 		expect(mockAjv.compile).toHaveBeenCalledWith(schema);
 		expect(validateMock).toHaveBeenCalledWith(rightData);
