@@ -1,5 +1,5 @@
 import { IncomingMessage } from "http";
-import { HttpResponse } from "./response";
+import { HttpResponse } from "@http";
 
 export type PathVariables = { [key: string]: string };
 export type QueryParams = { [key: string]: string | string[] };
