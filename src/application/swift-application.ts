@@ -4,7 +4,7 @@ import http from "http";
 import { ISwiftApplication } from "@application";
 import { HttpRequest, HttpResponse } from "@http";
 import { IMiddlewareManager, MiddlewareManager } from "@middleware";
-import { IRouter, Router } from "@router";
+import { IRouter, RouteDef, Router } from "@router";
 
 @injectable()
 export class SwiftApplication implements ISwiftApplication {
@@ -14,8 +14,8 @@ export class SwiftApplication implements ISwiftApplication {
   ) {}
 
   public useModule(module: any): void {
-    module.routes.forEach((route) => {
-      this.useRoute(route.method, route.path, route.handler);
+    module.routes.forEach(({ method, url, controller }: RouteDef) => {
+      this.useRoute(method, url, controller);
     });
   }
 

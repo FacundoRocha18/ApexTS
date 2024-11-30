@@ -1,23 +1,25 @@
 import { container } from "tsyringe";
+import { RouteDef } from "../../src";
+
 import { UserController } from "./users-controller";
-import { Route } from "../types";
+import { HttpMethods } from '../../src/http';
 
 const usersController = container.resolve(UserController);
 
-export const usersRoutes: Route[] = [
+export const usersRoutes: RouteDef[] = [
   {
-    method: "GET",
-    path: "/users",
-    handler: usersController.findAll,
+    method: HttpMethods.GET,
+    url: "/users",
+    controller: usersController.findAll,
   },
   {
-    method: "GET",
-    path: "/users/:id",
-    handler: usersController.find,
+    method: HttpMethods.GET,
+    url: "/users/:id",
+    controller: usersController.find,
   },
   {
-    method: "POST",
-    path: "/users",
-    handler: usersController.create,
+    method: HttpMethods.POST,
+    url: "/users",
+    controller: usersController.create,
   },
 ];
