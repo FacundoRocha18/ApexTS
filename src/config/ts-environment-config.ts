@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { IEnvironmentConfiguration, IEnvironmentVariables } from "./ts-environment-config.interface";
+import { IEnvironmentConfiguration, IEnvironmentVariables } from "@config";
 
 dotenv.config();
 
