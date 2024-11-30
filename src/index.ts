@@ -6,4 +6,4 @@ export { SwiftFactory } from "@factory";
 // Exporting types
 export type { HttpRequest, HttpResponse } from "@http";
 export type { ISwiftApplication } from "@application";
-export type { RouteDef } from "@router";
+export type { CreateRoute } from "@router";
