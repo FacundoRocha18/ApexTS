@@ -13,7 +13,7 @@ describe("Swift application", () => {
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
-  let handler: Controller;
+	let controller: Controller;
 
   const PATH = "/users";
 
@@ -36,6 +36,8 @@ describe("Swift application", () => {
     mockedServer = {
       listen: jest.fn(),
     };
+
+		controller = jest.fn();
 
     jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
 
@@ -84,37 +86,37 @@ describe("Swift application", () => {
   });
 
   it("should call router.get method with correct arguments", () => {
-    framework.get(PATH, handler);
+		framework.get(PATH, controller);
 
-    expect(mockedRouter.get).toHaveBeenCalledWith(PATH, handler);
+		expect(mockedRouter.get).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.get).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.post method with correct arguments", () => {
-    framework.post(PATH, handler);
+		framework.post(PATH, controller);
 
-    expect(mockedRouter.post).toHaveBeenCalledWith(PATH, handler);
+		expect(mockedRouter.post).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.post).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.delete method with correct arguments", () => {
-    framework.del(PATH, handler);
+		framework.del(PATH, controller);
 
-    expect(mockedRouter.del).toHaveBeenCalledWith(PATH, handler);
+		expect(mockedRouter.del).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.del).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.put method with correct arguments", () => {
-    framework.put(PATH, handler);
+		framework.put(PATH, controller);
 
-    expect(mockedRouter.put).toHaveBeenCalledWith(PATH, handler);
+		expect(mockedRouter.put).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.put).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.patch method with correct arguments", () => {
-    framework.patch(PATH, handler);
+		framework.patch(PATH, controller);
 
-    expect(mockedRouter.patch).toHaveBeenCalledWith(PATH, handler);
+		expect(mockedRouter.patch).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.patch).toHaveBeenCalledTimes(1);
   });
 
