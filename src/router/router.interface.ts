@@ -1,6 +1,4 @@
-import { HttpRequest, Controller } from "../http/request";
-import { HttpResponse } from "../http/response";
-import { HttpMethods } from "../http/http-methods";
+import { HttpRequest, HttpResponse, Controller, HttpMethods } from "@http";
 
 export interface IRouter {
   use(httpMethod: HttpMethods, url: string, controller: Controller): void;
