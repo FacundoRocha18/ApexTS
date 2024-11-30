@@ -9,7 +9,7 @@ const config: Config = {
 	moduleNameMapper: {
 		"^@application$": "<rootDir>/src/application/index",
 		"^@config$": "<rootDir>/src/config/index",
-		"^@errors$": "<rootDir>/src/errors/index",
+		"^@exceptions$": "<rootDir>/src/exceptions/index",
 		"^@factory$": "<rootDir>/src/factory/index",
 		"^@http$": "<rootDir>/src/http/index",
 		"^@middleware$": "<rootDir>/src/middleware/index",

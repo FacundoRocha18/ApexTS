@@ -21,8 +21,8 @@
 			"@config": [
 				"src/config/index"
 			],
-			"@errors": [
-				"src/errors/index"
+			"@exceptions": [
+				"src/exceptions/index"
 			],
 			"@factory": [
 				"src/factory/index"
