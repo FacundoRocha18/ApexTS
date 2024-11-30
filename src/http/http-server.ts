@@ -1,13 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import http from "http";
 
-import type { IMiddlewareManager } from "../middleware/middleware-manager.interface";
-import type { IRouter } from "../router/router.interface";
-import type { HttpResponse } from "./response";
-import type { HttpRequest } from "./request";
+import type { HttpRequest, HttpResponse } from "@http";
 
-import { MiddlewareManager } from "../middleware/middleware-manager";
-import { Router } from "../router/router";
+import { IMiddlewareManager, MiddlewareManager } from "@middleware";
+import { IRouter, Router } from "@router";
 
 @injectable()
 export class HttpServer {
