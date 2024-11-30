@@ -15,8 +15,8 @@
   "author": "Facundo Rocha",
   "license": "MIT",
   "scripts": {
-		"start": "node ./lib/examples/main.js",
-    "dev": "nodemon exec",
+    "start": "cross-env NODE_ENV=production PORT=3000 node ./lib/examples/main.js",
+    "dev": "cross-env NODE_ENV=development PORT=8000 nodemon exec",
     "test": "jest --watch --runInBand",
     "build": "tsc --project tsconfig.build.json && tsc-alias",
     "build:app": "tsc --project tsconfig.app.json && tsc-alias",
@@ -26,6 +26,7 @@
   "dependencies": {
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "jiti": "^2.3.3",
     "reflect-metadata": "^0.2.2",
