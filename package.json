@@ -4,9 +4,9 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-	"files": [
-		"lib/**/*"
-	],
+  "files": [
+    "lib/**/*"
+  ],
   "keywords": [
     "web-framework",
     "nodejs",
