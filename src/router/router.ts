@@ -1,13 +1,8 @@
 import { inject, injectable, singleton } from "tsyringe";
 
-import type { IParserService } from "../parser/parser-service.interface.ts";
-import type { IRouter } from "./router.interface";
-
-import { Controller, HttpRequest } from "../http/request";
-import { HttpResponse } from "../http/response";
-import { HttpMethods } from "../http/http-methods";
-import { ParserService } from "../parser/parser-service";
-import { Route } from "./route";
+import { HttpRequest, HttpResponse, Controller, HttpMethods } from "@http";
+import { IParserService, ParserService } from "@parser";
+import { IRouter, Route } from "@router";
 
 @singleton()
 @injectable()

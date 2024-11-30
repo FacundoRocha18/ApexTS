@@ -12,6 +12,7 @@
     "strictNullChecks": true,
     "baseUrl": "./src",
     "paths": {
+			"@swift-ts/core": ["index"],
       "@application": ["application/index"],
       "@config": ["config/index"],
       "@errors": ["errors/index"],
@@ -20,7 +21,7 @@
       "@middleware": ["middleware/index"],
       "@parser": ["parser/index"],
       "@router": ["router/index"]
-    }
+    },
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]
