@@ -1,7 +1,10 @@
 import "reflect-metadata";
-import { MiddlewareManager, IMiddlewareManager, Middleware } from "../../lib/middleware";
-import { HttpRequest, HttpResponse } from "../../lib/types";
-import { IRouter } from "../../lib/router";
+import { IMiddlewareManager } from "../../src/middleware/middleware-manager.interface";
+import { MiddlewareManager } from "../../src/middleware/middleware-manager";
+import { Middleware } from "../../src//middleware/middleware.types";
+import { HttpRequest } from "../../src/types/request";
+import { HttpResponse } from "../../src/types/response";
+import { IRouter } from "../../src/router/router.interface";
 
 describe("MiddlewareManager", () => {
   let middlewareManager: IMiddlewareManager;

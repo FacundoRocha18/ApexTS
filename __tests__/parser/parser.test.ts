@@ -1,6 +1,8 @@
 import "reflect-metadata";
-import { HttpRequest, HttpResponse } from "../../lib/types";
-import { ParserService, IParserService } from "../../lib/parser";
+import { HttpRequest } from "../../src/types/request";
+import { HttpResponse } from '../../src/types/response';
+import { ParserService } from "../../src/parser/parser-service";
+import { IParserService } from "../../src/parser/parser-service.interface";
 
 describe("ParserService", () => {
   let parser: IParserService;

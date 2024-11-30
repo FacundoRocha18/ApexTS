@@ -1,5 +1,5 @@
-import { HttpMethods } from "../http";
-import { Controller } from "../types";
+import { HttpMethods } from "../http/http-methods";
+import { Controller } from "../types/request";
 
 export class Route {
   private controllers: { [key: string]: Controller } = {};

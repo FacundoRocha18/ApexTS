@@ -1,8 +1,12 @@
 import "reflect-metadata";
-import { Router, IRouter, Route } from "../../lib/router";
-import { HttpRequest, HttpResponse, Controller } from "../../lib/types";
-import { ParserService, IParserService } from "../../lib/parser";
-import { HttpMethods } from "../../lib/http";
+import { Router } from "../../src/router/router";
+import { IRouter } from "../../src/router/router.interface";
+import { Route } from "../../src/router/route";
+import { HttpRequest, Controller } from "../../src/types/request";
+import { HttpResponse } from "../../src/types/response";
+import { ParserService } from "../../src/parser/parser-service";
+import { IParserService } from '../../src/parser/parser-service.interface';
+import { HttpMethods } from "../../src/http/http-methods";
 
 describe("Router", () => {
   let mockedParserService: Partial<IParserService>;

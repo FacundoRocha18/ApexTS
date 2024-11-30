@@ -9,7 +9,20 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@types/*": ["types/*"],
+      "@router/*": ["router/*"],
+      "@parser/*": ["parser/*"],
+      "@middleware/*": ["middleware/*"],
+      "@http/*": ["http/*"],
+      "@factory/*": ["factory/*"],
+      "@errors/*": ["errors/*"],
+      "@config/*": ["config/*"],
+      "@application/*": ["application/*"],
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "examples/**/*", "__tests__/**/*"]

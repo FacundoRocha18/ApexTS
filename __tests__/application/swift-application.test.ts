@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import http from "http";
 
-import { SwiftApplication, ISwiftApplication } from "../../lib/application";
-import { IRouter } from "../../lib/router";
-import { IMiddlewareManager } from "../../lib/middleware";
-import { Controller } from "../../lib/types";
-import { HttpServer } from "../../lib/http/http-server";
+import { SwiftApplication } from "../../src/application/swift-application";
+import { ISwiftApplication } from '../../src/application/swift-application.interface';
+
+import { IRouter } from "../../src/router/router.interface";
+import { IMiddlewareManager } from "../../src/middleware/middleware-manager.interface";
+import { Controller } from "../../src/types/request";
 
 jest.mock("http");
 
@@ -40,7 +41,7 @@ describe("Swift application", () => {
 
     jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
 
-    framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager, mockedServer as unknown as HttpServer);
+    framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager);
   });
 
   afterEach(() => {

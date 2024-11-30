@@ -1,7 +1,7 @@
 import { ErrorMiddleware, Middleware } from "../middleware/middleware.types";
-import { Controller } from "../types";
-import { IRouter } from "../router";
-import { HttpMethods } from "../http";
+import { Controller } from "../types/request";
+import { IRouter } from "../router/router.interface";
+import { HttpMethods } from "../http/http-methods";
 
 /**
  * Public API for the Swift framework.

@@ -3,10 +3,10 @@ import { inject, injectable, singleton } from "tsyringe";
 import type { IParserService } from "../parser/parser-service.interface.ts";
 import type { IRouter } from "./router.interface";
 
-import { ParserService } from "../parser/parser-service";
-import { HttpMethods } from "../http/http-methods.enum";
-import { HttpResponse } from "../types/response";
 import { Controller, HttpRequest } from "../types/request";
+import { HttpResponse } from "../types/response";
+import { HttpMethods } from "../http/http-methods";
+import { ParserService } from "../parser/parser-service";
 import { Route } from "./route";
 
 @singleton()
@@ -30,14 +30,17 @@ export class Router implements IRouter {
   public patch = this.addRoute.bind(this, HttpMethods.PATCH);
   public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
 
-  private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
-    this.validateRouteParams(httpMethod, url, controller);
-
-    if (!this.routes[url]) {
-      this.routes[url] = new Route(url);
+	public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
+    if (!url || !httpMethod) {
+      this.handleInvalidRequest(res, "Invalid request");
+      return;
     }
 
-    this.routes[url].addController(httpMethod, controller);
+    if (["POST", "PUT"].includes(httpMethod.toUpperCase())) {
+      await this.parser.convertRequestBodyToJson(req, res);
+    }
+
+    this.resolveRoute(req, res, url, httpMethod);
   }
 
   public resolveRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): void {
@@ -62,21 +65,18 @@ export class Router implements IRouter {
     controller(req, res);
   }
 
-  private findMatchingRoute(pathname: string): Route | undefined {
-    return Object.values(this.routes).find((route) => route.isUrlRegistered(pathname));
+	private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
+    this.validateRouteParams(httpMethod, url, controller);
+
+    if (!this.routes[url]) {
+      this.routes[url] = new Route(url);
+    }
+
+    this.routes[url].addController(httpMethod, controller);
   }
 
-  public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
-    if (!url || !httpMethod) {
-      this.handleInvalidRequest(res, "Invalid request");
-      return;
-    }
-
-    if (["POST", "PUT"].includes(httpMethod.toUpperCase())) {
-      await this.parser.convertRequestBodyToJson(req, res);
-    }
-
-    this.resolveRoute(req, res, url, httpMethod);
+  private findMatchingRoute(pathname: string): Route | undefined {
+    return Object.values(this.routes).find((route) => route.isUrlRegistered(pathname));
   }
 
   private validateRouteParams(httpMethod: HttpMethods, url: string, controller: Controller): void {
