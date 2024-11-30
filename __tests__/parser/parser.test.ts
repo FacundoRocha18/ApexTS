@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { HttpRequest } from "../../src/types/request";
-import { HttpResponse } from '../../src/types/response';
+import { HttpResponse } from "../../src/types/response";
 import { ParserService } from "../../src/parser/parser-service";
 import { IParserService } from "../../src/parser/parser-service.interface";
 

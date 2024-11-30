@@ -1,5 +1,5 @@
 {
   "watch": ["src", "examples"],
   "ext": "ts",
-  "exec": "ts-node ./examples/main.ts"
+  "exec": "ts-node -r tsconfig-paths/register examples/main.ts"
 }

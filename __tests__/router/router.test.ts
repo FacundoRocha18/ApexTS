@@ -5,7 +5,7 @@ import { Route } from "../../src/router/route";
 import { HttpRequest, Controller } from "../../src/types/request";
 import { HttpResponse } from "../../src/types/response";
 import { ParserService } from "../../src/parser/parser-service";
-import { IParserService } from '../../src/parser/parser-service.interface';
+import { IParserService } from "../../src/parser/parser-service.interface";
 import { HttpMethods } from "../../src/http/http-methods";
 
 describe("Router", () => {

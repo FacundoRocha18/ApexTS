@@ -12,14 +12,14 @@
     "strictNullChecks": true,
     "baseUrl": "./src",
     "paths": {
-      "@application/*": ["application/*"],
-      "@config/*": ["config/*"],
-      "@errors/*": ["errors/*"],
-      "@factory/*": ["factory/*"],
-      "@http/*": ["http/*"],
-      "@middleware/*": ["middleware/*"],
-      "@parser/*": ["parser/*"],
-      "@router/*": ["router/*"],
+      "@application": ["application/index"],
+      "@config": ["config/index"],
+      "@errors": ["errors/index"],
+      "@factory": ["factory/index"],
+      "@http": ["http/index"],
+      "@middleware": ["middleware/index"],
+      "@parser": ["parser/index"],
+      "@router": ["router/index"]
     }
   },
   "include": ["src/**/*"],

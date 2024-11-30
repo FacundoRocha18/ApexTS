@@ -2,7 +2,7 @@ import "reflect-metadata";
 import http from "http";
 
 import { SwiftApplication } from "../../src/application/swift-application";
-import { ISwiftApplication } from '../../src/application/swift-application.interface';
+import { ISwiftApplication } from "../../src/application/swift-application.interface";
 
 import { IRouter } from "../../src/router/router.interface";
 import { IMiddlewareManager } from "../../src/middleware/middleware-manager.interface";

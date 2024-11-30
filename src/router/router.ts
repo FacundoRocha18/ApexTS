@@ -30,7 +30,7 @@ export class Router implements IRouter {
   public patch = this.addRoute.bind(this, HttpMethods.PATCH);
   public options = this.addRoute.bind(this, HttpMethods.OPTIONS);
 
-	public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
+  public async processRoute(req: HttpRequest, res: HttpResponse, url: string, httpMethod: HttpMethods): Promise<void> {
     if (!url || !httpMethod) {
       this.handleInvalidRequest(res, "Invalid request");
       return;
@@ -65,7 +65,7 @@ export class Router implements IRouter {
     controller(req, res);
   }
 
-	private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
+  private addRoute(httpMethod: HttpMethods, url: string, controller: Controller): void {
     this.validateRouteParams(httpMethod, url, controller);
 
     if (!this.routes[url]) {

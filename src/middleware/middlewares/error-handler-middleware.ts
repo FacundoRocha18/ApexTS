@@ -1,6 +1,6 @@
 import { ErrorMiddleware } from "../middleware.types";
 
-export const errorHandlingMiddleware: ErrorMiddleware = (err, req, res, next) => {
+export const errorHandlerMiddleware: ErrorMiddleware = (err, req, res, next) => {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   const errorMessage = err.message || "Internal Server Error";
 

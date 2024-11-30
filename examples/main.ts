@@ -11,12 +11,11 @@ import {
 
 import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
 import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
-import { errorHandlingMiddleware } from "../src/middleware/middlewares/error-handling-middleware";
+import { errorHandlerMiddleware } from "../src/middleware/middlewares/error-handler-middleware";
 
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
-import { json } from 'stream/consumers';
 
 const factory = new SwiftFactory();
 const { PORT, NODE_ENV } = TsEnvironmentConfiguration;
@@ -25,7 +24,7 @@ const app: ISwiftApplication = factory.create();
 app.useMiddleware(authMiddleware);
 app.useMiddleware(loggerMiddleware);
 app.useMiddleware(jsonResponseMiddleware);
-app.useMiddleware(errorHandlingMiddleware);
+app.useMiddleware(errorHandlerMiddleware);
 
 app.useModule(homeModule);
 app.useModule(productsModule);

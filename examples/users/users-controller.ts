@@ -4,7 +4,7 @@ import type { HttpRequest } from "../../src/http/request";
 import type { HttpResponse } from "../../src/http/response";
 
 import { UsersService } from "./users-provider";
-import { CreateUser } from './users-types';
+import { CreateUser } from "./users-types";
 
 @autoInjectable()
 export class UserController {
