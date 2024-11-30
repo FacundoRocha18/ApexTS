@@ -1,5 +1,6 @@
-export type { HttpRequest, Controller, PathVariables, QueryParams } from "./request";
+export type { HttpRequest } from "./request";
 export type { HttpResponse } from "./response";
+export type { Controller, PathVariables, QueryParams } from "./types";
 
 export { HttpMethods } from "./http-methods";
 
