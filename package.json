@@ -4,8 +4,11 @@
   "description": "",
   "main": "./lib/src/index.js",
   "types": "./lib/src/index.d.ts",
-  "files": [
-    "lib/**/*"
+	"files": [
+    "lib/**/*",
+    "README.md",
+    "LICENSE",
+    "package.json"
   ],
   "keywords": [
     "web-framework",
