@@ -1,5 +1,5 @@
-import { HttpRequest, Controller } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { HttpRequest, Controller } from "../http/request";
+import { HttpResponse } from "../http/response";
 import { HttpMethods } from "../http/http-methods";
 
 export interface IRouter {

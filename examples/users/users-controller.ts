@@ -1,7 +1,7 @@
 import { autoInjectable } from "tsyringe";
 
-import type { HttpRequest } from "../../src/types/request";
-import type { HttpResponse } from "../../src/types/response";
+import type { HttpRequest } from "../../src/http/request";
+import type { HttpResponse } from "../../src/http/response";
 
 import { UsersService } from "./users-provider";
 import { CreateUser } from './users-types';

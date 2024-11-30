@@ -1,5 +1,5 @@
-import { HttpRequest } from "../../types/request";
-import { HttpResponse } from "../../types/response";
+import { HttpRequest } from "../../http/request";
+import { HttpResponse } from "../../http/response";
 
 type NextFunction = () => void;
 type AuthMiddlewareArgs = [req: HttpRequest, res: HttpResponse, next: NextFunction];

@@ -3,8 +3,8 @@ import http from "http";
 
 import type { IMiddlewareManager } from "../middleware/middleware-manager.interface";
 import type { IRouter } from "../router/router.interface";
-import type { HttpResponse } from "../types/response";
-import type { HttpRequest } from "../types/request";
+import type { HttpResponse } from "./response";
+import type { HttpRequest } from "./request";
 
 import { MiddlewareManager } from "../middleware/middleware-manager";
 import { Router } from "../router/router";

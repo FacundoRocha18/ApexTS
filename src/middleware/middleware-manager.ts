@@ -3,10 +3,10 @@ import { inject, injectable } from "tsyringe";
 import type { IRouter } from "../router/router.interface";
 import type { IMiddlewareManager } from "./middleware-manager.interface";
 import type { ErrorMiddleware, Middleware } from "./middleware.types";
-import type { IMiddlewareError } from "../errors";
+import type { IMiddlewareError } from "../errors/middleware/middleware-error.interface";
 
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { HttpRequest } from "../http/request";
+import { HttpResponse } from "../http/response";
 import { Router } from "../router/router";
 
 @injectable()

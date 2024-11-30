@@ -1,11 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import http from "http";
 
-import type { IMiddlewareManager } from "../middleware/middleware-manager.interface";
-import type { ISwiftApplication } from "./swift-application.interface";
-import type { IRouter } from "../router/router.interface";
-import type { HttpRequest } from "../types/request";
-import type { HttpResponse } from "../types/response";
+import type { IMiddlewareManager } from "@middleware/middleware-manager.interface";
+import type { ISwiftApplication } from "@application/swift-application.interface";
+import type { IRouter } from "@router/router.interface";
+import type { HttpRequest, HttpResponse } from "@http/index";
 
 import { MiddlewareManager } from "../middleware/middleware-manager";
 import { Router } from "../router/router";

@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 
-import { QueryParams, PathVariables, HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { QueryParams, PathVariables, HttpRequest } from "../http/request";
+import { HttpResponse } from "../http/response";
 import { IParserService } from "./parser-service.interface";
 
 @injectable()

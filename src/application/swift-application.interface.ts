@@ -1,5 +1,5 @@
 import { ErrorMiddleware, Middleware } from "../middleware/middleware.types";
-import { Controller } from "../types/request";
+import { Controller } from "../http/request";
 import { IRouter } from "../router/router.interface";
 import { HttpMethods } from "../http/http-methods";
 

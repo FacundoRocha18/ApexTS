@@ -1,5 +1,5 @@
-import { HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { HttpRequest } from "../http/request";
+import { HttpResponse } from "../http/response";
 
 export type Middleware = (req: HttpRequest, res: HttpResponse, next: (err?: any) => void) => void | Promise<void>;
 

@@ -3,8 +3,8 @@ import { inject, injectable, singleton } from "tsyringe";
 import type { IParserService } from "../parser/parser-service.interface.ts";
 import type { IRouter } from "./router.interface";
 
-import { Controller, HttpRequest } from "../types/request";
-import { HttpResponse } from "../types/response";
+import { Controller, HttpRequest } from "../http/request";
+import { HttpResponse } from "../http/response";
 import { HttpMethods } from "../http/http-methods";
 import { ParserService } from "../parser/parser-service";
 import { Route } from "./route";
