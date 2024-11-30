@@ -1,12 +1,10 @@
 import "reflect-metadata";
 import http from "http";
 
-import { SwiftApplication } from "../../src/application/swift-application";
-import { ISwiftApplication } from "../../src/application/swift-application.interface";
-
-import { IRouter } from "../../src/router/router.interface";
-import { IMiddlewareManager } from "../../src/middleware/middleware-manager.interface";
-import { Controller } from "../../src/types/request";
+import { ISwiftApplication, SwiftApplication } from "@application";
+import { IMiddlewareManager } from "@middleware";
+import { Controller } from "@http";
+import { IRouter } from "@router";
 
 jest.mock("http");
 

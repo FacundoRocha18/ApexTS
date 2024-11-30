@@ -1,2 +1,3 @@
-export * from "parser/parser-service.interface";
-export * from "parser/parser-service";
+export type { IParserService } from "./parser-service.interface";
+
+export { ParserService } from "./parser-service";

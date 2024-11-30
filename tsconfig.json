@@ -10,17 +10,35 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
-    "baseUrl": "./src",
+		"baseUrl": "./",
     "paths": {
-      "@swift-ts/core": ["index"],
-      "@application": ["application/index"],
-      "@config": ["config/index"],
-      "@errors": ["errors/index"],
-      "@factory": ["factory/index"],
-      "@http": ["http/index"],
-      "@middleware": ["middleware/index"],
-      "@parser": ["parser/index"],
-      "@router": ["router/index"]
+			"@swift-ts/core": [
+				"src/index"
+			],
+			"@application": [
+				"src/application/index"
+			],
+			"@config": [
+				"src/config/index"
+			],
+			"@errors": [
+				"src/errors/index"
+			],
+			"@factory": [
+				"src/factory/index"
+			],
+			"@http": [
+				"src/http/index"
+			],
+			"@middleware": [
+				"src/middleware/index"
+			],
+			"@parser": [
+				"src/parser/index"
+			],
+			"@router": [
+				"src/router/index"
+			]
     }
   },
   "include": ["src/**/*"],

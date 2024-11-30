@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-import { SwiftFactory } from "../../src/factory/swift-factory";
-import { SwiftApplication } from "../../src/application/swift-application";
+import { SwiftApplication } from "@application";
+import { SwiftFactory } from "@factory";
 
 describe("Swift Factory", () => {
   let swiftFactory: SwiftFactory;
