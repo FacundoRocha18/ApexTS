@@ -5,7 +5,7 @@ import { HttpRequest, HttpResponse } from "../../src";
 export class HomeController {
   constructor() {}
 
-	public sayHello = (req: HttpRequest, res: HttpResponse) => {
+  public sayHello = (req: HttpRequest, res: HttpResponse) => {
     const { name } = req.queryParams as { name: string };
     res.setHeader("Access-Control-Allow-Origin", "*");
 

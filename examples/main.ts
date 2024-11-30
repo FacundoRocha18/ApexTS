@@ -1,6 +1,13 @@
 import "reflect-metadata";
 
-import { HttpRequest, HttpResponse, ISwiftApplication, SwiftFactory, environmentConfiguration, jsonMiddleware } from "../src";
+import {
+  HttpRequest,
+  HttpResponse,
+  ISwiftApplication,
+  SwiftFactory,
+  environmentConfiguration,
+  jsonMiddleware,
+} from "../src";
 
 import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
 import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";

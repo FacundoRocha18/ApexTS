@@ -5,13 +5,13 @@ import { SwiftApplication, ISwiftApplication } from "../../lib/application";
 import { IRouter } from "../../lib/router";
 import { IMiddlewareManager } from "../../lib/middleware";
 import { Controller } from "../../lib/types";
-import { HttpServer } from '../../lib/http/http-server';
+import { HttpServer } from "../../lib/http/http-server";
 
 jest.mock("http");
 
 describe("Swift application", () => {
   let framework: ISwiftApplication;
-	let mockedServer: { listen: jest.Mock };
+  let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
   let handler: Controller;
@@ -20,27 +20,27 @@ describe("Swift application", () => {
 
   beforeEach(() => {
     mockedRouter = {
-			use: jest.fn(),
+      use: jest.fn(),
       get: jest.fn(),
       post: jest.fn(),
       del: jest.fn(),
       put: jest.fn(),
       patch: jest.fn(),
-			options: jest.fn(),
+      options: jest.fn(),
     } as Partial<IRouter> as jest.Mocked<IRouter>;
 
     mockedMiddlewareManager = {
-			use: jest.fn(),
+      use: jest.fn(),
       executeMiddlewares: jest.fn(),
-		} as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
+    } as Partial<IMiddlewareManager> as jest.Mocked<IMiddlewareManager>;
 
-		mockedServer = {
-			listen: jest.fn(),
-		};
+    mockedServer = {
+      listen: jest.fn(),
+    };
 
-		jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
+    jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
 
-		framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager, mockedServer as unknown as HttpServer);
+    framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager, mockedServer as unknown as HttpServer);
   });
 
   afterEach(() => {
@@ -121,10 +121,10 @@ describe("Swift application", () => {
 
   it("should create an HTTP server and listen on the specified port", () => {
     const port = 3000;
-		const node_env = "DEVELOPMENT";
+    const node_env = "DEVELOPMENT";
 
     framework.listen(port, node_env);
 
-		expect(mockedServer.listen).toHaveBeenCalledWith(port, expect.any(Function));
+    expect(mockedServer.listen).toHaveBeenCalledWith(port, expect.any(Function));
   });
 });

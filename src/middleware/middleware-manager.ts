@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
 import type { IRouter } from "../router/router.interface";
-import type { IMiddlewareManager } from './middleware-manager.interface';
-import type { ErrorMiddleware, Middleware } from './middleware.types';
+import type { IMiddlewareManager } from "./middleware-manager.interface";
+import type { ErrorMiddleware, Middleware } from "./middleware.types";
 import type { IMiddlewareError } from "../errors";
 
 import { HttpRequest } from "../types/request";

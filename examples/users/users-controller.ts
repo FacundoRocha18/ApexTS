@@ -9,7 +9,7 @@ import { UsersService } from "./users-provider";
 export class UserController {
   constructor(private readonly service: UsersService) {}
 
-	public find = (req: HttpRequest, res: HttpResponse) => {
+  public find = (req: HttpRequest, res: HttpResponse) => {
     const { id } = req.pathVariables as { id: string };
 
     const user = this.service.findById(id);
@@ -22,7 +22,7 @@ export class UserController {
     });
   };
 
-	public findAll = (req: HttpRequest, res: HttpResponse) => {
+  public findAll = (req: HttpRequest, res: HttpResponse) => {
     res.statusCode = 200;
     res.json({
       status: "success",
@@ -31,7 +31,7 @@ export class UserController {
     });
   };
 
-	public create = (req: HttpRequest, res: HttpResponse) => {
+  public create = (req: HttpRequest, res: HttpResponse) => {
     const { data } = req.body as {
       data: {
         name: string;
