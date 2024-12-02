@@ -1,6 +1,6 @@
 {
   "name": "swift-ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "./lib/src/index.js",
   "types": "./lib/src/index.d.ts",
