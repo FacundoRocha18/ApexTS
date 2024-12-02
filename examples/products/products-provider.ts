@@ -1,4 +1,4 @@
-import { autoInjectable } from "tsyringe";
+import { autoInjectable } from "@swift-ts";
 import { ProductsRepository } from "./products-repository";
 import { CreateProduct, IProduct } from "./products-types";
 

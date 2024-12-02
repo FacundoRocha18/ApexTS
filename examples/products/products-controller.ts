@@ -1,6 +1,4 @@
-import { autoInjectable } from "tsyringe";
-import { HttpRequest, HttpResponse } from "../../src";
-import { productsModule } from "./products-module";
+import { autoInjectable, HttpRequest, HttpResponse } from "@swift-ts";
 import { ProductsService } from "./products-provider";
 
 @autoInjectable()

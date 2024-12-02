@@ -1,8 +1,6 @@
-import { container } from "tsyringe";
-import { CreateRoute } from '../../src';
+import { container, CreateRoute, HttpMethods } from "@swift-ts";
 
 import { ProductsController } from "./products-controller";
-import { HttpMethods } from '../../src/http';
 
 const productsController = container.resolve(ProductsController);
 
