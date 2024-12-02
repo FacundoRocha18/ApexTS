@@ -19,6 +19,7 @@ class EnvironmentConfiguration {
 		if (!EnvironmentConfiguration.instance) {
 			EnvironmentConfiguration.instance = new EnvironmentConfiguration(envFilePath);
 		}
+
 		return EnvironmentConfiguration.instance;
 	}
 
@@ -57,6 +58,7 @@ class EnvironmentConfiguration {
 			PORT: Number(PORT),
 		};
 
+		console.info(`Validated environment configuration: ${JSON.stringify(this.validatedEnvironmentConfiguration)}`);
 		return this.validatedEnvironmentConfiguration;
 	}
 }
