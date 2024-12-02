@@ -6,9 +6,10 @@ import {
   ISwiftApplication,
   SwiftFactory,
   TsEnvironmentConfiguration,
+	authMiddleware,
+	errorHandlerMiddleware,
+	loggerMiddleware
 } from "@swift-ts";
-
-import { authMiddleware, errorHandlerMiddleware, loggerMiddleware } from "@middleware";
 
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
