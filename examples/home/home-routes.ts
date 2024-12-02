@@ -1,13 +1,13 @@
-import { container } from "tsyringe";
-import { Route } from "../types";
+import { container, CreateRoute, HttpMethods } from "@swift-ts";
+
 import { HomeController } from "./home-controller";
 
 const homeController = container.resolve(HomeController);
 
-export const homeRoutes: Route[] = [
+export const homeRoutes: CreateRoute[] = [
   {
-    method: "GET",
-    path: "/",
-    handler: homeController.sayHello,
+		httpMethod: HttpMethods.GET,
+    url: "/",
+    controller: homeController.sayHello,
   },
 ];

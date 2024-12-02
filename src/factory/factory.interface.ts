@@ -1,5 +1,5 @@
-export interface IFactory {
+import { Constructor } from '@factory';
+
+export interface Factory {
   create(serviceConstructor: Constructor, dependencies: any[]): any;
 }
-
-export type Constructor = new (...args: any[]) => any;

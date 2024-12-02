@@ -1,23 +1,23 @@
-import { container } from "tsyringe";
-import { Route } from "../types";
+import { container, CreateRoute, HttpMethods } from "@swift-ts";
+
 import { ProductsController } from "./products-controller";
 
 const productsController = container.resolve(ProductsController);
 
-export const productsRoutes: Route[] = [
+export const productsRoutes: CreateRoute[] = [
   {
-    method: "GET",
-    path: "/products",
-    handler: productsController.findAll,
+		httpMethod: HttpMethods.GET,
+    url: "/products",
+    controller: productsController.findAll,
   },
   {
-    method: "GET",
-    path: "/products/:category",
-    handler: productsController.findByCategory,
+		httpMethod: HttpMethods.GET,
+    url: "/products/:category",
+    controller: productsController.findByCategory,
   },
   {
-    method: "POST",
-    path: "/products",
-    handler: productsController.create,
+		httpMethod: HttpMethods.POST,
+    url: "/products",
+    controller: productsController.create,
   },
 ];

@@ -1,8 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import type { IMiddlewareManager, ErrorMiddleware, Middleware } from "@middleware";
+import type { IMiddlewareManager, ErrorMiddleware, Middleware, MiddlewareException } from "@middleware";
 import type { HttpRequest, HttpResponse } from "@http";
-import type { IMiddlewareError } from "@errors";
 
 import { IRouter, Router } from "@router";
 
@@ -54,7 +53,7 @@ export class MiddlewareManager implements IMiddlewareManager {
     execute(0);
   }
 
-  private handleMiddlewareError(error: IMiddlewareError, res: HttpResponse): void {
+  private handleMiddlewareError(error: MiddlewareException, res: HttpResponse): void {
     console.log(error.message);
     console.log(error.stack);
 

@@ -13,7 +13,7 @@ describe("Router", () => {
     res.end();
   });
 
-  jest.mock("../../lib/parser/parser-service", () => {
+  jest.mock("../../src/parser/parser-service", () => {
     return {
       ParserService: jest.fn().mockImplementation(() => ({
         convertRequestBodyToJson: jest.fn().mockReturnValue({ key: "mockedValue" }),

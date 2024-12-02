@@ -1,12 +1,11 @@
-import { Middleware } from "../middleware.types";
-import { SerializationError } from "../../errors/serialization/serialization-error";
-import { MiddlewareError } from "../../errors/middleware/middleware-error";
+import { Middleware, MiddlewareException } from "@middleware";
+import { SerializationException } from "@exceptions";
 
 const safeStringify = (obj: any): string => {
   try {
     return JSON.stringify(obj);
   } catch (error) {
-    throw new SerializationError(error.message);
+		throw new SerializationException(error.message, 500, error.stack);
   }
 };
 
@@ -22,6 +21,6 @@ export const jsonResponseMiddleware: Middleware = (req, res, next) => {
 
     next();
   } catch (error) {
-    next(new MiddlewareError(error.message, 500, error.stack));
+    next(new MiddlewareException(error.message, 500, error.stack));
   }
 };

@@ -6,12 +6,10 @@ import {
   ISwiftApplication,
   SwiftFactory,
   TsEnvironmentConfiguration,
-  jsonResponseMiddleware,
-} from "../src";
-
-import { loggerMiddleware } from "../src/middleware/middlewares/logger-middleware";
-import { authMiddleware } from "../src/middleware/middlewares/auth-middleware";
-import { errorHandlerMiddleware } from "../src/middleware/middlewares/error-handler-middleware";
+	authMiddleware,
+	errorHandlerMiddleware,
+	loggerMiddleware
+} from "@swift-ts";
 
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
@@ -23,7 +21,6 @@ const app: ISwiftApplication = factory.create();
 
 app.useMiddleware(authMiddleware);
 app.useMiddleware(loggerMiddleware);
-app.useMiddleware(jsonResponseMiddleware);
 app.useMiddleware(errorHandlerMiddleware);
 
 app.useModule(homeModule);

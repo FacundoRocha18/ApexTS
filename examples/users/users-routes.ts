@@ -1,23 +1,23 @@
-import { container } from "tsyringe";
+import { CreateRoute, HttpMethods, container } from "@swift-ts";
+
 import { UserController } from "./users-controller";
-import { Route } from "../types";
 
 const usersController = container.resolve(UserController);
 
-export const usersRoutes: Route[] = [
+export const usersRoutes: CreateRoute[] = [
   {
-    method: "GET",
-    path: "/users",
-    handler: usersController.findAll,
+		httpMethod: HttpMethods.GET,
+    url: "/users",
+    controller: usersController.findAll,
   },
   {
-    method: "GET",
-    path: "/users/:id",
-    handler: usersController.find,
+		httpMethod: HttpMethods.GET,
+    url: "/users/:id",
+    controller: usersController.find,
   },
   {
-    method: "POST",
-    path: "/users",
-    handler: usersController.create,
+		httpMethod: HttpMethods.POST,
+    url: "/users",
+    controller: usersController.create,
   },
 ];

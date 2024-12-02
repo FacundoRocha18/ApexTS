@@ -1,7 +1,4 @@
-import { autoInjectable } from "tsyringe";
-
-import type { HttpRequest } from "../../src/http/request";
-import type { HttpResponse } from "../../src/http/response";
+import { autoInjectable, HttpRequest, HttpResponse } from "@swift-ts";
 
 import { UsersService } from "./users-provider";
 import { CreateUser } from "./users-types";
