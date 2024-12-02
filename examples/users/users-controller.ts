@@ -1,4 +1,4 @@
-import { autoInjectable, HttpRequest, HttpResponse } from "@swift-ts";
+import { autoInjectable, HttpRequest, HttpResponse } from "@apex.ts";
 
 import { UsersService } from "./users-provider";
 import { CreateUser } from "./users-types";

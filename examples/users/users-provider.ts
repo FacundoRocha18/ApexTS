@@ -1,4 +1,4 @@
-import { autoInjectable } from "@swift-ts";
+import { autoInjectable } from "@apex.ts";
 import { UsersRepository } from "./users-repository";
 import { CreateUser, PublicUser } from "./users-types";
 

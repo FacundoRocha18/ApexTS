@@ -1,4 +1,4 @@
-import { CreateRoute, HttpMethods, container } from "@swift-ts";
+import { CreateRoute, HttpMethods, container } from "@apex.ts";
 
 import { UserController } from "./users-controller";
 

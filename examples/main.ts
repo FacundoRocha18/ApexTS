@@ -9,7 +9,7 @@ import {
 	authMiddleware,
 	errorHandlerMiddleware,
 	loggerMiddleware
-} from "@swift-ts";
+} from "@apex.ts";
 
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";

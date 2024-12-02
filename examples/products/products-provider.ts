@@ -1,4 +1,4 @@
-import { autoInjectable } from "@swift-ts";
+import { autoInjectable } from "@apex.ts";
 import { ProductsRepository } from "./products-repository";
 import { CreateProduct, IProduct } from "./products-types";
 

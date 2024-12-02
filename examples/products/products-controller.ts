@@ -1,4 +1,4 @@
-import { autoInjectable, HttpRequest, HttpResponse } from "@swift-ts";
+import { autoInjectable, HttpRequest, HttpResponse } from "@apex.ts";
 import { ProductsService } from "./products-provider";
 
 @autoInjectable()
