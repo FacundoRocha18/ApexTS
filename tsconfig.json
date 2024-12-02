@@ -12,7 +12,7 @@
 		"strictNullChecks": true, // Enable strict null checks.
 		"baseUrl": "./", // Base directory to resolve non-absolute module names.
     "paths": {
-			"@swift-ts": [
+			"@apex.ts": [
 				"src/index"
 			],
 			"@application": [
