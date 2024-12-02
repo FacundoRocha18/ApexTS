@@ -1,10 +1,10 @@
 {
-  "name": "swift.ts-framework",
+  "name": "apex.ts",
   "version": "1.0.0",
   "description": "",
   "main": "./lib/src/index.js",
   "types": "./lib/src/index.d.ts",
-	"files": [
+  "files": [
     "lib/**/*",
     "README.md",
     "LICENSE",
@@ -17,11 +17,13 @@
   ],
   "author": "Facundo Rocha facundo.rocha@outlook.com",
   "license": "MIT",
-	"repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/FacundoRocha18/SwiftTS.git"
   },
-	"publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=production PORT=3000 node ./lib/examples/main.js",
     "dev": "cross-env NODE_ENV=development PORT=8000 nodemon exec",

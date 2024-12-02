@@ -1,4 +1,4 @@
-# SwiftTS
+# ApexTS
 
 ## Lightweight framework with TypeScript power.
 
@@ -29,7 +29,7 @@ Tabla de Contenidos
 ## Instalación
 
 ```Typescript
-npm install swiftts
+npm install apex.ts
 ```
 
 ## Ejemplo de Uso

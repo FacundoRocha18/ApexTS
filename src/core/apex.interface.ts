@@ -3,9 +3,9 @@ import { Controller, HttpMethods } from "@http";
 import { IRouter } from "@router";
 
 /**
- * Public API for the Swift framework.
+ * Public API for the ApexTS framework.
  */
-export interface ISwiftApplication {
+export interface ApexCore {
   router: IRouter;
 
   useMiddleware(middleware: Middleware | ErrorMiddleware): void;

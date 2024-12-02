@@ -1,3 +1,5 @@
+// Purpose: Entry point for the middleware module.
+
 export type { IMiddlewareManager } from "./middleware-manager.interface";
 export type { Middleware, ErrorMiddleware } from "./types";
 

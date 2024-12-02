@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse } from "@http"; 
+import { HttpRequest, HttpResponse } from "@http";
 
 export type PathVariables = { [key: string]: string };
 export type QueryParams = { [key: string]: string | string[] };

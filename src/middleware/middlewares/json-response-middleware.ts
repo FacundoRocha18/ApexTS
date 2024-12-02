@@ -5,7 +5,7 @@ const safeStringify = (obj: any): string => {
   try {
     return JSON.stringify(obj);
   } catch (error) {
-		throw new SerializationException(error.message, 500, error.stack);
+    throw new SerializationException(error.message, 500, error.stack);
   }
 };
 

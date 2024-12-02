@@ -1,20 +1,20 @@
 import { inject, injectable } from "tsyringe";
 import http from "http";
 
-import { ISwiftApplication } from "@application";
+import { ApexCore } from "@core";
 import { HttpRequest, HttpResponse } from "@http";
 import { IMiddlewareManager, MiddlewareManager } from "@middleware";
 import { IRouter, CreateRoute, Router } from "@router";
 
 @injectable()
-export class SwiftApplication implements ISwiftApplication {
+export class ConcreteApexCore implements ApexCore {
   constructor(
     @inject(Router) public router: IRouter,
     @inject(MiddlewareManager) private middlewareManager: IMiddlewareManager
   ) {}
 
   public useModule(module: any): void {
-		module.routes.forEach(({ httpMethod: method, url, controller }: CreateRoute) => {
+    module.routes.forEach(({ httpMethod: method, url, controller }: CreateRoute) => {
       this.useRoute(method, url, controller);
     });
   }

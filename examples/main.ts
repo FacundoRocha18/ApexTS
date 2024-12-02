@@ -3,21 +3,21 @@ import "reflect-metadata";
 import {
   HttpRequest,
   HttpResponse,
-  ISwiftApplication,
-  SwiftFactory,
+  ApexCore,
+  ApexFactory,
   TsEnvironmentConfiguration,
-	authMiddleware,
-	errorHandlerMiddleware,
-	loggerMiddleware
-} from "@swift-ts";
+  authMiddleware,
+  errorHandlerMiddleware,
+  loggerMiddleware,
+} from "@apex.ts";
 
 import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
-const factory = new SwiftFactory();
+const factory = new ApexFactory();
 const { PORT, NODE_ENV } = TsEnvironmentConfiguration;
-const app: ISwiftApplication = factory.create();
+const app: ApexCore = factory.create();
 
 app.useMiddleware(authMiddleware);
 app.useMiddleware(loggerMiddleware);

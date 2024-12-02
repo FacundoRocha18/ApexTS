@@ -1,4 +1,4 @@
-import { autoInjectable } from "tsyringe";
+import { autoInjectable } from "@apex.ts";
 import { HttpRequest, HttpResponse } from "../../src";
 
 @autoInjectable()
