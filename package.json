@@ -1,5 +1,5 @@
 {
-  "name": "swift.ts",
+  "name": "swift.ts-framework",
   "version": "1.0.0",
   "description": "",
   "main": "./lib/src/index.js",
