@@ -1,13 +1,11 @@
 import { container } from "tsyringe";
 
-import type { Factory } from "@factory";
-
-import { ISwiftApplication, SwiftApplication } from "@application";
+import { ConcreteApexCore, ApexCore } from "@core";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
 import { Router } from "@router";
 
-export class SwiftFactory implements Factory {
+export class ApexFactory {
   constructor() {
     this.resolveDependencies();
   }
@@ -18,10 +16,10 @@ export class SwiftFactory implements Factory {
     container.resolve(Router);
   }
 
-  public create(): ISwiftApplication {
-		const application = container.resolve(SwiftApplication);
+  public create(): ApexCore {
+    const application = container.resolve(ConcreteApexCore);
 
-		application.useMiddleware(jsonResponseMiddleware);
+    application.useMiddleware(jsonResponseMiddleware);
 
     return application;
   }

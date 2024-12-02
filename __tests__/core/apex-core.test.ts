@@ -1,19 +1,19 @@
 import "reflect-metadata";
 import http from "http";
 
-import { ISwiftApplication, SwiftApplication } from "@application";
+import { ApexCore, ConcreteApexCore } from "@core";
 import { IMiddlewareManager } from "@middleware";
 import { Controller } from "@http";
 import { IRouter } from "@router";
 
 jest.mock("http");
 
-describe("Swift application", () => {
-  let framework: ISwiftApplication;
+describe("ApexCore", () => {
+  let framework: ApexCore;
   let mockedServer: { listen: jest.Mock };
   let mockedRouter: jest.Mocked<IRouter>;
   let mockedMiddlewareManager: jest.Mocked<IMiddlewareManager>;
-	let controller: Controller;
+  let controller: Controller;
 
   const PATH = "/users";
 
@@ -37,20 +37,20 @@ describe("Swift application", () => {
       listen: jest.fn(),
     };
 
-		controller = jest.fn();
+    controller = jest.fn();
 
     jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
 
-    framework = new SwiftApplication(mockedRouter, mockedMiddlewareManager);
+    framework = new ConcreteApexCore(mockedRouter, mockedMiddlewareManager);
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
-    (SwiftApplication as any).instance = null;
+    (ConcreteApexCore as any).instance = null;
   });
 
   it("should be an instance of FastFramework", () => {
-    expect(framework).toBeInstanceOf(SwiftApplication);
+    expect(framework).toBeInstanceOf(ConcreteApexCore);
   });
 
   it("should initialize with the provided Router", () => {
@@ -86,37 +86,37 @@ describe("Swift application", () => {
   });
 
   it("should call router.get method with correct arguments", () => {
-		framework.get(PATH, controller);
+    framework.get(PATH, controller);
 
-		expect(mockedRouter.get).toHaveBeenCalledWith(PATH, controller);
+    expect(mockedRouter.get).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.get).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.post method with correct arguments", () => {
-		framework.post(PATH, controller);
+    framework.post(PATH, controller);
 
-		expect(mockedRouter.post).toHaveBeenCalledWith(PATH, controller);
+    expect(mockedRouter.post).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.post).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.delete method with correct arguments", () => {
-		framework.del(PATH, controller);
+    framework.del(PATH, controller);
 
-		expect(mockedRouter.del).toHaveBeenCalledWith(PATH, controller);
+    expect(mockedRouter.del).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.del).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.put method with correct arguments", () => {
-		framework.put(PATH, controller);
+    framework.put(PATH, controller);
 
-		expect(mockedRouter.put).toHaveBeenCalledWith(PATH, controller);
+    expect(mockedRouter.put).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.put).toHaveBeenCalledTimes(1);
   });
 
   it("should call router.patch method with correct arguments", () => {
-		framework.patch(PATH, controller);
+    framework.patch(PATH, controller);
 
-		expect(mockedRouter.patch).toHaveBeenCalledWith(PATH, controller);
+    expect(mockedRouter.patch).toHaveBeenCalledWith(PATH, controller);
     expect(mockedRouter.patch).toHaveBeenCalledTimes(1);
   });
 

@@ -1,44 +1,25 @@
 {
   "compilerOptions": {
-		"outDir": "./lib", // Specify an output folder for all emitted files.
-		"target": "ES6", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES201
-		"module": "commonjs", // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
-		"declaration": true, // Generates corresponding '.d.ts' file.
-		"declarationDir": "./lib", // Output directory for generated declaration files.
-		"experimentalDecorators": true, // Enables experimental support for ES7 decorators.
-		"emitDecoratorMetadata": true, // Enables experimental support for emitting type metadata for decorators.
-		"esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports.
-		"forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
-		"strictNullChecks": true, // Enable strict null checks.
-		"baseUrl": "./", // Base directory to resolve non-absolute module names.
+    "outDir": "./lib", // Specify an output folder for all emitted files.
+    "target": "ES6", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES201
+    "module": "commonjs", // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
+    "declaration": true, // Generates corresponding '.d.ts' file.
+    "declarationDir": "./lib", // Output directory for generated declaration files.
+    "experimentalDecorators": true, // Enables experimental support for ES7 decorators.
+    "emitDecoratorMetadata": true, // Enables experimental support for emitting type metadata for decorators.
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports.
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "strictNullChecks": true, // Enable strict null checks.
+    "baseUrl": "./", // Base directory to resolve non-absolute module names.
     "paths": {
-			"@apex.ts": [
-				"src/index"
-			],
-			"@application": [
-				"src/application/index"
-			],
-			"@config": [
-				"src/config/index"
-			],
-			"@exceptions": [
-				"src/exceptions/index"
-			],
-			"@factory": [
-				"src/factory/index"
-			],
-			"@http": [
-				"src/http/index"
-			],
-			"@middleware": [
-				"src/middleware/index"
-			],
-			"@parser": [
-				"src/parser/index"
-			],
-			"@router": [
-				"src/router/index"
-			]
+      "@apex.ts": ["src/index"],
+      "@core": ["src/core/index"],
+      "@config": ["src/config/index"],
+      "@exceptions": ["src/exceptions/index"],
+      "@http": ["src/http/index"],
+      "@middleware": ["src/middleware/index"],
+      "@parser": ["src/parser/index"],
+      "@router": ["src/router/index"]
     } // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'.
   },
   "include": ["src/**/*", "__tests__/**/*", "examples/**/*"], // Specifies an array of filenames or patterns to include in the program.

@@ -6,7 +6,7 @@ const homeController = container.resolve(HomeController);
 
 export const homeRoutes: CreateRoute[] = [
   {
-		httpMethod: HttpMethods.GET,
+    httpMethod: HttpMethods.GET,
     url: "/",
     controller: homeController.sayHello,
   },

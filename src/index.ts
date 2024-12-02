@@ -1,8 +1,7 @@
-// Exporting the modules from the library
-export * from "@application";
+// Purpose: Entry point for the ApexTS framework.
+export * from "src/core";
 export * from "@config";
 export * from "@exceptions";
-export * from "@factory";
 export * from "@http";
 export * from "@middleware";
 export * from "@parser";

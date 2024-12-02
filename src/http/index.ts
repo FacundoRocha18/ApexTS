@@ -1,3 +1,5 @@
+// Purpose: Entry point for the HTTP module.
+
 export type { HttpRequest } from "./request";
 export type { HttpResponse } from "./response";
 export type { Controller, PathVariables, QueryParams } from "./types";
@@ -6,4 +8,4 @@ export { HttpMethods } from "./http-methods";
 
 export { HttpServer } from "./http-server";
 
-export { HttpNotFoundException } from "./http-not-found-exception"
+export { HttpNotFoundException } from "./http-not-found-exception";
