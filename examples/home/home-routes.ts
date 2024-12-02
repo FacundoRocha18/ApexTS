@@ -1,6 +1,4 @@
-import { container } from "tsyringe";
-import { CreateRoute } from '../../src';
-import { HttpMethods } from '../../src/http';
+import { container, CreateRoute, HttpMethods } from "@swift-ts";
 
 import { HomeController } from "./home-controller";
 
