@@ -1,8 +1,8 @@
-import { CreateRoute, HttpMethods, tsyringe } from "@swift-ts";
+import { CreateRoute, HttpMethods, container } from "@swift-ts";
 
 import { UserController } from "./users-controller";
 
-const usersController = tsyringe.container.resolve(UserController);
+const usersController = container.resolve(UserController);
 
 export const usersRoutes: CreateRoute[] = [
   {
