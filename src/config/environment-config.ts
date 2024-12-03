@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import * as path from "path";
 
 import { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "@config";
-import { LoggerService } from '../logger';
+import { LoggerService } from '@logger';
 
 dotenv.config();
 

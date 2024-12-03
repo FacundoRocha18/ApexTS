@@ -3,8 +3,8 @@ import { container } from "tsyringe";
 import { ApexCoreApplication, ApexCore } from "@core";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
+import { LoggerService } from '@logger';
 import { Router } from "@router";
-import { LoggerService } from '../logger';
 
 export class ApexFactory {
 	private logger: LoggerService;
