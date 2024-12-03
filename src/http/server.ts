@@ -2,7 +2,6 @@ import { inject, injectable } from "tsyringe";
 import http from "http";
 
 import type { HttpRequest, HttpResponse } from "@http";
-
 import { IMiddlewareManager, MiddlewareManager } from "@middleware";
 import { IRouter, Router } from "@router";
 
@@ -30,7 +29,7 @@ export class HttpServer {
     const server = this.startHttpServer();
 
     server.listen(port, () => {
-      console.log(`Server running on port: ${port} on ${node_env} mode`);
+			console.info(`[Apex.ts]: Server running on port: ${port} on ${node_env} mode.`);
     });
   }
 }

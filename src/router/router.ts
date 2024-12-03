@@ -12,7 +12,9 @@ export class Router implements IRouter {
   constructor(
     @inject(ParserService)
     private parser: IParserService
-  ) {}
+  ) {
+		console.log("[Apex.ts]: Apex router created.");
+	}
 
   public use(httpMethod: HttpMethods, url: string, controller: Controller): void {
     this.addRoute(httpMethod, url, controller);

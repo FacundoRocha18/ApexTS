@@ -1,16 +1,19 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable, singleton } from "tsyringe";
 
 import type { IMiddlewareManager, ErrorMiddleware, Middleware, MiddlewareException } from "@middleware";
 import type { HttpRequest, HttpResponse } from "@http";
 
 import { IRouter, Router } from "@router";
 
+@singleton()
 @injectable()
 export class MiddlewareManager implements IMiddlewareManager {
   private middlewares: Middleware[] = [];
   private errorMiddlewares: ErrorMiddleware[] = [];
 
-  constructor(@inject(Router) private router: IRouter) {}
+  constructor(@inject(Router) private router: IRouter) {
+		console.log("[Apex.ts]: Apex middleware manager created.");
+	}
 
   public use(middleware: Middleware | ErrorMiddleware): void {
     if (!this.isErrorMiddleware(middleware)) {

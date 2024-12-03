@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable, singleton } from "tsyringe";
 import http from "http";
 
 import { ApexCore } from "@core";
@@ -6,12 +6,15 @@ import { HttpRequest, HttpResponse } from "@http";
 import { IMiddlewareManager, MiddlewareManager } from "@middleware";
 import { IRouter, CreateRoute, Router } from "@router";
 
+@singleton()
 @injectable()
 export class ApexCoreApplication implements ApexCore {
   constructor(
     @inject(Router) public router: IRouter,
     @inject(MiddlewareManager) private middlewareManager: IMiddlewareManager
-  ) {}
+  ) {
+		console.log("[Apex.ts]: Apex.ts application created.");
+	}
 
   public useModule(module: any): void {
     module.routes.forEach(({ httpMethod: method, url, controller }: CreateRoute) => {

@@ -32,7 +32,7 @@ class ApexEnvironmentConfiguration {
     const fullPath = path.resolve(process.cwd(), envPath);
 
     dotenv.config({ path: fullPath });
-		console.info(`ApexTS: Loaded environment variables from ${fullPath}`);
+		console.info(`[Apex.ts]: Loaded environment variables from ${fullPath}.`);
   }
 
   private loadEnvironmentConfiguration(): EnvironmentVariables {
@@ -58,7 +58,7 @@ class ApexEnvironmentConfiguration {
       PORT: Number(PORT),
     };
 
-		console.info(`ApexTS: Validated environment configuration: ${JSON.stringify(this.configuration)}`);
+		console.info(`[Apex.ts]: Validated environment configuration: ${JSON.stringify(this.configuration)}.`);
 		return this.configuration;
   }
 }
