@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 
-import { ConcreteApexCore, ApexCore } from "@core";
+import { ApexCoreApplication, ApexCore } from "@core";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
 import { Router } from "@router";
@@ -17,7 +17,7 @@ export class ApexFactory {
   }
 
   public create(): ApexCore {
-    const application = container.resolve(ConcreteApexCore);
+    const application = container.resolve(ApexCoreApplication);
 
     application.useMiddleware(jsonResponseMiddleware);
 

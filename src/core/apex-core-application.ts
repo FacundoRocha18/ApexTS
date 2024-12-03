@@ -7,7 +7,7 @@ import { IMiddlewareManager, MiddlewareManager } from "@middleware";
 import { IRouter, CreateRoute, Router } from "@router";
 
 @injectable()
-export class ConcreteApexCore implements ApexCore {
+export class ApexCoreApplication implements ApexCore {
   constructor(
     @inject(Router) public router: IRouter,
     @inject(MiddlewareManager) private middlewareManager: IMiddlewareManager

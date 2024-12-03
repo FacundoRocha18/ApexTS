@@ -1,23 +1,22 @@
 import "reflect-metadata";
 
-import { ConcreteApexCore, ApexFactory } from "@core";
+import { ApexCore, ApexCoreApplication, ApexFactory } from "@core";
 
 describe("ApexFactory", () => {
   let apexFactoryInstance: ApexFactory;
+	let apexApplicationInstance: ApexCore;
 
   beforeEach(() => {
     apexFactoryInstance = new ApexFactory();
+
+		apexApplicationInstance = apexFactoryInstance.create();
   });
 
   it("should return a valid SwiftApplication instance", () => {
-    const apexInstance = apexFactoryInstance.create();
-
-    expect(apexInstance).toBeInstanceOf(ConcreteApexCore);
+    expect(apexApplicationInstance).toBeInstanceOf(ApexCoreApplication);
   });
 
   it("should return a valid SwiftApplication instance with the correct dependencies", () => {
-    const apexInstance = apexFactoryInstance.create();
-
-    expect(apexInstance.router).toBeDefined();
+    expect(apexApplicationInstance.router).toBeDefined();
   });
 });

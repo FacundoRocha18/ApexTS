@@ -2,6 +2,6 @@
 
 export type { ApexCore } from "./apex.interface";
 
-export { ConcreteApexCore } from "./apex-core";
+export { ApexCoreApplication } from "./apex-core-application";
 
 export { ApexFactory } from "./apex-factory";
