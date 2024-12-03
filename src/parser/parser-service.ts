@@ -6,9 +6,6 @@ import type { IParserService } from "@parser";
 @singleton()
 @injectable()
 export class ParserService implements IParserService {
-	constructor() {
-		console.log("[Apex.ts]: ParserService initialized.");
-	}
 
   public async convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): Promise<void> {
     try {

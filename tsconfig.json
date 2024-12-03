@@ -17,6 +17,7 @@
       "@config": ["src/config/index"],
       "@exceptions": ["src/exceptions/index"],
       "@http": ["src/http/index"],
+			"@logger": ["src/logger/index"],
       "@middleware": ["src/middleware/index"],
       "@parser": ["src/parser/index"],
       "@router": ["src/router/index"]
