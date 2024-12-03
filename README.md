@@ -1,6 +1,6 @@
 # ApexTS
 
-## Lightweight framework with TypeScript power.
+## Lightweight framework with TypeScript power
 
 Framework es un framework web ligero, escrito en Node.js y TypeScript, diseñado para simplificar la creación de aplicaciones RESTful con un manejo eficiente de rutas y middlewares.
 
@@ -37,28 +37,37 @@ npm install apex.ts
 ### Crear un Servidor Básico
 
 ```typescript
-import { MyFramework, Router, MiddlewareManager, RequestHandlerService } from "myframework";
+import "reflect-metadata";
 
-const app = new MyFramework();
-const router = new Router();
-const middlewareManager = new MiddlewareManager();
-const requestHandler = new RequestHandlerService(middlewareManager, router);
+import {
+  HttpRequest,
+  HttpResponse,
+  ApexCore,
+  ApexFactory,
+  ApexDotEnvConfig,
+  authMiddleware,
+  errorHandlerMiddleware,
+  loggerMiddleware,
+} from "apex.ts";
 
-// Define middlewares
-middlewareManager.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
+const { PORT, NODE_ENV } = ApexDotEnvConfig;
+const app: ApexCore = new ApexFactory().create();
+
+app.get("/", (req: HttpRequest, res: HttpResponse) => {
+  res.json({
+    message: "Apex.ts is a web framework for Node.js",
+  });
 });
 
-// Define rutas
-router.get("/hello", (req, res) => {
-  res.end("Hello, world!");
+app.options("*", (req: HttpRequest, res: HttpResponse) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.status(204);
+  res.end();
 });
 
-app.use("/", router);
-app.listen(3000, () => {
-  console.log("Servidor en ejecución en http://localhost:3000");
-});
+app.listen(PORT, NODE_ENV);
 ```
 
 ## Estructura de Carpetas

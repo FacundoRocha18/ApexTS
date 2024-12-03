@@ -15,9 +15,9 @@ import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
-const factory = new ApexFactory();
 const { PORT, NODE_ENV } = ApexDotEnvConfig;
-const app: ApexCore = factory.create();
+const app: ApexCore = new ApexFactory().create();
+
 
 app.useMiddleware(authMiddleware);
 app.useMiddleware(loggerMiddleware);
