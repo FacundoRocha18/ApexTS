@@ -1,10 +1,12 @@
-import { injectable } from "tsyringe";
+import { injectable, singleton } from "tsyringe";
 
 import type { HttpRequest, HttpResponse, QueryParams, PathVariables } from "@http";
 import type { IParserService } from "@parser";
 
+@singleton()
 @injectable()
 export class ParserService implements IParserService {
+
   public async convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): Promise<void> {
     try {
       const requestBody = await this.getRequestBody(req);

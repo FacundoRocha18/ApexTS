@@ -12,6 +12,7 @@ const config: Config = {
     "^@exceptions$": "<rootDir>/src/exceptions/index",
     "^@factory$": "<rootDir>/src/factory/index",
     "^@http$": "<rootDir>/src/http/index",
+		"^@logger$": "<rootDir>/src/logger/index",
     "^@middleware$": "<rootDir>/src/middleware/index",
     "^@parser$": "<rootDir>/src/parser/index",
     "^@router$": "<rootDir>/src/router/index",

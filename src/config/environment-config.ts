@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import * as path from "path";
 
 import { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "@config";
+import { LoggerService } from '@logger';
 
 dotenv.config();
 
@@ -9,8 +10,10 @@ class ApexEnvironmentConfiguration {
 	private static instance: ApexEnvironmentConfiguration;
 	private variables: EnvironmentVariables;
 	private configuration: ValidatedEnvironmentConfiguration;
+	private logger: LoggerService;
 
   private constructor(envFilePath?: string) {
+		this.logger = new LoggerService("ApexEnvConfig");
     this.loadDotEnvFile(envFilePath);
 		this.variables = this.loadEnvironmentConfiguration();
   }
@@ -32,7 +35,7 @@ class ApexEnvironmentConfiguration {
     const fullPath = path.resolve(process.cwd(), envPath);
 
     dotenv.config({ path: fullPath });
-		console.info(`ApexTS: Loaded environment variables from ${fullPath}`);
+		this.logger.log(`Loaded environment variables from ${fullPath}.`);
   }
 
   private loadEnvironmentConfiguration(): EnvironmentVariables {
@@ -58,7 +61,7 @@ class ApexEnvironmentConfiguration {
       PORT: Number(PORT),
     };
 
-		console.info(`ApexTS: Validated environment configuration: ${JSON.stringify(this.configuration)}`);
+		this.logger.log(`Validated environment configuration: ${JSON.stringify(this.configuration)}`);
 		return this.configuration;
   }
 }

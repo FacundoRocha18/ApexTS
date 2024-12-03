@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import http from "http";
 
-import { ApexCore, ConcreteApexCore } from "@core";
+import { ApexCore, ApexCoreApplication } from "@core";
 import { IMiddlewareManager } from "@middleware";
 import { Controller } from "@http";
 import { IRouter } from "@router";
@@ -41,16 +41,15 @@ describe("ApexCore", () => {
 
     jest.spyOn(http, "createServer").mockReturnValue(mockedServer as unknown as http.Server);
 
-    framework = new ConcreteApexCore(mockedRouter, mockedMiddlewareManager);
+    framework = new ApexCoreApplication(mockedRouter, mockedMiddlewareManager);
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
-    (ConcreteApexCore as any).instance = null;
   });
 
   it("should be an instance of FastFramework", () => {
-    expect(framework).toBeInstanceOf(ConcreteApexCore);
+    expect(framework).toBeInstanceOf(ApexCoreApplication);
   });
 
   it("should initialize with the provided Router", () => {
