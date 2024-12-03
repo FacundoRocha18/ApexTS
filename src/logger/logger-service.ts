@@ -6,14 +6,14 @@ export class LoggerService {
   }
 
   log(message: string): void {
-    console.log(`[${new Date().toISOString()}] [${this.context}] LOG: ${message}`);
+    console.log(`[${this.context}] LOG: ${message}`);
   }
 
   error(message: string): void {
-    console.error(`[${new Date().toISOString()}] [${this.context}] ERROR: ${message}`);
+    console.error(`[${this.context}] ERROR: ${message}`);
   }
 
   warn(message: string): void {
-    console.warn(`[${new Date().toISOString()}] [${this.context}] WARN: ${message}`);
+    console.warn(`[${this.context}] WARN: ${message}`);
   }
 }

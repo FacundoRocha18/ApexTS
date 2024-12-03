@@ -13,7 +13,7 @@ class ApexEnvironmentConfiguration {
 	private logger: LoggerService;
 
   private constructor(envFilePath?: string) {
-		this.logger = new LoggerService("ApexEnvironmentConfiguration");
+		this.logger = new LoggerService("ApexEnvConfig");
     this.loadDotEnvFile(envFilePath);
 		this.variables = this.loadEnvironmentConfiguration();
   }
