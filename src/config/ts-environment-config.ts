@@ -1,29 +1,29 @@
 import dotenv from "dotenv";
 import * as path from "path";
 
-import { IEnvironmentConfiguration, IEnvironmentVariables } from "@config";
+import { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "@config";
 
 dotenv.config();
 
-class EnvironmentConfiguration {
-  private static instance: EnvironmentConfiguration;
-  private environmentConfiguration: IEnvironmentVariables;
-  private validatedEnvironmentConfiguration: IEnvironmentConfiguration;
+class ApexEnvironmentConfiguration {
+	private static instance: ApexEnvironmentConfiguration;
+	private variables: EnvironmentVariables;
+	private configuration: ValidatedEnvironmentConfiguration;
 
   private constructor(envFilePath?: string) {
     this.loadDotEnvFile(envFilePath);
-    this.environmentConfiguration = this.loadEnvironmentConfiguration();
+		this.variables = this.loadEnvironmentConfiguration();
   }
 
-  public static getInstance(envFilePath?: string): EnvironmentConfiguration {
-    if (!EnvironmentConfiguration.instance) {
-      EnvironmentConfiguration.instance = new EnvironmentConfiguration(envFilePath);
+	public static getInstance(envFilePath?: string): ApexEnvironmentConfiguration {
+		if (!ApexEnvironmentConfiguration.instance) {
+			ApexEnvironmentConfiguration.instance = new ApexEnvironmentConfiguration(envFilePath);
     }
 
-    return EnvironmentConfiguration.instance;
+		return ApexEnvironmentConfiguration.instance;
   }
 
-  public getConfiguration(): IEnvironmentConfiguration {
+  public getConfiguration(): ValidatedEnvironmentConfiguration {
     return this.validateEnvironmentConfiguration();
   }
 
@@ -32,18 +32,18 @@ class EnvironmentConfiguration {
     const fullPath = path.resolve(process.cwd(), envPath);
 
     dotenv.config({ path: fullPath });
-    console.info(`Loaded environment variables from ${fullPath}`);
+		console.info(`ApexTS: Loaded environment variables from ${fullPath}`);
   }
 
-  private loadEnvironmentConfiguration(): IEnvironmentVariables {
+  private loadEnvironmentConfiguration(): EnvironmentVariables {
     return {
       NODE_ENV: process.env.NODE_ENV,
       PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
     };
   }
 
-  private validateEnvironmentConfiguration(): IEnvironmentConfiguration {
-    const { NODE_ENV, PORT } = this.environmentConfiguration;
+  private validateEnvironmentConfiguration(): ValidatedEnvironmentConfiguration {
+		const { NODE_ENV, PORT } = this.variables;
 
     if (NODE_ENV === undefined) {
       throw new Error(`Missing key NODE_ENV in config.env`);
@@ -53,15 +53,15 @@ class EnvironmentConfiguration {
       throw new Error(`Missing key PORT in config.env`);
     }
 
-    this.validatedEnvironmentConfiguration = {
+		this.configuration = {
       NODE_ENV: NODE_ENV as string,
       PORT: Number(PORT),
     };
 
-    console.info(`Validated environment configuration: ${JSON.stringify(this.validatedEnvironmentConfiguration)}`);
-    return this.validatedEnvironmentConfiguration;
+		console.info(`ApexTS: Validated environment configuration: ${JSON.stringify(this.configuration)}`);
+		return this.configuration;
   }
 }
 
-export const TsEnvironmentConfiguration: IEnvironmentConfiguration =
-  EnvironmentConfiguration.getInstance().getConfiguration();
+export const ApexDotEnvConfig: ValidatedEnvironmentConfiguration =
+	ApexEnvironmentConfiguration.getInstance().getConfiguration();
