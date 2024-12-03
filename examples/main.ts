@@ -5,7 +5,7 @@ import {
   HttpResponse,
   ApexCore,
   ApexFactory,
-  TsEnvironmentConfiguration,
+  ApexDotEnvConfig,
   authMiddleware,
   errorHandlerMiddleware,
   loggerMiddleware,
@@ -16,7 +16,7 @@ import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
 const factory = new ApexFactory();
-const { PORT, NODE_ENV } = TsEnvironmentConfiguration;
+const { PORT, NODE_ENV } = ApexDotEnvConfig;
 const app: ApexCore = factory.create();
 
 app.useMiddleware(authMiddleware);
