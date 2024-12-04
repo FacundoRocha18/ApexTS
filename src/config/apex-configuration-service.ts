@@ -1,41 +1,26 @@
+import { inject, injectable, singleton } from 'tsyringe';
 import dotenv from "dotenv";
-import * as path from "path";
 
 import { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "@config";
 import { LoggerService } from '@logger';
 
 dotenv.config();
 
-class ApexEnvironmentConfiguration {
-	private static instance: ApexEnvironmentConfiguration;
+@singleton()
+@injectable()
+export class ApexConfigurationService {
 	private variables: EnvironmentVariables;
 	private configuration: ValidatedEnvironmentConfiguration;
-	private logger: LoggerService;
 
-  private constructor(envFilePath?: string) {
-		this.logger = new LoggerService("ApexEnvConfig");
-    this.loadDotEnvFile(envFilePath);
+  constructor(
+		@inject(LoggerService) 
+		private logger: LoggerService,
+	) {
 		this.variables = this.loadEnvironmentConfiguration();
-  }
-
-	public static getInstance(envFilePath?: string): ApexEnvironmentConfiguration {
-		if (!ApexEnvironmentConfiguration.instance) {
-			ApexEnvironmentConfiguration.instance = new ApexEnvironmentConfiguration(envFilePath);
-    }
-
-		return ApexEnvironmentConfiguration.instance;
   }
 
   public getConfiguration(): ValidatedEnvironmentConfiguration {
     return this.validateEnvironmentConfiguration();
-  }
-
-  private loadDotEnvFile(envFilePath?: string): void {
-    const envPath = envFilePath || `.env.${process.env.NODE_ENV || "development"}`;
-    const fullPath = path.resolve(process.cwd(), envPath);
-
-    dotenv.config({ path: fullPath });
-		this.logger.log(`Loaded environment variables from ${fullPath}.`);
   }
 
   private loadEnvironmentConfiguration(): EnvironmentVariables {
@@ -64,7 +49,4 @@ class ApexEnvironmentConfiguration {
 		this.logger.log(`Validated environment configuration: ${JSON.stringify(this.configuration)}`);
 		return this.configuration;
   }
-}
-
-export const ApexDotEnvConfig: ValidatedEnvironmentConfiguration =
-	ApexEnvironmentConfiguration.getInstance().getConfiguration();
+};

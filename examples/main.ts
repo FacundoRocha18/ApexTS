@@ -5,7 +5,6 @@ import {
   HttpResponse,
   ApexCore,
   ApexFactory,
-  ApexDotEnvConfig,
   authMiddleware,
   errorHandlerMiddleware,
   loggerMiddleware,
@@ -15,9 +14,8 @@ import { usersModule } from "./users/users-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
-const { PORT, NODE_ENV } = ApexDotEnvConfig;
 const app: ApexCore = new ApexFactory().create();
-
+const { NODE_ENV, PORT } = app.EnvConfig;
 
 app.useMiddleware(authMiddleware);
 app.useMiddleware(loggerMiddleware);

@@ -1,5 +1,5 @@
 // Purpose: Entry point for the config module.
 
-export type { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "./environment-config.interface";
+export type { EnvironmentVariables, ValidatedEnvironmentConfiguration } from "./apex-configuration-service.interface";
 
-export { ApexDotEnvConfig } from "./environment-config";
+export { ApexConfigurationService } from "./apex-configuration-service";

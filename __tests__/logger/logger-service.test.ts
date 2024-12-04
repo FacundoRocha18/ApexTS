@@ -1,11 +1,11 @@
+import "reflect-metadata";
 import { LoggerService } from '@logger';
 
 describe("LoggerService", () => {
 	let loggerInstance: LoggerService;
-	const CONTEXT = "LoggerServiceTest";
 
 	beforeEach(() => {
-		loggerInstance = new LoggerService(CONTEXT);
+		loggerInstance = new LoggerService();
 	});
 
 	it("should log a message", () => {
@@ -13,7 +13,7 @@ describe("LoggerService", () => {
 
 		loggerInstance.log("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith(`[${CONTEXT}] LOG: Hello, world!`);
+		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] LOG: Hello, world!");
 	});
 
 	it("should log a warning", () => {
@@ -21,7 +21,7 @@ describe("LoggerService", () => {
 
 		loggerInstance.warn("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith(`[${CONTEXT}] WARN: Hello, world!`);
+		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] WARN: Hello, world!");
 	});
 
 	it("should log an error", () => {
@@ -29,7 +29,7 @@ describe("LoggerService", () => {
 
 		loggerInstance.error("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith(`[${CONTEXT}] ERROR: Hello, world!`);
+		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] ERROR: Hello, world!");
 	});
 
 	afterEach(() => {
