@@ -44,20 +44,17 @@ import {
   HttpResponse,
   ApexCore,
   ApexFactory,
-  ApexDotEnvConfig,
   authMiddleware,
   errorHandlerMiddleware,
   loggerMiddleware,
-} from "apex.ts";
+} from "@apex.ts";
 
-const { PORT, NODE_ENV } = ApexDotEnvConfig;
 const app: ApexCore = new ApexFactory().create();
+const { NODE_ENV, PORT } = app.EnvConfig;
 
-app.get("/", (req: HttpRequest, res: HttpResponse) => {
-  res.json({
-    message: "Apex.ts is a web framework for Node.js",
-  });
-});
+app.useMiddleware(authMiddleware);
+app.useMiddleware(loggerMiddleware);
+app.useMiddleware(errorHandlerMiddleware);
 
 app.options("*", (req: HttpRequest, res: HttpResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -68,6 +65,7 @@ app.options("*", (req: HttpRequest, res: HttpResponse) => {
 });
 
 app.listen(PORT, NODE_ENV);
+
 ```
 
 ## Estructura de Carpetas

@@ -1,19 +1,21 @@
+import { injectable, singleton } from 'tsyringe';
+
+@singleton()
+@injectable()
 export class LoggerService {
-  private context: string;
+	private context: string;
 
-  constructor(context: string) {
-    this.context = context;
-  }
+	constructor() { }
 
-  log(message: string): void {
-    console.log(`[${this.context}] LOG: ${message}`);
-  }
+	log(message: string): void {
+		console.log(`[ApexLoggerService] LOG: ${message}`);
+	}
 
-  error(message: string): void {
-    console.error(`[${this.context}] ERROR: ${message}`);
-  }
+	error(message: string): void {
+		console.error(`[ApexLoggerService] ERROR: ${message}`);
+	}
 
-  warn(message: string): void {
-    console.warn(`[${this.context}] WARN: ${message}`);
-  }
+	warn(message: string): void {
+		console.warn(`[ApexLoggerService] WARN: ${message}`);
+	}
 }

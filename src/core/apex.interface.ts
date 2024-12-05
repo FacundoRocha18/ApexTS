@@ -1,6 +1,7 @@
 import { ErrorMiddleware, Middleware } from "@middleware";
 import { Controller, HttpMethods } from "@http";
 import { IRouter } from "@router";
+import { ValidatedEnvironmentConfiguration } from '../config';
 
 /**
  * Public API for the ApexTS framework.
@@ -18,6 +19,8 @@ export interface ApexCore {
   del(path: string, handler: Controller): void;
   patch(path: string, handler: Controller): void;
   options(path: string, handler: Controller): void;
+
+	EnvConfig: ValidatedEnvironmentConfiguration;
 
   listen(port: number, node_env: string): void;
 }

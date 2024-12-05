@@ -5,12 +5,12 @@ import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
 import { LoggerService } from '@logger';
 import { Router } from "@router";
+import { ApexConfigurationService } from '../config/apex-configuration-service';
 
 export class ApexFactory {
 	private logger: LoggerService;
 
-  constructor() {
-		this.logger = new LoggerService("ApexFactory");
+	constructor() {
     this.resolveDependencies();
   }
 
@@ -23,7 +23,9 @@ export class ApexFactory {
   };
 
   private resolveDependencies() {
+		this.logger = container.resolve(LoggerService);
 		const dependencies = [
+			ApexConfigurationService,
 			MiddlewareManager,
 			ParserService,
 			Router,
