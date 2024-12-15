@@ -29,22 +29,38 @@ export class CustomersController {
 	};
 
 	public findAll = async (req: HttpRequest, res: HttpResponse) => {
-		res.statusCode = 200;
-		res.json({
-			status: "success",
-			message: "Customers' info retrieved successfully",
-			data: await this.service.findAll(),
-		});
+		try {
+			res.statusCode = 200;
+			res.json({
+				status: "success",
+				message: "Customers' info retrieved successfully",
+				data: await this.service.findAll(),
+			});
+		} catch (error) {
+			res.statusCode = 404;
+			res.json({
+				status: "error",
+				message: error.message,
+			});
+		}
 	};
 
 	public create = async (req: HttpRequest, res: HttpResponse) => {
-		const data = req.body as CreateCustomer;
+		try {
+			const data = req.body as CreateCustomer;
 
-		res.statusCode = 201;
-		res.json({
-			status: "success",
-			message: "Customer created successfully",
-			data: await this.service.create(data),
-		});
+			res.statusCode = 201;
+			res.json({
+				status: "success",
+				message: "Customer created successfully",
+				data: await this.service.create(data),
+			});
+		} catch (error) {
+			res.statusCode = 400;
+			res.json({
+				status: "error",
+				message: error.message,
+			});
+		}
 	};
 }
