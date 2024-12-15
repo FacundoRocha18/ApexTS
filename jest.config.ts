@@ -10,6 +10,7 @@ const config: Config = {
 		"^@config$": "<rootDir>/src/config/index",
     "^@core$": "<rootDir>/src/core/index",
 		"^@database$": "<rootDir>/src/database/index",
+		"^@decorators$": "<rootDir>/src/decorators/index",
     "^@exceptions$": "<rootDir>/src/exceptions/index",
     "^@factory$": "<rootDir>/src/factory/index",
     "^@http$": "<rootDir>/src/http/index",
