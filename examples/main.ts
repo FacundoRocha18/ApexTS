@@ -10,7 +10,7 @@ import {
   loggerMiddleware,
 } from "@apex.ts";
 
-import { usersModule } from "./users/users-module";
+import { customersModule } from "./customers/customers-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
@@ -23,7 +23,7 @@ app.useMiddleware(errorHandlerMiddleware);
 
 app.useModule(homeModule);
 app.useModule(productsModule);
-app.useModule(usersModule);
+app.useModule(customersModule);
 
 app.options("*", (req: HttpRequest, res: HttpResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

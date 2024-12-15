@@ -1,6 +1,7 @@
 // Purpose: Entry point for the ApexTS framework.
-export * from "src/core";
+export * from "@core";
 export * from "@config";
+export * from "@database";
 export * from "@exceptions";
 export * from "@http";
 export * from "@middleware";

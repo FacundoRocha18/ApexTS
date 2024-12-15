@@ -1,10 +1,10 @@
 import { Module } from "../types";
-import { UserController } from "../users/users-controller";
-import { UsersService } from "../users/users-provider";
+import { CustomersController } from "../customers/customers-controller";
+import { CustomersService } from "../customers/customers-service";
 import { productsRoutes } from "./products-routes";
 
 export const productsModule: Module = {
   routes: productsRoutes,
-  controllers: [UserController],
-  providers: [UsersService],
+	controllers: [CustomersController],
+	providers: [CustomersService],
 };

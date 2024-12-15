@@ -5,14 +5,15 @@ import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ParserService } from "@parser";
 import { LoggerService } from '@logger';
 import { Router } from "@router";
-import { ApexConfigurationService } from '../config/apex-configuration-service';
+import { ApexConfigurationService } from '@config';
+import { DatabaseService } from '@database';
 
 export class ApexFactory {
 	private logger: LoggerService;
 
 	constructor() {
-    this.resolveDependencies();
-  }
+    this.bootstrap();
+  };
 
   public create(): ApexCore {
     const application = this.resolveAndLog(ApexCoreApplication);
@@ -22,8 +23,18 @@ export class ApexFactory {
     return application;
   };
 
-  private resolveDependencies() {
+	private async bootstrap() {
+		await this.resolveDependencies();
+	};
+	
+	private async initializeDatabase() {
+		const databaseService = container.resolve(DatabaseService);
+    await databaseService.initialize();
+  };
+	
+  private async resolveDependencies() {
 		this.logger = container.resolve(LoggerService);
+		await this.initializeDatabase();
 		const dependencies = [
 			ApexConfigurationService,
 			MiddlewareManager,
@@ -40,4 +51,4 @@ export class ApexFactory {
 
 		return instance;
 	};
-}
+};

@@ -14,6 +14,7 @@
     "paths": {
       "@apex.ts": ["src/index"],
       "@core": ["src/core/index"],
+			"@database": ["src/database/index"],
       "@config": ["src/config/index"],
       "@exceptions": ["src/exceptions/index"],
       "@http": ["src/http/index"],

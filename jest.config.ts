@@ -7,8 +7,9 @@ const config: Config = {
     "^.+\\.ts$": ["ts-jest", { tsconfig: "tsconfig.test.json" }],
   },
   moduleNameMapper: {
+		"^@config$": "<rootDir>/src/config/index",
     "^@core$": "<rootDir>/src/core/index",
-    "^@config$": "<rootDir>/src/config/index",
+		"^@database$": "<rootDir>/src/database/index",
     "^@exceptions$": "<rootDir>/src/exceptions/index",
     "^@factory$": "<rootDir>/src/factory/index",
     "^@http$": "<rootDir>/src/http/index",

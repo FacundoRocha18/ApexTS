@@ -37,8 +37,10 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "jiti": "^2.3.3",
+    "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
-    "tsyringe": "^4.8.0"
+    "tsyringe": "^4.8.0",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
