@@ -2,22 +2,27 @@ import { CreateRoute, HttpMethods, container } from "@apex.ts";
 
 import { CustomersController } from "./customers-controller";
 
-const usersController = container.resolve(CustomersController);
+const customersController = container.resolve(CustomersController);
 
 export const customersRoutes: CreateRoute[] = [
 	{
 		httpMethod: HttpMethods.GET,
-		url: "/users",
-		controller: usersController.findAll,
+		url: "/customers",
+		controller: customersController.findAll,
 	},
 	{
 		httpMethod: HttpMethods.GET,
-		url: "/users/:id",
-		controller: usersController.findOne,
+		url: "/customers/:id",
+		controller: customersController.findOne,
 	},
 	{
 		httpMethod: HttpMethods.POST,
-		url: "/users",
-		controller: usersController.create,
+		url: "/customers",
+		controller: customersController.create,
+	},
+	{
+		httpMethod: HttpMethods.DELETE,
+		url: "/customers/:id",
+		controller: customersController.delete,
 	},
 ];

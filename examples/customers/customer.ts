@@ -1,16 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ICustomer } from './types';
 
 @Entity({ name: 'customers' })
 export class Customer implements ICustomer {
 	@PrimaryGeneratedColumn()
-	customer_id: number;
+	id: number;
 
 	@Column()
-	customer_name: string;
+	name: string;
 
 	@Column()
-	contact_name: string;
+	email: string;
+
+	@Column({ select: false })
+	password: string;
 
 	@Column()
 	address: string;
@@ -23,4 +26,7 @@ export class Customer implements ICustomer {
 
 	@Column()
 	country: string;
+
+	@DeleteDateColumn()
+	deleted_at: Date;
 }

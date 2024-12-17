@@ -3,8 +3,6 @@ import { injectable, singleton } from 'tsyringe';
 @singleton()
 @injectable()
 export class LoggerService {
-	private context: string;
-
 	constructor() { }
 
 	log(message: string): void {

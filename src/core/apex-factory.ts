@@ -36,6 +36,7 @@ export class ApexFactory {
 
 	private async bootstrap(): Promise<void> {
 		await this.initializeDatabase();
+		
 		this.resolveDependencies([
 			ApexConfigurationService,
 			MiddlewareManager,

@@ -1,7 +1,8 @@
 export interface ICustomer {
-	customer_id: number;
-	customer_name: string;
-	contact_name: string;
+	id: number;
+	name: string;
+	email: string;
+	password: string;
 	address: string;
 	city: string;
 	postal_code: string;
@@ -10,4 +11,4 @@ export interface ICustomer {
 
 export type CreateCustomer = Omit<ICustomer, "id">;
 
-export type PublicCustomer = Omit<ICustomer, "address" | "city" | "postal_code" | "country">;
+export type PublicCustomer = Pick<ICustomer, "id" | "name" | "email" | "country">;

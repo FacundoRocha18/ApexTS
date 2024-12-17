@@ -7,16 +7,17 @@ export class CustomersService {
 	@InjectRepository(Customer) private repository: Repository<Customer>;
 
 	public findOneBy = async (id: number): Promise<PublicCustomer> => {
-		const customer = await this.repository.findOneBy({ customer_id: id });
+		const customer = await this.repository.findOneBy({ id });
 
 		if (!customer) {
 			throw new Error("User not found");
 		}
 
 		const publicCustomer: PublicCustomer = {
-			customer_id: customer.customer_id,
-			customer_name: customer.customer_name,
-			contact_name: customer.contact_name,
+			id: customer.id,
+			name: customer.name,
+			email: customer.email,
+			country: customer.country,
 		};
 
 		return publicCustomer;
@@ -31,9 +32,10 @@ export class CustomersService {
 
 		return customers.map((customer) => {
 			return {
-				customer_id: customer.customer_id,
-				customer_name: customer.customer_name,
-				contact_name: customer.contact_name,
+				id: customer.id,
+				name: customer.name,
+				email: customer.email,
+				country: customer.country,
 			};
 		});
 	};
@@ -47,5 +49,19 @@ export class CustomersService {
 		}
 
 		return savedCustomer;
+	};
+
+	public delete = async (id: number): Promise<void> => {
+		const customer = await this.repository.findOneBy({ id });
+
+		if (!customer) {
+			throw new Error("Customer not found");
+		}
+
+		const deleteResult = await this.repository.softDelete({ id: customer.id });
+
+		if (!deleteResult.affected) {
+			throw new Error("Failed to delete customer");
+		};
 	};
 }

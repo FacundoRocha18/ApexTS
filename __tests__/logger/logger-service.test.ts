@@ -8,6 +8,10 @@ describe("LoggerService", () => {
 		loggerInstance = new LoggerService();
 	});
 
+	afterEach(() => {
+		jest.restoreAllMocks();
+	});
+
 	it("should log a message", () => {
 		const spy = jest.spyOn(console, "log");
 
@@ -30,9 +34,5 @@ describe("LoggerService", () => {
 		loggerInstance.error("Hello, world!");
 
 		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] ERROR: Hello, world!");
-	});
-
-	afterEach(() => {
-		jest.restoreAllMocks();
 	});
 });

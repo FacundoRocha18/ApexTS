@@ -63,4 +63,24 @@ export class CustomersController {
 			});
 		}
 	};
+
+	public delete = async (req: HttpRequest, res: HttpResponse) => {
+		try {
+			const { id } = req.pathVariables as { id: string };
+
+			await this.service.delete(parseInt(id));
+
+			res.statusCode = 200;
+			res.json({
+				status: "success",
+				message: "Customer deleted successfully",
+			});
+		} catch (error) {
+			res.statusCode = 404;
+			res.json({
+				status: "error",
+				message: error.message,
+			});
+		}
+	};
 }
