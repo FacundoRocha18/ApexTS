@@ -9,9 +9,9 @@ export class CustomersController {
 
 	public findOne = async (req: HttpRequest, res: HttpResponse) => {
 		try {
-			const { id } = req.pathVariables as { id: string };
+			const { id, email } = req.pathVariables as { id: string, email: string };
 
-			const user = await this.service.findOneBy(parseInt(id));
+			const user = await this.service.findOneBy({ email });
 
 			res.statusCode = 200;
 			res.json({

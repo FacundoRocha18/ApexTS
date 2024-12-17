@@ -9,7 +9,7 @@ export class Customer implements ICustomer {
 	@Column()
 	name: string;
 
-	@Column()
+	@Column({ unique: true })
 	email: string;
 
 	@Column({ select: false })

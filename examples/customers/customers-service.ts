@@ -1,13 +1,13 @@
 import { Repository, autoInjectable, InjectRepository } from "@apex.ts";
-import { CreateCustomer, PublicCustomer } from "./types";
+import { CreateCustomer, FindParameters, PublicCustomer } from "./types";
 import { Customer } from './customer';
 
 @autoInjectable()
 export class CustomersService {
 	@InjectRepository(Customer) private repository: Repository<Customer>;
 
-	public findOneBy = async (id: number): Promise<PublicCustomer> => {
-		const customer = await this.repository.findOneBy({ id });
+	public findOneBy = async (parameters: FindParameters): Promise<PublicCustomer> => {
+		const customer = await this.repository.findOneBy(parameters);
 
 		if (!customer) {
 			throw new Error("User not found");
@@ -42,13 +42,18 @@ export class CustomersService {
 
 	public create = async (customerData: CreateCustomer): Promise<PublicCustomer> => {
 		const newCustomer = this.repository.create(customerData);
-		const savedCustomer = await this.repository.save(newCustomer);
+		const savedCustomer = await this.repository.save(newCustomer, {});
 
 		if (!savedCustomer) {
 			throw new Error("Failed to create customer");
 		}
 
-		return savedCustomer;
+		return {
+			id: savedCustomer.id,
+			name: savedCustomer.name,
+			email: savedCustomer.email,
+			country: savedCustomer.country,
+		};
 	};
 
 	public delete = async (id: number): Promise<void> => {

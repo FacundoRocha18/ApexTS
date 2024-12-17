@@ -12,3 +12,8 @@ export interface ICustomer {
 export type CreateCustomer = Omit<ICustomer, "id">;
 
 export type PublicCustomer = Pick<ICustomer, "id" | "name" | "email" | "country">;
+
+export type FindParameters = {
+	id?: number;
+	email?: string;
+};
