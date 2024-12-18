@@ -1,7 +1,7 @@
 import { autoInjectable, HttpRequest, HttpResponse } from "@apex.ts";
 
 import { CustomersService } from "./customers-service";
-import { CreateCustomer } from "./types";
+import { CreateCustomer, FindParameters } from "./types";
 
 @autoInjectable()
 export class CustomersController {
@@ -9,9 +9,8 @@ export class CustomersController {
 
 	public findOne = async (req: HttpRequest, res: HttpResponse) => {
 		try {
-			const { id, email } = req.pathVariables as { id: string, email: string };
-
-			const user = await this.service.findOneBy({ email });
+			const parameters = req.pathVariables as FindParameters;
+			const user = await this.service.findOneBy(parameters);
 
 			res.statusCode = 200;
 			res.json({

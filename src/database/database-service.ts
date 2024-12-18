@@ -1,7 +1,7 @@
 import { inject, injectable, singleton } from 'tsyringe';
 import { DataSource } from 'typeorm';
 import { LoggerService } from '@logger';
-import { DatabaseConfig } from './database-config';
+import { DatabaseConfig } from '@database';
 
 @singleton()
 @injectable()
