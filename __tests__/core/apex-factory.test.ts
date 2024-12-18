@@ -9,7 +9,7 @@ describe("ApexFactory", () => {
   beforeEach(() => {
     apexFactoryInstance = new ApexFactory();
 
-		apexApplicationInstance = apexFactoryInstance.create();
+		apexApplicationInstance = apexFactoryInstance.initializeApplication();
   });
 
   it("should return a valid SwiftApplication instance", () => {

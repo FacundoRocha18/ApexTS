@@ -14,7 +14,7 @@ import { customersModule } from "./customers/customers-module";
 import { productsModule } from "./products/products-module";
 import { homeModule } from "./home/home-module";
 
-const app: ApexCore = new ApexFactory().create();
+const app: ApexCore = new ApexFactory().initializeApplication();
 const { NODE_ENV, PORT } = app.EnvConfig;
 
 app.useMiddleware(authMiddleware);

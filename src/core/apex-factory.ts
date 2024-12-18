@@ -1,21 +1,29 @@
 import { container } from "tsyringe";
 
-import { ApexCoreApplication, ApexCore } from "@core";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
+import { ApexCoreApplication, ApexCore } from "@core";
+import { ApexConfigurationService } from '@config';
+import { DatabaseService } from '@database';
 import { ParserService } from "@parser";
 import { LoggerService } from '@logger';
 import { Router } from "@router";
-import { ApexConfigurationService } from '@config';
-import { DatabaseService } from '@database';
 
 export class ApexFactory {
 	private logger: LoggerService;
 
 	constructor() { 
-		this.initialize();
+		this.initializeFactory();
 	}
 
-	public async initialize(): Promise<void> {
+	public initializeApplication(): ApexCore {
+    const application = this.resolveAndLog(ApexCoreApplication);
+
+    application.useMiddleware(jsonResponseMiddleware);
+
+    return application;
+	}
+
+	private async initializeFactory(): Promise<void> {
 		try {
 			this.logger = container.resolve(LoggerService);
 			this.logger.log("Initializing ApexFactory...");
@@ -24,14 +32,6 @@ export class ApexFactory {
 			console.error("Failed to initialize ApexFactory:", error);
 			throw error;
 		}
-	}
-
-  public create(): ApexCore {
-    const application = this.resolveAndLog(ApexCoreApplication);
-
-    application.useMiddleware(jsonResponseMiddleware);
-
-    return application;
 	}
 
 	private async bootstrap(): Promise<void> {
