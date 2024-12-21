@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ApexCoreApplication, ApexCore } from "@core";
 import { ApexConfigurationService } from "@config";
-import { DatabaseConfigParameters, DatabaseEntity, DatabaseService } from "@database";
+import { DatabaseConfigParameters, DatabaseService } from "@database";
 import { ParserService } from "@parser";
 import { LoggerService } from "@logger";
 import { Router } from "@router";
@@ -11,38 +11,25 @@ import { Router } from "@router";
 export class ApexFactory {
   private logger: LoggerService;
 
-  constructor() {
-    this.initializeFactory();
-  }
+  constructor(private dependencies: any[] = [ApexConfigurationService, MiddlewareManager, ParserService, Router]) {}
 
   public async initializeApplication(parameters: DatabaseConfigParameters): Promise<ApexCore> {
+    this.logger = this.resolveDependency(LoggerService);
+    this.logger.log("Initializing application...");
+
     await this.initializeDatabase(parameters);
+    this.resolveDependencies();
 
-    const application = this.resolveAndLog(ApexCoreApplication);
-
+    const application = this.resolveDependency(ApexCoreApplication);
     application.useMiddleware(jsonResponseMiddleware);
 
+    this.logger.log("Application initialized.");
     return application;
-  }
-
-  private async initializeFactory(): Promise<void> {
-    try {
-      this.logger = container.resolve(LoggerService);
-      this.logger.log("Initializing ApexFactory...");
-      await this.bootstrap();
-    } catch (error) {
-      console.error("Failed to initialize ApexFactory:", error);
-      throw error;
-    }
-  }
-
-  private async bootstrap(): Promise<void> {
-    this.resolveDependencies([ApexConfigurationService, MiddlewareManager, ParserService, Router]);
   }
 
   private async initializeDatabase(parameters: DatabaseConfigParameters): Promise<void> {
     try {
-      const databaseService = container.resolve(DatabaseService);
+      const databaseService = this.resolveDependency(DatabaseService);
       await databaseService.initialize(parameters);
       this.logger.log("Database initialized successfully.");
     } catch (error) {
@@ -51,15 +38,19 @@ export class ApexFactory {
     }
   }
 
-  private resolveDependencies(dependencies: any[]): void {
-    dependencies.forEach((dependency) => this.resolveAndLog(dependency));
+  private resolveDependencies(): void {
+    this.dependencies.forEach((dependency) => this.resolveAndLog(dependency));
   }
 
   private resolveAndLog(dependency: any): any {
+    const instance = this.resolveDependency(dependency);
+    this.logger.log(`Resolved dependency: ${dependency.name}`);
+    return instance;
+  }
+
+  private resolveDependency<T>(dependency: new (...args: any[]) => T): T {
     try {
-      const instance = container.resolve(dependency);
-      this.logger.log(`Resolved dependency: ${dependency.name}`);
-      return instance;
+      return container.resolve(dependency);
     } catch (error) {
       this.logger.error(`Failed to resolve dependency: ${dependency.name}`);
       throw error;
