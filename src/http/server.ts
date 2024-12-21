@@ -29,7 +29,7 @@ export class HttpServer {
     const server = this.startHttpServer();
 
     server.listen(port, () => {
-			console.info(`[Apex.ts]: Server running on port: ${port} on ${node_env} mode.`);
+      console.info(`[Apex.ts]: Server running on port: ${port} on ${node_env} mode.`);
     });
   }
 }

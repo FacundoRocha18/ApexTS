@@ -5,6 +5,6 @@ import { productsRoutes } from "./products-routes";
 
 export const productsModule: Module = {
   routes: productsRoutes,
-	controllers: [CustomersController],
-	providers: [CustomersService],
+  controllers: [CustomersController],
+  providers: [CustomersService],
 };

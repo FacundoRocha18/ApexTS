@@ -1,1 +1,1 @@
-export { InjectRepository } from './inject-repository';
+export { InjectRepository } from "./inject-repository";

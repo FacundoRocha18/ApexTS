@@ -65,7 +65,6 @@ app.options("*", (req: HttpRequest, res: HttpResponse) => {
 });
 
 app.listen(PORT, NODE_ENV);
-
 ```
 
 ## Estructura de Carpetas

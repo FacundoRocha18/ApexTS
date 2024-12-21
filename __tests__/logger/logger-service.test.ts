@@ -1,38 +1,38 @@
 import "reflect-metadata";
-import { LoggerService } from '@logger';
+import { LoggerService } from "@logger";
 
 describe("LoggerService", () => {
-	let loggerInstance: LoggerService;
+  let loggerInstance: LoggerService;
 
-	beforeEach(() => {
-		loggerInstance = new LoggerService();
-	});
+  beforeEach(() => {
+    loggerInstance = new LoggerService();
+  });
 
-	afterEach(() => {
-		jest.restoreAllMocks();
-	});
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-	it("should log a message", () => {
-		const spy = jest.spyOn(console, "log");
+  it("should log a message", () => {
+    const spy = jest.spyOn(console, "log");
 
-		loggerInstance.log("Hello, world!");
+    loggerInstance.log("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] LOG: Hello, world!");
-	});
+    expect(spy).toHaveBeenCalledWith("[ApexLoggerService] LOG: Hello, world!");
+  });
 
-	it("should log a warning", () => {
-		const spy = jest.spyOn(console, "warn");
+  it("should log a warning", () => {
+    const spy = jest.spyOn(console, "warn");
 
-		loggerInstance.warn("Hello, world!");
+    loggerInstance.warn("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] WARN: Hello, world!");
-	});
+    expect(spy).toHaveBeenCalledWith("[ApexLoggerService] WARN: Hello, world!");
+  });
 
-	it("should log an error", () => {
-		const spy = jest.spyOn(console, "error");
+  it("should log an error", () => {
+    const spy = jest.spyOn(console, "error");
 
-		loggerInstance.error("Hello, world!");
+    loggerInstance.error("Hello, world!");
 
-		expect(spy).toHaveBeenCalledWith("[ApexLoggerService] ERROR: Hello, world!");
-	});
+    expect(spy).toHaveBeenCalledWith("[ApexLoggerService] ERROR: Hello, world!");
+  });
 });

@@ -6,7 +6,6 @@ import type { IParserService } from "@parser";
 @singleton()
 @injectable()
 export class ParserService implements IParserService {
-
   public async convertRequestBodyToJson(req: HttpRequest, res: HttpResponse): Promise<void> {
     try {
       const requestBody = await this.getRequestBody(req);

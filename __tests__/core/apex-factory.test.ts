@@ -4,12 +4,12 @@ import { ApexCore, ApexCoreApplication, ApexFactory } from "@core";
 
 describe("ApexFactory", () => {
   let apexFactoryInstance: ApexFactory;
-	let apexApplicationInstance: ApexCore;
+  let apexApplicationInstance: ApexCore;
 
   beforeEach(() => {
     apexFactoryInstance = new ApexFactory();
 
-		apexApplicationInstance = apexFactoryInstance.initializeApplication();
+    apexApplicationInstance = apexFactoryInstance.initializeApplication();
   });
 
   it("should return a valid SwiftApplication instance", () => {

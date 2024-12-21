@@ -5,81 +5,81 @@ import { CreateCustomer, FindParameters } from "./types";
 
 @autoInjectable()
 export class CustomersController {
-	constructor(private readonly service: CustomersService) { }
+  constructor(private readonly service: CustomersService) {}
 
-	public findOne = async (req: HttpRequest, res: HttpResponse) => {
-		try {
-			const parameters = req.pathVariables as FindParameters;
-			const user = await this.service.findOneBy(parameters);
+  public findOne = async (req: HttpRequest, res: HttpResponse) => {
+    try {
+      const parameters = req.pathVariables as FindParameters;
+      const user = await this.service.findOneBy(parameters);
 
-			res.statusCode = 200;
-			res.json({
-				status: "success",
-				message: "Customer info retrieved successfully",
-				data: user,
-			});
-		} catch (error) {
-			res.statusCode = 404;
-			res.json({
-				status: "error",
-				message: error.message,
-			});
-		}
-	};
+      res.statusCode = 200;
+      res.json({
+        status: "success",
+        message: "Customer info retrieved successfully",
+        data: user,
+      });
+    } catch (error) {
+      res.statusCode = 404;
+      res.json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  };
 
-	public findAll = async (req: HttpRequest, res: HttpResponse) => {
-		try {
-			res.statusCode = 200;
-			res.json({
-				status: "success",
-				message: "Customers' info retrieved successfully",
-				data: await this.service.findAll(),
-			});
-		} catch (error) {
-			res.statusCode = 404;
-			res.json({
-				status: "error",
-				message: error.message,
-			});
-		}
-	};
+  public findAll = async (req: HttpRequest, res: HttpResponse) => {
+    try {
+      res.statusCode = 200;
+      res.json({
+        status: "success",
+        message: "Customers' info retrieved successfully",
+        data: await this.service.findAll(),
+      });
+    } catch (error) {
+      res.statusCode = 404;
+      res.json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  };
 
-	public create = async (req: HttpRequest, res: HttpResponse) => {
-		try {
-			const data = req.body as CreateCustomer;
+  public create = async (req: HttpRequest, res: HttpResponse) => {
+    try {
+      const data = req.body as CreateCustomer;
 
-			res.statusCode = 201;
-			res.json({
-				status: "success",
-				message: "Customer created successfully",
-				data: await this.service.create(data),
-			});
-		} catch (error) {
-			res.statusCode = 400;
-			res.json({
-				status: "error",
-				message: error.message,
-			});
-		}
-	};
+      res.statusCode = 201;
+      res.json({
+        status: "success",
+        message: "Customer created successfully",
+        data: await this.service.create(data),
+      });
+    } catch (error) {
+      res.statusCode = 400;
+      res.json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  };
 
-	public delete = async (req: HttpRequest, res: HttpResponse) => {
-		try {
-			const { id } = req.pathVariables as { id: string };
+  public delete = async (req: HttpRequest, res: HttpResponse) => {
+    try {
+      const { id } = req.pathVariables as { id: string };
 
-			await this.service.delete(parseInt(id));
+      await this.service.delete(parseInt(id));
 
-			res.statusCode = 200;
-			res.json({
-				status: "success",
-				message: "Customer deleted successfully",
-			});
-		} catch (error) {
-			res.statusCode = 404;
-			res.json({
-				status: "error",
-				message: error.message,
-			});
-		}
-	};
+      res.statusCode = 200;
+      res.json({
+        status: "success",
+        message: "Customer deleted successfully",
+      });
+    } catch (error) {
+      res.statusCode = 404;
+      res.json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  };
 }
