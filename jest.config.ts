@@ -16,6 +16,7 @@ const config: Config = {
     "^@http$": "<rootDir>/src/http/index",
     "^@logger$": "<rootDir>/src/logger/index",
     "^@middleware$": "<rootDir>/src/middleware/index",
+    "^@modules$": "<rootDir>/src/modules/index",
     "^@parser$": "<rootDir>/src/parser/index",
     "^@router$": "<rootDir>/src/router/index",
   },

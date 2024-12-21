@@ -1,35 +1,35 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from '@apex.ts';
-import { UUID } from 'crypto';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "@apex.ts";
+import { UUID } from "crypto";
 
-@Entity({ name: 'products' })
+@Entity({ name: "products" })
 export class Product {
-	@PrimaryColumn({ type: "uuid", generated: "uuid" })
-	id: UUID;
+  @PrimaryColumn({ type: "uuid", generated: "uuid" })
+  id: UUID;
 
-	@Column()
-	name: string;
+  @Column()
+  name: string;
 
-	@Column()
-	category: string;
+  @Column()
+  category: string;
 
-	@Column()
-	price: number;
+  @Column()
+  price: number;
 
-	@Column()
-	stock: number;
+  @Column()
+  stock: number;
 
-	@Column()
-	description: string;
+  @Column()
+  description: string;
 
-	@Column()
-	image: string;
+  @Column()
+  image: string;
 
-	@CreateDateColumn()
-	created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-	@UpdateDateColumn()
-	updated_at: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 
-	@DeleteDateColumn()
-	deleted_at: Date;
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

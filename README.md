@@ -50,7 +50,7 @@ import {
 } from "@apex.ts";
 
 import { Customer } from "./customers/customer";
-import { Product } from './products/product';
+import { Product } from "./products/product";
 
 import { router as customersRouter } from "./customers/customers-routes";
 import { router as productsRouter } from "./products/products-routes";

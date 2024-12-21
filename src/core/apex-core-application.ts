@@ -24,9 +24,7 @@ export class ApexCoreApplication implements ApexCore {
     });
   }
 
-	public useRouter(router: IRouter): void {
-		
-	};
+  public useRouter(router: IRouter): void {}
 
   public useMiddleware = this.middlewareManager.use.bind(this.middlewareManager);
   public useRoute = this.router.use.bind(this.router);

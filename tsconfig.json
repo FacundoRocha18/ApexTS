@@ -21,6 +21,7 @@
       "@http": ["src/http/index"],
       "@logger": ["src/logger/index"],
       "@middleware": ["src/middleware/index"],
+      "@modules": ["src/modules/index"],
       "@parser": ["src/parser/index"],
       "@router": ["src/router/index"]
     } // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'.

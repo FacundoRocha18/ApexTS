@@ -12,7 +12,7 @@ export interface ApexCore {
   useMiddleware(middleware: Middleware | ErrorMiddleware): void;
   useModule(module: any): void;
   useRoute(method: HttpMethods, path: string, handler: Controller): void;
-	useRouter(router: IRouter): void;
+  useRouter(router: IRouter): void;
 
   get(path: string, handler: Controller): void;
   post(path: string, handler: Controller): void;

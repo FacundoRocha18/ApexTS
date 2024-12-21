@@ -11,7 +11,7 @@ import {
 } from "@apex.ts";
 
 import { Customer } from "./customers/customer";
-import { Product } from './products/product';
+import { Product } from "./products/product";
 
 import { router as customersRouter } from "./customers/customers-routes";
 import { router as productsRouter } from "./products/products-routes";
@@ -32,8 +32,8 @@ const bootstrap = async () => {
   app.useMiddleware(loggerMiddleware);
   app.useMiddleware(errorHandlerMiddleware);
 
-	app.useRouter(customersRouter);
-	app.useRouter(productsRouter);
+  app.useRouter(customersRouter);
+  app.useRouter(productsRouter);
 
   app.options("*", (req: HttpRequest, res: HttpResponse) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
