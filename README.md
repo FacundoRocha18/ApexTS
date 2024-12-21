@@ -37,49 +37,52 @@ npm install apex.ts
 ### Crear un Servidor Básico
 
 ```typescript
- ApexFactory,
- authMiddleware,
- errorHandlerMiddleware,
- loggerMiddleware,
-} from "apex.ts";
+import "reflect-metadata";
 
-import { customersModule } from "./customers/customers-module";
-import { productsModule } from "./products/products-module";
-import { homeModule } from "./home/home-module";
-import { Customer } from './customers/customer';
+import {
+  HttpRequest,
+  HttpResponse,
+  ApexCore,
+  ApexFactory,
+  authMiddleware,
+  errorHandlerMiddleware,
+  loggerMiddleware,
+} from "@apex.ts";
+
+import { Customer } from "./customers/customer";
+import { Product } from './products/product';
+
+import { router as customersRouter } from "./customers/customers-routes";
+import { router as productsRouter } from "./products/products-routes";
 
 const bootstrap = async () => {
- const apexFactory = new ApexFactory();
+  const apexFactory = new ApexFactory();
 
- const app: ApexCore = await apexFactory.initializeApplication(
-  {
-   synchronize: false,
-   entities: [Customer],
-   migrations: [],
-   subscribers: [],
-  }
- );
- const { NODE_ENV, PORT } = app.EnvConfig;
+  const app: ApexCore = await apexFactory.initializeApplication({
+    synchronize: false,
+    entities: [Customer, Product],
+    migrations: [],
+    subscribers: [],
+  });
 
- app.useMiddleware(authMiddleware);
- app.useMiddleware(loggerMiddleware);
- app.useMiddleware(errorHandlerMiddleware);
+  const { NODE_ENV, PORT } = app.EnvConfig;
 
- app.useModule(homeModule);
- app.useModule(productsModule);
- app.useModule(customersModule);
+  app.useMiddleware(authMiddleware);
+  app.useMiddleware(loggerMiddleware);
+  app.useMiddleware(errorHandlerMiddleware);
 
- app.options("*", (req: HttpRequest, res: HttpResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-  "Access-Control-Allow-Methods",
-   "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.status(204);
-  res.end();
- });
+  app.useRouter(customersRouter);
+  app.useRouter(productsRouter);
 
- app.listen(PORT, NODE_ENV);
+  app.options("*", (req: HttpRequest, res: HttpResponse) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.status(204);
+    res.end();
+  });
+
+  app.listen(PORT, NODE_ENV);
 };
 
 bootstrap();
