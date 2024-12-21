@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FacundoRocha18/ApexTS.git"
+    "url": "git+https://github.com/FacundoRocha18/ApexTS.git"
   },
   "publishConfig": {
     "access": "public"
