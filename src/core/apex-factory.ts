@@ -7,6 +7,8 @@ import { DatabaseConfigParameters, DatabaseService } from "@database";
 import { ParserService } from "@parser";
 import { LoggerService } from "@logger";
 import { Router } from "@router";
+import { DependencyResolutionException } from '../exceptions';
+import { DatabaseInitializationException } from '../database/database-initialization-exception';
 
 export class ApexFactory {
   private logger: LoggerService;
@@ -34,7 +36,7 @@ export class ApexFactory {
       this.logger.log("Database initialized successfully.");
     } catch (error) {
       this.logger.error(error.message);
-      throw error;
+      throw new DatabaseInitializationException("Failed to initialize database.", 500, error.stack);
     }
   }
 
@@ -53,7 +55,7 @@ export class ApexFactory {
       return container.resolve(dependency);
     } catch (error) {
       this.logger.error(error.message);
-      throw error;
+      throw new DependencyResolutionException(`Failed to resolve dependency: ${dependency.name}`, 500, error.stack);
     }
   }
 }
