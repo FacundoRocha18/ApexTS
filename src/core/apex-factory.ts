@@ -7,8 +7,8 @@ import { DatabaseConfigParameters, DatabaseService } from "@database";
 import { ParserService } from "@parser";
 import { LoggerService } from "@logger";
 import { Router } from "@router";
-import { DependencyResolutionException } from '../exceptions';
-import { DatabaseInitializationException } from '../database/database-initialization-exception';
+import { DependencyResolutionException } from "../exceptions";
+import { DatabaseInitializationException } from "../database/database-initialization-exception";
 
 export class ApexFactory {
   private logger: LoggerService;
