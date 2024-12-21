@@ -1,20 +1,25 @@
 import { inject, injectable, singleton } from 'tsyringe';
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { LoggerService } from '@logger';
-import { DatabaseConfig } from '@database';
+import { DatabaseConfig, DatabaseEntity } from '@database';
+import { Customer } from '../../examples/customers/customer';
 
 @singleton()
 @injectable()
 export class DatabaseService {
 	private dataSource: DataSource;
 
-	constructor(
-		@inject(LoggerService) private logger: LoggerService,
-	) {
-		this.dataSource = new DataSource(DatabaseConfig.getDatabaseOptions());
-	}
+	constructor(@inject(LoggerService) private logger: LoggerService) { }
 
-	public async initialize(): Promise<void> {
+	public async initialize(
+		synchronize: boolean,
+		entities: DatabaseEntity[],
+		migrations: any[],
+		subscribers: any[],
+	): Promise<void> {
+		const options: DataSourceOptions = DatabaseConfig.getDatabaseOptions(synchronize, entities, migrations, subscribers);
+		this.dataSource = new DataSource(options);
+
 		if (!this.dataSource.isInitialized) {
 			await this.dataSource.initialize();
 			this.logger.log('Database connected.');

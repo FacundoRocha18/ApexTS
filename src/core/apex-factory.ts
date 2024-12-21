@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
 import { ApexCoreApplication, ApexCore } from "@core";
 import { ApexConfigurationService } from '@config';
-import { DatabaseService } from '@database';
+import { DatabaseEntity, DatabaseService } from '@database';
 import { ParserService } from "@parser";
 import { LoggerService } from '@logger';
 import { Router } from "@router";
@@ -15,7 +15,19 @@ export class ApexFactory {
 		this.initializeFactory();
 	}
 
-	public initializeApplication(): ApexCore {
+	public async initializeApplication(
+		synchronize: boolean,
+		entities: DatabaseEntity[],
+		migrations: any[],
+		subscribers: any[],
+	): Promise<ApexCore> {
+		await this.initializeDatabase(
+			synchronize,
+			entities,
+			migrations,
+			subscribers,
+		);
+
     const application = this.resolveAndLog(ApexCoreApplication);
 
     application.useMiddleware(jsonResponseMiddleware);
@@ -34,9 +46,7 @@ export class ApexFactory {
 		}
 	}
 
-	private async bootstrap(): Promise<void> {
-		await this.initializeDatabase();
-		
+	private async bootstrap(): Promise<void> {		
 		this.resolveDependencies([
 			ApexConfigurationService,
 			MiddlewareManager,
@@ -45,10 +55,15 @@ export class ApexFactory {
 		]);
 	}
 
-	private async initializeDatabase(): Promise<void> {
+	private async initializeDatabase(
+		synchronize: boolean,
+		entities: DatabaseEntity[],
+		migrations: any[],
+		subscribers: any[],
+	): Promise<void> {
 		try {
 			const databaseService = container.resolve(DatabaseService);
-			await databaseService.initialize();
+			await databaseService.initialize(synchronize, entities, migrations, subscribers);
 			this.logger.log("Database initialized successfully.");
 		} catch (error) {
 			this.logger.error("Failed to initialize database:");
