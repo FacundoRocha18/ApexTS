@@ -12,7 +12,6 @@ import {
 
 import { customersModule } from "./customers/customers-module";
 import { productsModule } from "./products/products-module";
-import { homeModule } from "./home/home-module";
 import { Customer } from "./customers/customer";
 
 const bootstrap = async () => {
@@ -31,7 +30,6 @@ const bootstrap = async () => {
   app.useMiddleware(loggerMiddleware);
   app.useMiddleware(errorHandlerMiddleware);
 
-  app.useModule(homeModule);
   app.useModule(productsModule);
   app.useModule(customersModule);
 
