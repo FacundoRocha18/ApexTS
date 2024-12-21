@@ -33,7 +33,7 @@ export class ApexFactory {
       await databaseService.initialize(parameters);
       this.logger.log("Database initialized successfully.");
     } catch (error) {
-      this.logger.error("Failed to initialize database:");
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -52,7 +52,7 @@ export class ApexFactory {
     try {
       return container.resolve(dependency);
     } catch (error) {
-      this.logger.error(`Failed to resolve dependency: ${dependency.name}`);
+      this.logger.error(error.message);
       throw error;
     }
   }
