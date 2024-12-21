@@ -1,14 +1,14 @@
 import { container } from "tsyringe";
 
 import { jsonResponseMiddleware, MiddlewareManager } from "@middleware";
+import { DatabaseConfigParameters, DatabaseService } from "@database";
+import { DependencyResolutionException } from "@exceptions";
+import { DatabaseInitializationException } from "@database";
 import { ApexCoreApplication, ApexCore } from "@core";
 import { ApexConfigurationService } from "@config";
-import { DatabaseConfigParameters, DatabaseService } from "@database";
 import { ParserService } from "@parser";
 import { LoggerService } from "@logger";
 import { Router } from "@router";
-import { DependencyResolutionException } from "@exceptions";
-import { DatabaseInitializationException } from "@database";
 
 export class ApexFactory {
   private logger: LoggerService;
