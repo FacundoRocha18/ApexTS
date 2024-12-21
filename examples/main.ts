@@ -10,16 +10,18 @@ import {
   loggerMiddleware,
 } from "@apex.ts";
 
-import { customersModule } from "./customers/customers-module";
-import { productsModule } from "./products/products-module";
 import { Customer } from "./customers/customer";
+import { Product } from './products/product';
+
+import { router as customersRouter } from "./customers/customers-routes";
+import { router as productsRouter } from "./products/products-routes";
 
 const bootstrap = async () => {
   const apexFactory = new ApexFactory();
 
   const app: ApexCore = await apexFactory.initializeApplication({
     synchronize: false,
-    entities: [Customer],
+    entities: [Customer, Product],
     migrations: [],
     subscribers: [],
   });
@@ -30,8 +32,8 @@ const bootstrap = async () => {
   app.useMiddleware(loggerMiddleware);
   app.useMiddleware(errorHandlerMiddleware);
 
-  app.useModule(productsModule);
-  app.useModule(customersModule);
+	app.useRouter(customersRouter);
+	app.useRouter(productsRouter);
 
   app.options("*", (req: HttpRequest, res: HttpResponse) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
