@@ -15,9 +15,11 @@ import { Product } from "./products/product";
 
 import { router as customersRouter } from "./customers/customers-routes";
 import { router as productsRouter } from "./products/products-routes";
+import { CustomersModule } from "./customers/customers-module";
+import { ProductsModule } from './products/products-module';
 
 const bootstrap = async () => {
-  const apexFactory = new ApexFactory();
+	const apexFactory = new ApexFactory(undefined, [CustomersModule, ProductsModule]);
 
   const app: ApexCore = await apexFactory.initializeApplication({
     synchronize: false,

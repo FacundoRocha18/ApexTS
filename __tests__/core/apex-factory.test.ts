@@ -6,10 +6,15 @@ describe("ApexFactory", () => {
   let apexFactoryInstance: ApexFactory;
   let apexApplicationInstance: ApexCore;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     apexFactoryInstance = new ApexFactory();
 
-    apexApplicationInstance = apexFactoryInstance.initializeApplication();
+    apexApplicationInstance = await apexFactoryInstance.initializeApplication({
+			synchronize: false,
+			entities: [],
+			migrations: [],
+			subscribers: [],
+		});
   });
 
   it("should return a valid SwiftApplication instance", () => {

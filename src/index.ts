@@ -6,6 +6,7 @@ export * from "@decorators";
 export * from "@exceptions";
 export * from "@http";
 export * from "@middleware";
+export * from "@modules";
 export * from "@parser";
 export * from "@router";
 export * from "tsyringe";

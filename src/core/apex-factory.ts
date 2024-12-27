@@ -6,6 +6,7 @@ import { DependencyResolutionException } from "@exceptions";
 import { DatabaseInitializationException } from "@database";
 import { ApexCoreApplication, ApexCore } from "@core";
 import { ApexConfigurationService } from "@config";
+import { Module, ModuleLoader } from '@modules';
 import { ParserService } from "@parser";
 import { LoggerService } from "@logger";
 import { Router } from "@router";
@@ -13,17 +14,28 @@ import { Router } from "@router";
 export class ApexFactory {
   private logger: LoggerService;
 
-  constructor(private dependencies: any[] = [ApexConfigurationService, MiddlewareManager, ParserService, Router]) {}
+	constructor(
+		private dependencies: any[] = [ApexConfigurationService, MiddlewareManager, ParserService, Router],
+		private modules: Module[] = []
+	) { }
 
   public async initializeApplication(parameters: DatabaseConfigParameters): Promise<ApexCore> {
     this.logger = this.resolveDependency(LoggerService);
     this.logger.log("Initializing application...");
 
-    await this.initializeDatabase(parameters);
+		const { entities, routers, providers } = ModuleLoader.load(this.modules);
+
+		await this.initializeDatabase({ ...parameters, entities });
+
+		providers.forEach((provider) => container.register(provider, { useClass: provider }));
+
     this.resolveDependencies();
 
     const application = this.resolveDependency(ApexCoreApplication);
+
     application.useMiddleware(jsonResponseMiddleware);
+
+		routers.forEach((router) => application.useRouter(router));
 
     this.logger.log("Application initialized.");
     return application;
